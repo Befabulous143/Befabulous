@@ -55,8 +55,8 @@ class DashboardController extends Controller
 
     public function pointHistory(Request $request)
     {
-        $start_date = '';
-        $end_date = '';
+        $start_date = '04/09/2005';
+        $end_date = '04/09/2023';
         if($request->has('daterange'))
         {
            $date = explode('-',$request->daterange);
