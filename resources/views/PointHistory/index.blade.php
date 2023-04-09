@@ -83,8 +83,10 @@
       <span class="text-md  font-normal font-semibold"> {{ $trans['amount'] ?? '' }}</span>
       <span class="text-sm  font-normal ml-0.5">QAR</span>
     </div>
-    <button style="position: absolute;bottom:7px;right:15px;color:#ab8464" id="myBtn"><i
-        class="fa-solid fa-eye"></i></button>
+    @php
+      $transaction_detail = json_encode($trans);
+    @endphp
+    <button onclick="openTransactionModal({{ $transaction_detail }})" style="position: absolute;bottom:7px;right:15px;color:#ab8464" id="myBtn" class="hover:underline">View more</button>
   </div>
   @endforeach
   @else

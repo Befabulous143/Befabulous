@@ -2,6 +2,7 @@ public/storage
 /vendor
 /node_modules
 /storage
+/storage/log*
 /storage/framework/sessions/*
 # PHPStorm specific
 .idea
