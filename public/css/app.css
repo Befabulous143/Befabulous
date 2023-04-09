@@ -1,0 +1,38 @@
+
+.layout-main-body{
+    width: 100%;
+    display: flex;
+}
+.main-left{
+    width: 15%;
+}
+.main-right{
+    width: 85%;
+}
+.app-main-bg-color{
+    background-color: #0f71a3fa;
+}
+.app-text-color{
+    color: #ab8464;
+}
+.app-bg-color{
+    background-color: #ab8464;
+}
+
+.banner-image{
+    background-image: url('/images/banner_image.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 4px;
+}
+body{
+    background-color: #cfc6c663;
+}
+.card-bg-color{
+    background-color: #e6dfd8
+}
+
+.coupons-dot-bg-color{
+    background-color: #e6dfd8
+}
