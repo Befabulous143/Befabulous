@@ -1,0 +1,11 @@
+public/storage
+/vendor
+/node_modules
+/storage
+/storage/framework/sessions/*
+# PHPStorm specific
+.idea
+
+# General
+.DS_Store
+Thumbs.db
