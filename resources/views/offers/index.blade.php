@@ -9,8 +9,8 @@
     </div>
 </div>
 <div class=" grid lg:grid-cols-2 sm:grid-cols-2 sm:gap-6 grid-cols-1 mt-2 px-4  w-full h-auto  ">
-@if(isset($coupons) && is_array($coupons) && $coupons != [])
-@foreach ($coupons as $coupon)
+    @if(isset($coupons) && is_array($coupons) && $coupons != [])
+    @foreach ($coupons as $coupon)
     <div class="flex app-bg-color mt-4   w-full h-40 rounded-md py-2 shadow-md shadow-gray-400">
         <div class="flex items-center justify-center w-48  pl-3  ">
             <img src="{{ isset($coupon['standard_image_1']) && $coupon['standard_image_1'] !='' ? $coupon['standard_image_1'] : asset('images/undraw_gifts_0ceh.svg') }}"
@@ -26,7 +26,6 @@
                 <h2 class="text-md font-thin   ml-0.5" title="{{ $coupon['standard_description'] ??'' }}"
                     style="display: -webkit-box;max-width: 250px;height:50px;-webkit-line-clamp: 2;-webkit-box-orient: vertical;overflow: hidden;text-overflow: ellipsis;">
                     {{ $coupon['standard_description'] ?? ''}}
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minus impedit doloremque soluta magni repellat deleniti quasi enim quidem debitis maiores?
                 </h2>
                 @php
                 // $generator = new Picqer\Barcode\BarcodeGeneratorHTML();
