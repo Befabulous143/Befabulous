@@ -6,6 +6,7 @@ public/storage
 /storage/framework/sessions/*
 # PHPStorm specific
 .idea
+bootstrap/cache/*
 
 # General
 .DS_Store
