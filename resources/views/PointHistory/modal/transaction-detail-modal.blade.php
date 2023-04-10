@@ -76,6 +76,14 @@
   #transactions_table tr:hover {
     background-color: #ddd;
   }
+
+  @media only screen and (min-width: 350px) and (max-width: 767px) {
+    .modal-content {
+      width: 90%;
+      height: 85%;
+      overflow: auto;
+    }
+  }
 </style>
 
 <!-- The Modal -->
