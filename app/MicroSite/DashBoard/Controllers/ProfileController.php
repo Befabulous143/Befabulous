@@ -80,7 +80,7 @@ class ProfileController extends Controller
         ];
         
         $delete = $service->delete($headers);
-        if($delete['status']['success'] == false)
+        if(isset($delete['status']['success']) && $delete['status']['success'] == false)
         {
             return redirect()->back()->with('false','Something went wrong! please contact our support.');
         }

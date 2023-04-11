@@ -24,8 +24,7 @@ class AuthService
 
     public function delete($headers)
     {
-        // $headers['Content-Type'] =  'application/json';
-        return Http::microsite()->withHeaders($headers)->post('/mobile/v2/api/PII/delete', null)->json();
+        return Http::microsite()->withHeaders($headers) ->withBody('{}', 'application/json')->post('/mobile/v2/api/PII/delete')->json();
     }
 
     public function login($data)
@@ -120,13 +119,12 @@ class AuthService
 
             $user = User::where('user_id', $user_id);
             if ($user->first()) {
-                if (\File::exists(public_path( $user->first()->profile))) {
-                    \File::delete(public_path( $user->first()->profile));
+                if (\File::exists(public_path($user->first()->profile))) {
+                    \File::delete(public_path($user->first()->profile));
                 }
-                $profile_path = $this->imgStore(request()->file('profile'),$user_id);
+                $profile_path = $this->imgStore(request()->file('profile'), $user_id);
                 $user->update(['profile' => $profile_path]);
-            }
-            else{
+            } else {
                 $user = new User();
                 $user->user_id = $user_id;
                 $user->profile = $formData['profile_path'];
@@ -138,10 +136,10 @@ class AuthService
 
     }
 
-    public function imgStore($image,$user_id)
+    public function imgStore($image, $user_id)
     {
         $extension = $image->getClientOriginalExtension();
-        $fileName = 'image_' . time() .$user_id. '.' . $extension;
+        $fileName = 'image_' . time() . $user_id . '.' . $extension;
         $image->move(public_path('profile'), $fileName);
         return 'profile/' . $fileName;
     }
