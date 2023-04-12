@@ -38,8 +38,11 @@
     <div class=" grid grid-cols-1 place-items-start  px-4 pt-4 pb-10  w-auto h-auto g-6 text-gray-800">
         <div
             class="card-bg-color grid grid-cols-2  px-4 py-2 cursor-pointer text-gray-900 font-semibold  grid-cols-1 w-full rounded lg:pr-10 lg:pl-10">
-            <div class="grid grid-cols-1 text-left w-72 lg:w-auto">
+            <div class="flex gap-2 text-left w-72 lg:w-auto">
+              <img src="{{ asset('images/edit-profile.png') }}" class="w-7 h-7" alt="">  
+              <div class="flex items-center">
                 Edit Profile
+              </div>
             </div>
             <div class="grid grid-cols-1 text-right" id="arrow-down1">
                 <i class="fa-solid fa-angle-right font-semibold text-2xl"></i>
@@ -51,8 +54,11 @@
     <div class=" grid grid-cols-1 place-items-start  px-4  pb-10  w-auto h-auto g-6 text-gray-800">
         <div
             class="card-bg-color grid grid-cols-2  px-4 py-2 cursor-pointer text-gray-900 font-semibold  grid-cols-1 w-full rounded lg:pr-10 lg:pl-10">
-            <div class="grid grid-cols-1 text-left w-72 lg:w-auto">
+            <div class="flex gap-2 text-left w-72 lg:w-auto">
+              <img src="{{ asset('images/change-password.png') }}" class="w-7 h-7" alt="">  
+              <div class="flex items-center">
                 Change Password
+              </div>
             </div>
             <div class="grid grid-cols-1 text-right" id="arrow-down1">
                 <i class="fa-solid fa-angle-right font-semibold text-2xl"></i>
@@ -64,8 +70,11 @@
     <div class=" grid grid-cols-1 place-items-start  px-4  pb-10  w-auto h-auto g-6 text-gray-800">
         <div
             class="card-bg-color grid grid-cols-2  px-4 py-2 cursor-pointer text-gray-900 font-semibold  grid-cols-1 w-full rounded lg:pr-10 lg:pl-10">
-            <div class="grid grid-cols-1 text-left w-72 lg:w-auto">
-                General Terms & Conditions
+            <div class="flex gap-2 text-left w-72 lg:w-auto">
+                <img src="{{ asset('images/terms-condition.png') }}" class="w-7 h-7" alt="">  
+                <div class="flex items-center">
+                    General Terms & Conditions
+                </div>
             </div>
             <div class="grid grid-cols-1 text-right" id="arrow-down1">
                 <i class="fa-solid fa-angle-right font-semibold text-2xl"></i>
@@ -76,10 +85,11 @@
 <div class=" grid grid-cols-1 place-items-start  px-4 pb-10  w-auto h-auto g-6 text-gray-800">
     <div id="confirm-to-close"
         class="card-bg-color grid grid-cols-2  px-4 py-2 cursor-pointer text-gray-900 font-semibold  grid-cols-1 w-full rounded lg:pr-10 lg:pl-10">
-        <div  class="grid grid-cols-1 text-left">
-            <a>
+        <div class="flex gap-2 text-left w-72 lg:w-auto">
+            <img src="{{ asset('images/trash.png') }}" class="w-8 h-8" alt="">  
+            <div class="flex items-center">
                 Close Your Account
-            </a>
+            </div>
         </div>
         <div class="grid grid-cols-1 text-right">
             <a>
@@ -91,10 +101,11 @@
 <div class=" grid grid-cols-1 place-items-start  px-4 pb-10  w-auto h-auto g-6 text-gray-800">
     <div id="confirm-logout"
         class="card-bg-color grid grid-cols-2  px-4 py-2 cursor-pointer text-gray-900 font-semibold  grid-cols-1 w-full rounded lg:pr-10 lg:pl-10">
-        <div  class="grid grid-cols-1 text-left">
-            <a>
+        <div class="flex gap-2 text-left w-72 lg:w-auto">
+            <img src="{{ asset('images/exit.png') }}" class="w-7 h-7" alt="">  
+            <div class="flex items-center">
                 Logout
-            </a>
+            </div>
         </div>
         <div class="grid grid-cols-1 text-right">
             <a>
