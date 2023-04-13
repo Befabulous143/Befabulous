@@ -22,20 +22,10 @@
             </div>
         </div>
         <div class=" grid grid-cols-1 place-items-start  px-4 pb-2  w-auto h-auto g-6 text-gray-800">
-            <div class="grid grid-cols-3 shadow-md shadow-gray-400 lg:px-10 px-4 lg:py-6 py-4 text-white app-bg-color grid-cols-1 w-full rounded ">
+            <div class="grid grid-cols-4 shadow-md shadow-gray-400 lg:px-10 px-4 lg:py-6 py-4 text-white app-bg-color grid-cols-1 w-full rounded ">
                 <div class="grid grid-rows-2 gap-0 text-center lg:text-left">
                     Total Points
-                    @php
-                    $totalPoint =  $data['points_summaries']['points_summary'][0]['totalPoints'] ?? 0;
-                    if ($totalPoint != null) {
-                        $totalPoint = $data['points_summaries']['points_summary'][0]['totalPoints'];
-                    }
-                    else
-                    {
-                        $totalPoint = 0;
-                    }
-                    @endphp
-                    <span class="text-2xl  font-extrabold">{{ $totalPoint }}</span>
+                    <span class="text-2xl  font-extrabold">{{ isset($data['points_summaries']['points_summary'][0]['totalPoints']) && $data['points_summaries']['points_summary'][0]['totalPoints'] != null ? $data['points_summaries']['points_summary'][0]['totalPoints']: 0 }}</span>
                 </div>
                 <div class="grid grid-rows-2 gap-0 text-center">
                     <span class="text-center lg:text-left">Total Loyalty Points</span>
@@ -43,7 +33,11 @@
                 </div>
                 <div class="grid grid-rows-2 gap-0 text-center">
                     <span class="text-center lg:text-left">Life Time Points</span>
-                    <span class="text-2xl text-center lg:text-left  font-extrabold">{{ $data['loyalty_points']??0 }}</span>
+                    <span class="text-2xl text-center lg:text-left  font-extrabold">{{ $data['lifetime_points']??0 }}</span>
+                </div>
+                <div class="grid grid-rows-2 gap-0 text-center">
+                    <span class="text-center lg:text-left">Life Time Purchase</span>
+                    <span class="text-2xl text-center lg:text-left  font-extrabold">{{ $data['lifetime_purchases']??0 }}</span>
                 </div>
             </div>
         </div>

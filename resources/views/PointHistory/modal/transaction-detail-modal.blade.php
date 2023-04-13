@@ -31,6 +31,8 @@
     border: 1px solid #888;
     width: 60%;
     border-radius: 5px;
+    height: 85%;
+    overflow: auto;
   }
 
   .modal-header {
@@ -75,6 +77,36 @@
   #transactions_table tr:hover {
     background-color: #ddd;
   }
+  #line-items {
+    border-collapse: collapse;
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 10px
+  }
+  .line-item-container{
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  #line-items td{
+    border: 1px solid #ddd;
+    font-size: 13px;
+    padding: 8px;
+  }
+  #line-items th{
+    font-size: 14px;
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+
+  #line-items tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  #line-items tr:hover {
+    background-color: #ddd;
+  }
 
   @media only screen and (min-width: 350px) and (max-width: 767px) {
     .modal-content {
@@ -101,6 +133,29 @@
           <td colspan="2" align="center">No data found</td>
         </tr>
       </table>
+      
+      <p class="text-xl mt-4">Line Items</p>
+      <div class="line-item-container">
+        <table id="line-items">
+          <thead>
+            <tr>
+              <th>Serial</th>
+              <th>Item Code</th>
+              <th>Amount</th>
+              <th>Description</th>
+              <th>Discount</th>
+              <th>Quantity</th>
+              <th>Rate</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody id="line-items-list">
+            <tr>
+              <td colspan="8" align="center">No data found</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <div style="border-bottom: 1px solid #dddddd;margin-top: 40px;">
@@ -122,7 +177,6 @@
     function openTransactionModal(trans)
     {
      
-      console.log(trans);
       var transaction =  `
       <tr>
           <td>Account Number</td>
@@ -134,7 +188,7 @@
       </tr>
       <tr>
           <td>Discount</td>
-          <td>${trans.discount}</td>
+          <td>${trans.discount}%</td>
       </tr>
       <tr>
           <td>Gross Amount</td>
@@ -170,6 +224,24 @@
       </tr>
         `;
       document.getElementById('transactions_table').innerHTML = transaction;
+
+      const lineItemList = trans.line_items['line_item'];
+      var lineItemRow = '';
+      var lineItems = lineItemList.forEach(element => {
+          lineItemRow += `
+         <tr>
+            <td>${element.serial}</td>
+            <td>${element.item_code}</td>
+            <td>${element.amount}</td>
+            <td>${element.description}</td>
+            <td>${element.discount}%</td>
+            <td>${element.qty}</td>
+            <td>${element.rate}</td>
+            <td>${element.value}</td>
+          </tr>
+          `;
+      });
+      document.getElementById('line-items-list').innerHTML = lineItemRow;
       modal.style.display = "block";
     }
 
