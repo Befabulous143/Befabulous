@@ -186,8 +186,8 @@ class AuthController extends Controller
                     'cap_mobile' => $phone,
                 ];
                 $user = $this->auth_service->getUserDetails($login['auth']['token'],$phone,$this->brand,$device_id);
-                $first_name = $user['customers']['customer'][0]['firstname'];
-                $last_name = $user['customers']['customer'][0]['lastname'];
+                $first_name = $user['customers']['customer'][0]['firstname'] ?? '';
+                $last_name = $user['customers']['customer'][0]['lastname'] ?? '';
                 Session::push('response_data', $response_data);
                 return to_route('dashboard')->with('true',"Welcome $first_name $last_name");
             }
