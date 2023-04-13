@@ -38,7 +38,7 @@
                         <div class="col-span-6 sm:col-span-3">
                             <label for="firstname" class="block text-sm font-medium text-gray-700">First
                                 name <span class="text-red-500">*</span></label>
-                            <input type="text" name="firstname" value="{{ old('firstname') ?? '' }}" id="firstname"
+                            <input required type="text" name="firstname" value="{{ old('firstname') ?? '' }}" id="firstname"
                                 autocomplete="given-name"
                                 class="mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
                             @error('firstname')
@@ -48,7 +48,7 @@
 
                         <div class="col-span-6 sm:col-span-3">
                             <label for="lastname" class="block text-sm font-medium text-gray-700">Last name <span class="text-red-500">*</span></label>
-                            <input type="text" name="lastname" value="{{ old('lastname') ?? '' }}" id="lastname"
+                            <input required type="text" name="lastname" value="{{ old('lastname') ?? '' }}" id="lastname"
                                 autocomplete="family-name"
                                 class="mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
                             @error('lastname')
@@ -77,7 +77,7 @@
                         <div class="col-span-6 sm:col-span-3">
                             <label for="password" class="block text-sm font-medium text-gray-700">Password <span class="text-red-500">*</span></label>
                             <div class="relative">
-                                <input type="password" name="password" value="{{ old('password') ?? '' }}" id="password"
+                                <input type="password" required name="password" value="{{ old('password') }}" id="password"
                                     autocomplete="password"
                                     class="mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
                                 <span class="absolute top-2 right-4">
@@ -92,7 +92,7 @@
                             <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirm
                                 Password <span class="text-red-500">*</span></label>
                             <div class="relative">
-                                <input type="password" name="password_confirmation"
+                                <input type="password" required name="password_confirmation"
                                     value="{{ old('password_confirmation') ?? '' }}" id="password_confirmation"
                                     autocomplete="password_confirmation"
                                     class="mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
@@ -172,7 +172,7 @@
                         </div>
 
                         <div class="col-span-6 sm:col-span-2">
-                            <label for="firstname" class="block text-sm font-medium text-gray-700">Gender</label>
+                            <label for="gender" class="block text-sm font-medium text-gray-700">Gender</label>
                             <select name="gender"
                                 class="mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
                                 <option value="Not Applicable" {{ old('gender')=='Not Applicable' ? 'selected' : '' }}
@@ -262,22 +262,5 @@
 @include('countries-drop-down.countries-js')
 @include('Auth.js.js')
 @include('loader.loader')
-
-<script>
-    function showPassword(id) {
-        var x = '';
-        if(id === 1){
-            x = document.getElementById("password");
-        }
-        else
-        {
-             x = document.getElementById("password_confirmation");
-        }
-        if (x.type === "password") {
-        x.type = "text";
-        } else {
-        x.type = "password";
-        }
-        }
-</script>
+@include('Auth.js.password-validation')
 @endsection

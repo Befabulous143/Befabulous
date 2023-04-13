@@ -96,17 +96,21 @@ input.value = inputValue.replace(/[^\d\+]/g, '');
     let iti = window.intlTelInput(phoneInput, {
         separateDialCode: false,
         nationalMode: true,
-        preferredCountries: ["ae","jo","om","bh","sa","in"],
+        preferredCountries: ["ae","jo","om","bh","sa","qa","in"],
         utilsScript: "path/to/utils.js"
     });
     var dialCode = iti.getSelectedCountryData().dialCode;
     // set the input value to the dial code
     phoneInput.value = "+" + dialCode;
+    var phoneContainer = document.querySelector(".iti");
+    phoneContainer.style.width = "100%";
+    phoneInput.placeholder  = "Mobile number with country code";
+
 </script>
 
 {{-- removing profile image --}}
 <script>
-function removeImage()
+    function removeImage()
 {
     if($("#loaded-img").remove()){
         $("#img-icon").html("<i style='opacity:0.7' class='fa-solid fa-user'></i>");

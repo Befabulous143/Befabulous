@@ -7,6 +7,13 @@ public/storage
 # PHPStorm specific
 .idea
 bootstrap/cache/*
+# Ignore Laravel session files
+/storage/framework/sessions/*
+
+# Ignore Laravel cache files
+/bootstrap/cache/*
+
+/storage/logs/laravel.log
 
 # General
 .DS_Store

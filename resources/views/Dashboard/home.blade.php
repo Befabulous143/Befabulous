@@ -65,17 +65,17 @@
                     </div>
                     <div class="flex flex-col gap-1 text-center">
                         <i class="fa-solid fa-circle-dollar-to-slot"></i>
-                        <span class="text-sm  font-semibold">{{ $data['points_summary']['redeemed']??0 }} Pts Pts</span>
+                        <span class="text-sm  font-semibold">{{ $data['points_summary']['redeemed']??0 }} Pts</span>
                         <span>Radeemed</span>
                     </div>
                     <div class="flex flex-col gap-1 text-center">
                         <i class="fa-solid fa-piggy-bank"></i>
-                        <span class="text-sm  font-semibold">{{ $data['points_summary']['returned']??0 }} Pts Pts</span>
+                        <span class="text-sm  font-semibold">{{ $data['points_summary']['returned']??0 }} Pts</span>
                         <span>Returned</span>
                     </div>
                     <div class="flex flex-col gap-1 text-center">
                         <i class="fa-solid fa-clock-rotate-left"></i>
-                        <span class="text-sm  font-semibold">{{ $data['points_summary']['expired']??0 }} Pts Pts</span>
+                        <span class="text-sm  font-semibold">{{ $data['points_summary']['expired']??0 }} Pts</span>
                         <span>Expired</span>
                     </div>
                 </div>

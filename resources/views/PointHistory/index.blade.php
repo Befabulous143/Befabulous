@@ -49,8 +49,7 @@
   $data['transactions']['transaction']!=[])
   @foreach ($data['transactions']['transaction'] as $trans)
   <div class="relative flex p-2 shadow-sm w-full h-36 border border rounded-2xl border-gray-300   mt-4">
-    <div style="font-family: 'Montserrat', sans-serif;
-                "
+    <div 
       class="text-white app-bg-color  flex flex-col text-center shadow-md rounded-2xl border-0  lg:w-48 w-32">
       @php
       if ($trans['billing_time'] != '') {
