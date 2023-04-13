@@ -15,32 +15,32 @@
             <div class="lg:col-span-6 col-span-12">
               <img class="w-80 h-40" src="{{ asset('images/forget_password.svg') }}" alt="">
             </div>
-            <div class="lg:col-span-6 col-span-12">
+            <div class="lg:col-span-6 col-span-12 ">
               <div class="col-span-12 ">
                 <label for="phone" class="block text-sm font-medium text-gray-700">Mobile Number</label>
-                <input value="{{ old('phone') }}" minlength="8" maxlength="18" autocomplete="off" id="phone" type="text" name="phone"
+                <input required minlength="8" maxlength="15" value="{{ old('phone') }}"  autocomplete="off" id="phone" type="text" name="phone"
                 class="mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm"
                 placeholder="" />
                 @error('phone')
                 <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
                 @enderror
               </div>
-              <div class="col-span-12 relative">
+              <div class="col-span-12 relative mt-2">
                 <label for="password" class="block text-sm font-medium text-gray-700">New Password</label>
-                <input type="password" placeholder="********" name="password" value="{{ old('password') }}" id="password"
+                <input required type="password" placeholder="********" name="password" value="{{ old('password') }}" id="password"
                   autocomplete="given-name"
                   class="mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
                 <span class="absolute top-8 right-4">
-                  <i class="fa-solid fa-eye app-text-color" onclick="showPassword(2)"></i>
+                  <i class="fa-solid fa-eye app-text-color" onclick="showPassword(1)"></i>
                 </span>
                 @error('password')
                 <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
                 @enderror
               </div>
-              <div class="col-span-12 ">
+              <div class="col-span-12 mt-2">
                 <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirm New
                   Password</label>
-                <input placeholder="********" type="password" name="password_confirmation" value="{{ old('password_confirmation') }}"
+                <input required placeholder="********" type="password" name="password_confirmation" value="{{ old('password_confirmation') }}"
                   id="password_confirmation" autocomplete="given-name"
                   class="mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
                 @error('password_confirmation')
@@ -61,16 +61,7 @@
   </div>
 </div>
 </section>
-<script>
-  function showPassword(id) {
-        var x = document.getElementById("password");
-        if (x.type === "password") {
-        x.type = "text";
-        } else {
-        x.type = "password";
-        }
-        }
-</script>
 @include('loader.loader')
 @include('Auth.js.js')
+@include('Auth.js.password-validation')
 @endsection
