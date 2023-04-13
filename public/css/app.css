@@ -1,42 +1,40 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Babylonica&family=Gruppo&family=Lato&family=Montserrat:wght@300&family=Poiret+One&family=Redressed&family=Roboto:ital,wght@1,300&display=swap');
-body{
-    font-family: 'Lato', sans-serif;
+@import url("https://fonts.googleapis.com/css2?family=Babylonica&family=Gruppo&family=Lato&family=Montserrat:wght@300&family=Poiret+One&family=Redressed&family=Roboto:ital,wght@1,300&display=swap");
+body {
+  font-family: "Lato", sans-serif;
+  background-color: #cfc6c663;
 }
-.layout-main-body{
-    width: 100%;
-    display: flex;
+.layout-main-body {
+  width: 100%;
+  display: flex;
 }
-.main-left{
-    width: 15%;
+.main-left {
+  width: 15%;
 }
-.main-right{
-    width: 85%;
+.main-right {
+  width: 85%;
 }
-.app-main-bg-color{
-    background-color: #0f71a3fa;
+.app-main-bg-color {
+  background-color: #0f71a3fa;
 }
-.app-text-color{
-    color: rgb(170,130,100);
+.app-text-color {
+  color: rgb(170, 130, 100);
 }
-.app-bg-color{
-    background-color: rgb(170,130,100);
-}
-
-.banner-image{
-    background-image: url('/images/banner_image.jpg');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    border-radius: 4px;
-}
-body{
-    background-color: #cfc6c663;
-}
-.card-bg-color{
-    background-color: #e6dfd8
+.app-bg-color {
+  background-color: rgb(170, 130, 100);
 }
 
-.coupons-dot-bg-color{
-    background-color: #e6dfd8
+.banner-image {
+  background-image: url("/images/banner_image.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 4px;
+}
+
+.card-bg-color {
+  background-color: #e6dfd8;
+}
+
+.coupons-dot-bg-color {
+  background-color: #e6dfd8;
 }
