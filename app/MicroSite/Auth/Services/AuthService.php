@@ -4,6 +4,7 @@ namespace App\MicroSite\Auth\Services;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class AuthService
 {
@@ -142,5 +143,24 @@ class AuthService
         $fileName = 'image_' . time() . $user_id . '.' . $extension;
         $image->move(public_path('profile'), $fileName);
         return 'profile/' . $fileName;
+    }
+
+    public function getUserDetails($token,$mobile,$brand,$device)
+    {
+            return Http::microsite()->withHeaders([
+                'cap_authorization' => $token,
+                'cap_brand' => $brand,
+                'cap_device_id' => $device,
+                'cap_mobile' => $mobile,
+            ])->get('/mobile/v2/api/customer/get', [
+                'subscriptions' => 'true',
+                'mlp' => 'true',
+                'user_id' => 'true',
+                'optin_status' => 'true',
+                'slab_history' => 'true',
+                'expired_points' => 'true',
+                'points_summary' => 'true',
+                'membership_retention_criteria' => 'true',
+            ])->json();
     }
 }

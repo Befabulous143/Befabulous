@@ -185,9 +185,11 @@ class AuthController extends Controller
                     'token' => $login['auth']['token'],
                     'cap_mobile' => $phone,
                 ];
+                $user = $this->auth_service->getUserDetails($login['auth']['token'],$phone,$this->brand,$device_id);
+                $first_name = $user['customers']['customer'][0]['firstname'];
+                $last_name = $user['customers']['customer'][0]['lastname'];
                 Session::push('response_data', $response_data);
-                Session::push('login_first_time', true);
-                return to_route('dashboard');
+                return to_route('dashboard')->with('true',"Welcome $first_name $last_name");
             }
         } else {
             return redirect()->back()->with('false', "You don't have an account!")->withInput();
