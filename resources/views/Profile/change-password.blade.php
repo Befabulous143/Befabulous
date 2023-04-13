@@ -24,7 +24,7 @@
                         <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
                         @enderror
                     </div>
-                    <div class="col-span-12 relative">
+                    <div class="col-span-12 relative mt-2">
                       <label for="password" class="block text-sm font-medium text-gray-700">New Password</label>
                       <input required type="password" name="password" value="{{ old('password') }}" id="password"
                         autocomplete="given-name"
@@ -36,7 +36,7 @@
                       <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
                       @enderror
                     </div>
-                    <div class="col-span-12 ">
+                    <div class="col-span-12 mt-2">
                       <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirm Password</label>
                       <input required type="password" name="password_confirmation" value="{{ old('password_confirmation') }}" id="password_confirmation"
                         autocomplete="given-name"
