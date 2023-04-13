@@ -9,10 +9,10 @@ public/storage
 bootstrap/cache/*
 # Ignore Laravel session files
 /storage/framework/sessions/*
+storage/framework/views/*
 
 # Ignore Laravel cache files
 /bootstrap/cache/*
-
 /storage/logs/laravel.log
 
 # General
