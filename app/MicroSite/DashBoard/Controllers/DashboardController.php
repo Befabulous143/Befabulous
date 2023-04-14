@@ -32,25 +32,26 @@ class DashboardController extends Controller
                 if($user_data->getStatusCode() == 302){
                     return $this->throwLogin('This page not found! Please try again.');
                 }
-            }
-          
-            if(isset($user_data['data']['user_id']) && !empty($user_data['data']['user_id']) && auth()->user() == null)
-            {
-                $user = User::where('user_id',$user_data['data']['user_id'])->first();
-                if ($user != null) {
-                    Auth::login($user);
+            } else{
+
+                if(isset($user_data['data']['user_id']) && !empty($user_data['data']['user_id']) && auth()->user() == null)
+                {
+                    $user = User::where('user_id',$user_data['data']['user_id'])->first();
+                    if ($user != null) {
+                        Auth::login($user);
+                    }
                 }
+                $coupons = $this->service->getUserCoupons();
+                $mapped_data = $this->mapCouponsDetails($coupons['data']);
+                if($user_data['success'] == false){
+                    return  $this->throwLogin();
+                }
+                if(isset($user_data['data']['item_status']['success']) && $user_data['data']['item_status']['success'] == "false")
+                {
+                    return  $this->throwLogin();
+                }
+                return view('Dashboard.home',['data'=>$user_data['data'],'coupons' =>  $mapped_data]);
             }
-            $coupons = $this->service->getUserCoupons();
-            $mapped_data = $this->mapCouponsDetails($coupons['data']);
-            if($user_data['success'] == false){
-                return  $this->throwLogin();
-            }
-            if(isset($user_data['data']['item_status']['success']) && $user_data['data']['item_status']['success'] == "false")
-            {
-                return  $this->throwLogin();
-            }
-            return view('Dashboard.home',['data'=>$user_data['data'],'coupons' =>  $mapped_data]);
         } catch (\Exception $e) {
             Log::info($e);
            return $this->throwLogin();
