@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
+use Stevebauman\Location\Facades\Location;
+
 
 class DashboardController extends Controller
 {
@@ -22,6 +24,8 @@ class DashboardController extends Controller
     }
     public function index()
     {
+        $ip = request()->ip();
+        $currentUserInfo = Location::get($ip);
         try {
             $user_data = $this->service->getUserDetails();
             if ($user_data instanceof Response) {
