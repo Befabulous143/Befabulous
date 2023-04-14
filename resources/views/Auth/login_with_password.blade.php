@@ -63,24 +63,6 @@
     </div>
 </section>
 <script>
-    // get the input element
-        const input = document.getElementById('phone');
-        // add an oninput event listener to the input element
-        input.addEventListener('input', function() {
-        // regular expression to match a mobile number with country code
-        const mobileNumberRegex = /^\+\d{1,3}\d{6,14}$/;
-        
-        // get the value of the input element
-        const inputValue = input.value;
-        
-        // check if the input value matches the mobile number regex
-        if (!mobileNumberRegex.test(inputValue)) {
-            // if the input value does not match the mobile number regex, remove any non-numeric characters
-            input.value = inputValue.replace(/[^\d\+]/g, '');
-        }
-        });
-
-
         function showPassword() {
         var x = document.getElementById("password");
         if (x.type === "password") {
@@ -89,7 +71,6 @@
         x.type = "password";
         }
         }
-
         function hidePassword(){
             var x = document.getElementById("password");
             x.type="password";

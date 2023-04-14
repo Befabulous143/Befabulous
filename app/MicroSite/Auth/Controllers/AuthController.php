@@ -115,7 +115,6 @@ class AuthController extends Controller
         if (strlen($request->otp_number) != 6) {
             return redirect()->back()->with('false', 'OTP number length atleast 6 digits required!');
         }
-        DB::beginTransaction();
         try {
             $formData = Session::get('formData')[0];
             $postData = Session::get('validateOtpPayload')[0];
@@ -142,14 +141,12 @@ class AuthController extends Controller
                         Auth::login($user);
                     }
                 }
-                Session::push('response_data', $response_data);
                 $first_name = $formData['firstname'] ?? '';
                 $last_name = $formData['lastname'] ?? '';
-                DB::commit();
+                Session::push('response_data', $response_data);
                 return to_route('dashboard')->with('true', "Welcome $first_name $last_name");
             }
         } catch (\Exception $e) {
-            DB::rollback();
             Log::info($e);
             $this->throwLogin($e);
         }

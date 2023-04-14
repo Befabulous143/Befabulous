@@ -115,7 +115,7 @@ class AuthService
             'cap_mobile' => $postData['identifierValue'],
         ];
         $response = $this->create($headers, $user_data);
-        if ($formData['profile_path']) {
+        if (isset($formData['profile_path'])) {
             $user_id = $response['customers']['customer'][0]['user_id'] ?? 0;
 
             $user = User::where('user_id', $user_id);
