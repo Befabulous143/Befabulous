@@ -31,17 +31,12 @@ class UserService
             ]);
             $json = $response->json();
             if ($json['status']['success'] == false) {
-                if ($json['status']['code'] == 401) {
-                    return to_route('login_page')->with('false', 'The Session has been expired!');
-                }
-                return ['success' => false, 'data' => 'Something went wrong!'];
+                return ['success' => false, 'data' => $json['status']['message']];
             }
-            $customer = $json['customers']['customer'][0] ?? [];
-            $user_id = $json['customers']['customer'][0]['user_id'] ?? '';
-            if ($user_id != null) {
-                $customer['profile'] = User::where('user_id', $user_id)->first()->profile ?? '';
+            else{
+                $customer = $json['customers']['customer'][0] ?? [];
+                return ['success' => true, 'data' => $customer];
             }
-            return ['success' => true, 'data' => $customer];
         } catch (\Exception $e) {
             Log::info($e);
             return ['success' => false, 'data' => 'Something went wrong!'];
@@ -67,7 +62,7 @@ class UserService
             $json = $response->json()['response'];
             if ($json['status']['success'] == false) {
                 if ($json['status']['code'] == 302) {
-                    return to_route('login_page')->with('false', 'The Session has been expired!');
+                    return ['success' => false, 'data' => 'Session has been expired!'];
                 }
                 if ($json['status']['code'] == 401) {
                     return abort(404);

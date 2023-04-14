@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use App\MicroSite\DashBoard\Services\UserService;
 use App\Models\User;
 use Carbon\Carbon;
-use Exception;
-use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -24,32 +22,22 @@ class DashboardController extends Controller
     }
     public function dashboardView()
     {
-        // $ip = request()->ip();
-        // $currentUserInfo = Location::get($ip);
+        $ip = request()->ip();
+        $currentUserInfo = Location::get($ip);
         try {
             $user_data = $this->service->getUserDetails();
-            if ($user_data instanceof Response) {
-                if($user_data->getStatusCode() == 302){
-                    return $this->throwLogin('This page not found! Please try again.');
-                }
+            if ($user_data['success'] == false) {
+                    return $this->throwLogin($user_data['data']);
             } else{
-                Log::info($user_data);
-                // if(isset($user_data['data']['user_id']) && !empty($user_data['data']['user_id']) && auth()->user() == null)
-                // {
-                //     $user = User::where('user_id',$user_data['data']['user_id'])->first();
-                //     if ($user != null) {
-                //         Auth::login($user);
-                //     }
-                // }
+                if(isset($user_data['data']['user_id']) && !empty($user_data['data']['user_id']) && auth()->user() == null)
+                {
+                    $user = User::where('user_id',$user_data['data']['user_id'])->first();
+                    if ($user != null) {
+                        Auth::login($user);
+                    }
+                }
                 $coupons = $this->service->getUserCoupons();
                 $mapped_data = $this->mapCouponsDetails($coupons['data']);
-                if($user_data['success'] == false){
-                    return  $this->throwLogin();
-                }
-                if(isset($user_data['data']['item_status']['success']) && $user_data['data']['item_status']['success'] == "false")
-                {
-                    return  $this->throwLogin();
-                }
                 return view('Dashboard.home',['data'=>$user_data['data'],'coupons' =>  $mapped_data]);
             }
         } catch (\Exception $e) {

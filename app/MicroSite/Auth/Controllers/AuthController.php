@@ -9,7 +9,6 @@ use App\MicroSite\Token\GenerateTokenService;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
@@ -129,21 +128,22 @@ class AuthController extends Controller
                 if ($customer == []) {
                     return redirect()->back()->with('false', 'User creation failed! please try again.');
                 } else {
-                    $response_data = [
-                        'token' => $verify_otp['auth']['token'],
-                        'cap_mobile' => $customer['mobile'],
-                    ];
-                    if (isset($customer['user_id'])) {
-                        $user_id = $customer['user_id'];
-                        $user = User::where('user_id', $user_id)->first();
-                        if ($user != null) {
-                            Auth::login($user);
-                        }
-                    }
-                    $first_name = $formData['firstname'] ?? '';
-                    $last_name = $formData['lastname'] ?? '';
-                    Session::push('response_data', $response_data);
-                    return redirect()->route('dashboard')->with('true', "Welcome $first_name $last_name");
+                    // $response_data = [
+                    //     'token' => $postData['authToken'],
+                    //     'cap_mobile' => $customer['mobile'],
+                    // ];
+                    // if (isset($customer['user_id'])) {
+                    //     $user_id = $customer['user_id'];
+                    //     $user = User::where('user_id', $user_id)->first();
+                    //     if ($user != null) {
+                    //         Auth::login($user);
+                    //     }
+                    // }
+                    // $first_name = $formData['firstname'] ?? '';
+                    // $last_name = $formData['lastname'] ?? '';
+                    // Session::push('response_data', $response_data);
+                    Session::flush();
+                    return redirect()->route('login_page')->with('true', "Account creation suucessfully! please login.");
                 }
 
             }
@@ -160,7 +160,7 @@ class AuthController extends Controller
         if ($request->phone == null) {
             return redirect()->back()->with('false', 'Mobile number is required!');
         }
-        $phone = str_replace('+','',$request->phone);
+        $phone = str_replace('+', '', $request->phone);
         $device_id = $request->header('User-Agent');
 
         $data = [
@@ -183,11 +183,11 @@ class AuthController extends Controller
                     'token' => $login['auth']['token'],
                     'cap_mobile' => $phone,
                 ];
-                $user = $this->auth_service->getUserDetails($login['auth']['token'],$phone,$this->brand,$device_id);
+                $user = $this->auth_service->getUserDetails($login['auth']['token'], $phone, $this->brand, $device_id);
                 $first_name = $user['customers']['customer'][0]['firstname'] ?? '';
                 $last_name = $user['customers']['customer'][0]['lastname'] ?? '';
                 Session::push('response_data', $response_data);
-                return to_route('dashboard')->with('true',"Welcome $first_name $last_name");
+                return to_route('dashboard')->with('true', "Welcome $first_name $last_name");
             }
         } else {
             return redirect()->back()->with('false', "You don't have an account!")->withInput();
@@ -207,7 +207,7 @@ class AuthController extends Controller
             'password' => 'required|confirmed|different:old_password',
             'password_confirmation' => 'required',
         ]);
-        $phone = str_replace('+','',$request->phone);
+        $phone = str_replace('+', '', $request->phone);
         $data = [
             "identifierType" => "MOBILE",
             "identifierValue" => $phone,
@@ -226,7 +226,7 @@ class AuthController extends Controller
                 $this->auth_service->generateOtp($otpGeneratePostData);
                 return to_route('forget_password_otp_page')->with('true', 'Please verify your mobile first!');
             } else {
-                return redirect()->back()->withInput()->with('false', $updated['status']['message']?? 'Something Went wrong!');
+                return redirect()->back()->withInput()->with('false', $updated['status']['message'] ?? 'Something Went wrong!');
             }
         }
         return redirect()->back()->withInput()->with('false', 'Something went wrong!');
