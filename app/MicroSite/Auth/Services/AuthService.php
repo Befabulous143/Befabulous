@@ -123,8 +123,7 @@ class AuthService
                 if (\File::exists(public_path($user->first()->profile))) {
                     \File::delete(public_path($user->first()->profile));
                 }
-                $profile_path = $this->imgStore(request()->file('profile'), $user_id);
-                $user->update(['profile' => $profile_path]);
+                $user->update(['profile' => $formData['profile_path']]);
             } else {
                 $user = new User();
                 $user->user_id = $user_id;
@@ -135,14 +134,6 @@ class AuthService
 
         return $response['customers']['customer'][0] ?? [];
 
-    }
-
-    public function imgStore($image, $user_id)
-    {
-        $extension = $image->getClientOriginalExtension();
-        $fileName = 'image_' . time() . $user_id . '.' . $extension;
-        $image->move(public_path('profile'), $fileName);
-        return 'profile/' . $fileName;
     }
 
     public function getUserDetails($token,$mobile,$brand,$device)
