@@ -13,8 +13,20 @@
     @foreach ($coupons as $coupon)
     <div class="flex app-bg-color mt-4   w-full h-40 rounded-md py-2 shadow-md shadow-gray-400">
         <div class="flex items-center justify-center w-48  pl-3  ">
-            <img src="{{ isset($coupon['standard_image_1']) && $coupon['standard_image_1'] !='' ? $coupon['standard_image_1'] : asset('images/undraw_gifts_0ceh.svg') }}"
-                class="w-44 h-40 rounded" alt="Coupen_img" srcset="">
+            @php
+                    $coupon_img = '';
+                if(isset($coupon['standard_image_1']) && !empty($coupon['standard_image_1'])){
+                    $coupon_img = $coupon['standard_image_1'];
+                } else if(isset($coupon['standard_image_2']) && !empty($coupon['standard_image_2'])){
+                    $coupon_img = $coupon['standard_image_2'];
+                } else if(isset($coupon['standard_image_3']) && !empty($coupon['standard_image_3'])){
+                    $coupon_img = $coupon['standard_image_3'];
+                } else{
+                    $coupon_img = asset('images/undraw_gifts_0ceh.svg');
+                }
+            @endphp
+            <img src="{{ $coupon_img }}"
+                class="w-32 h-32 rounded" alt="Coupen_img" srcset="">
         </div>
         <div class="text-white w-52   px-3">
             <div class="flex flex-col justify-left">

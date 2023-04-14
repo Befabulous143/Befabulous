@@ -19,7 +19,7 @@
 
 <body>
   @include('partials.session')
-  <section class="h-full  grid grid-cols-1 place-items-center overflow-y-auto">
+  <section class="h-full mb-20  grid grid-cols-1 place-items-center overflow-y-auto">
     <div class="container   lg:w-3/5 h-full lg:px-4 py-5 pb-10 lg:py-3 ">
       <div class="grid grid-cols-1 place-items-start  px-4  w-auto h-auto g-6 text-gray-800">
         <div class="grid  grid-cols-1 w-full  ">
