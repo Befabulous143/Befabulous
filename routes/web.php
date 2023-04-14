@@ -40,7 +40,7 @@ Route::post('/forget_password_verify_otp', [AuthController::class, 'validateOtpF
 
 Route::group(['middleware' => 'auth_login'], function () {
     // dashboard
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'dashboardView'])->name('dashboard');
     //coupens
     Route::get('/terms&conditions', [ProfileController::class, 'termsConditions'])->name('terms');
     //profile

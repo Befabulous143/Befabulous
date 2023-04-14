@@ -128,23 +128,24 @@ class AuthController extends Controller
                 $customer = $this->auth_service->createCustomer($formData, $postData, $verify_otp);
                 if ($customer == []) {
                     return redirect()->back()->with('false', 'User creation failed! please try again.');
+                } else {
+                    $response_data = [
+                        'token' => $verify_otp['auth']['token'],
+                        'cap_mobile' => $customer['mobile'],
+                    ];
+                    if (isset($customer['user_id'])) {
+                        $user_id = $customer['user_id'];
+                        $user = User::where('user_id', $user_id)->first();
+                        if ($user != null) {
+                            Auth::login($user);
+                        }
+                    }
+                    $first_name = $formData['firstname'] ?? '';
+                    $last_name = $formData['lastname'] ?? '';
+                    Session::push('response_data', $response_data);
+                    return redirect()->route('dashboard')->with('true', "Welcome $first_name $last_name");
                 }
 
-                $response_data = [
-                    'token' => $verify_otp['auth']['token'],
-                    'cap_mobile' => $customer['mobile'],
-                ];
-                if (isset($customer['user_id'])) {
-                    $user_id = $customer['user_id'];
-                    $user = User::where('user_id', $user_id)->first();
-                    if ($user != null) {
-                        Auth::login($user);
-                    }
-                }
-                $first_name = $formData['firstname'] ?? '';
-                $last_name = $formData['lastname'] ?? '';
-                Session::push('response_data', $response_data);
-                return to_route('dashboard')->with('true', "Welcome $first_name $last_name");
             }
         } catch (\Exception $e) {
             Log::info($e);

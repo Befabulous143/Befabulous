@@ -22,10 +22,10 @@ class DashboardController extends Controller
     {
         $this->service = new UserService();
     }
-    public function index()
+    public function dashboardView()
     {
-        $ip = request()->ip();
-        $currentUserInfo = Location::get($ip);
+        // $ip = request()->ip();
+        // $currentUserInfo = Location::get($ip);
         try {
             $user_data = $this->service->getUserDetails();
             if ($user_data instanceof Response) {
@@ -33,14 +33,14 @@ class DashboardController extends Controller
                     return $this->throwLogin('This page not found! Please try again.');
                 }
             } else{
-
-                if(isset($user_data['data']['user_id']) && !empty($user_data['data']['user_id']) && auth()->user() == null)
-                {
-                    $user = User::where('user_id',$user_data['data']['user_id'])->first();
-                    if ($user != null) {
-                        Auth::login($user);
-                    }
-                }
+                Log::info($user_data);
+                // if(isset($user_data['data']['user_id']) && !empty($user_data['data']['user_id']) && auth()->user() == null)
+                // {
+                //     $user = User::where('user_id',$user_data['data']['user_id'])->first();
+                //     if ($user != null) {
+                //         Auth::login($user);
+                //     }
+                // }
                 $coupons = $this->service->getUserCoupons();
                 $mapped_data = $this->mapCouponsDetails($coupons['data']);
                 if($user_data['success'] == false){
