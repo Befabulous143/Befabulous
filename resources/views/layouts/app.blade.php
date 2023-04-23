@@ -38,8 +38,14 @@
                 $profile = asset(auth()->user()->profile);
                 }
                 @endphp
+                @if(isset($profile))   
                 <img id="user-img" class="rounded-full bg-white p-1  border-4 border-yellow-600  w-16 h-16 z-2"
-                  src="{{ $profile  ?? asset('images/user-pic.png') }}" alt="user" srcset="">
+                  src="{{ $profile}}" alt="user" srcset="">
+                @else
+                <div id="user-img" class="rounded-full bg-white p-1  border-4 border-yellow-600  w-16 h-16 z-2">
+                  <i style="opacity:0.7;font-size:30px;margin-top:8px;margin-left:12px" class="fa-solid fa-user "></i>
+                </div>
+                @endif
               </a>
             </div>
           </div>

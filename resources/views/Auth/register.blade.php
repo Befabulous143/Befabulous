@@ -38,8 +38,8 @@
                         <div class="col-span-6 sm:col-span-3">
                             <label for="firstname" class="block text-sm font-medium text-gray-700">First
                                 name <span class="text-red-500">*</span></label>
-                            <input required type="text" name="firstname" value="{{ old('firstname') ?? '' }}" id="firstname"
-                                autocomplete="given-name"
+                            <input required type="text" name="firstname" value="{{ old('firstname') ?? '' }}"
+                                id="firstname" autocomplete="given-name"
                                 class="mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
                             @error('firstname')
                             <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
@@ -47,9 +47,10 @@
                         </div>
 
                         <div class="col-span-6 sm:col-span-3">
-                            <label for="lastname" class="block text-sm font-medium text-gray-700">Last name <span class="text-red-500">*</span></label>
-                            <input required type="text" name="lastname" value="{{ old('lastname') ?? '' }}" id="lastname"
-                                autocomplete="family-name"
+                            <label for="lastname" class="block text-sm font-medium text-gray-700">Last name <span
+                                    class="text-red-500">*</span></label>
+                            <input required type="text" name="lastname" value="{{ old('lastname') ?? '' }}"
+                                id="lastname" autocomplete="family-name"
                                 class="mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
                             @error('lastname')
                             <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
@@ -57,28 +58,33 @@
                         </div>
 
                         <div class="col-span-6 sm:col-span-3">
-                            <label for="email" class="block text-sm font-medium text-gray-700">Email address <span class="text-red-500">*</span></label>
-                            <input type="email" name="email" value="{{ old('email') ?? '' }}" id="email"
-                                autocomplete="email"
+                            <label for="email" class="block text-sm font-medium text-gray-700">Email address <span
+                                    class="text-red-500">*</span></label>
+                            <input onkeyup="emailCheck(this.value)" type="email" name="email"
+                                value="{{ old('email') ?? '' }}" id="email" autocomplete="email"
                                 class="mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
                             @error('email')
                             <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
                             @enderror
+                            <p id="email-error" class="text-red-500 text-xs mt-2"></p>
                         </div>
                         <div class="col-span-6 sm:col-span-3">
-                            <label for="mobile" class="block mb-1.5 text-sm font-medium text-gray-700">Mobile <span class="text-red-500">*</span></label>
-                            <input  value="{{ old('mobile') ?? request()->header('cap_mobile') }}" type="text"
+                            <label for="mobile" class="block mb-1.5 text-sm font-medium text-gray-700">Mobile <span
+                                    class="text-red-500">*</span></label>
+                            <input onkeyup="mobileCheck(this.value)" value="{{ old('mobile') ?? request()->header('cap_mobile') }}" type="text"
                                 name="mobile" id="phone" autocomplete="mobile"
                                 class=" mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
                             @error('mobile')
                             <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
                             @enderror
+                            <p id="mobile-error" class="text-red-500 text-xs mt-2"></p>
                         </div>
                         <div class="col-span-6 sm:col-span-3">
-                            <label for="password" class="block text-sm font-medium text-gray-700">Password <span class="text-red-500">*</span></label>
+                            <label for="password" class="block text-sm font-medium text-gray-700">Password <span
+                                    class="text-red-500">*</span></label>
                             <div class="relative">
-                                <input type="password" required name="password" value="{{ old('password') }}" id="password"
-                                    autocomplete="password"
+                                <input onkeyup="isPasswordValid(this.value)" type="password" required name="password" value="{{ old('password') }}"
+                                    id="password" autocomplete="password"
                                     class="mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
                                 <span class="absolute top-2 right-4">
                                     <i class="fa-solid fa-eye app-text-color" onclick="showPassword(1)"></i>
@@ -87,12 +93,13 @@
                             @error('password')
                             <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
                             @enderror
+                            <p id="password-error" class="text-red-500 text-xs mt-2"></p>
                         </div>
                         <div class="col-span-6 sm:col-span-3">
                             <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirm
                                 Password <span class="text-red-500">*</span></label>
                             <div class="relative">
-                                <input type="password" required name="password_confirmation"
+                                <input onkeyup="isConfirmPasswordValid(this.value)" type="password" required name="password_confirmation"
                                     value="{{ old('password_confirmation') ?? '' }}" id="password_confirmation"
                                     autocomplete="password_confirmation"
                                     class="mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
@@ -103,11 +110,12 @@
                             @error('password_confirmation')
                             <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
                             @enderror
+                            <p id="cpassword-error" class="text-red-500 text-xs mt-2"></p>
                         </div>
                         <div class="col-span-6 sm:col-span-2">
                             <label for="dob" class="block text-sm font-medium text-gray-700">Date of birth</label>
-                            <input onchange="_calculateAge(this.value)" type="date" value="{{ old('dob') }}"
-                                name="dob" id="dob" autocomplete="city"
+                            <input onchange="_calculateAge(this.value)" type="date" value="{{ old('dob') }}" name="dob"
+                                id="dob" autocomplete="city"
                                 class="cursor-pointer mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
                             @error('dob')
                             <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
@@ -115,7 +123,7 @@
                         </div>
                         <div class="col-span-6 sm:col-span-2">
                             <label for="age" class="block text-sm font-medium text-gray-700">Age</label>
-                            <input  type="number" min="0" max="150" value="{{ old('age') ?? '' }}" name="age" id="age"
+                            <input type="number" min="0" max="150" value="{{ old('age') ?? '' }}" name="age" id="age"
                                 autocomplete="address-level2"
                                 class="mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
                             @error('age')
@@ -188,8 +196,8 @@
                         <div class="col-span-6 sm:col-span-2">
                             <label for="wedding_date" class="block text-sm font-medium text-gray-700">Wedding
                                 Date</label>
-                            <input value="{{ old('wedding_date') }}"
-                                type="date" name="wedding_date" id="wedding_date" autocomplete="wedding_date"
+                            <input value="{{ old('wedding_date') }}" type="date" name="wedding_date" id="wedding_date"
+                                autocomplete="wedding_date"
                                 class="cursor-pointer mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
                             @error('wedding_date')
                             <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
@@ -251,7 +259,7 @@
                 </div>
                 <div class="lg:w-3/5 w-full bg-gray-100 px-4 py-3 text-right sm:px-6">
                     <a href="{{ route('login_page') }}"
-            class="bg-gray-200 mr-4 text-black inline-flex justify-center rounded-md border border-transparent  py-2 px-10 text-sm font-medium  shadow-sm hover:bg-gray-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-offset-2">Back</a>
+                        class="bg-gray-200 mr-4 text-black inline-flex justify-center rounded-md border border-transparent  py-2 px-10 text-sm font-medium  shadow-sm hover:bg-gray-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-offset-2">Back</a>
                     <button id="submit"
                         class="app-bg-color  justify-center rounded-md border border-transparent  py-2 px-10 text-sm font-medium text-white shadow-sm  focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-offset-2">CREATE</button>
                 </div>
@@ -259,8 +267,10 @@
         </form>
     </div>
 </div>
+@include('Auth.js.password-validations')
+@include('Auth.js.show-hide-password')
+@include('Auth.js.email-mobile-validation')
 @include('countries-drop-down.countries-js')
 @include('Auth.js.js')
 @include('loader.loader')
-@include('Auth.js.password-validation')
 @endsection

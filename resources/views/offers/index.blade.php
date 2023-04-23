@@ -28,17 +28,13 @@
             <img src="{{ $coupon_img }}"
                 class="w-32 h-32 rounded" alt="Coupen_img" srcset="">
         </div>
-        <div class="text-white w-52   px-3">
+        <div class="text-white w-52 mt-4  px-3">
             <div class="flex flex-col justify-left">
                 <h1 title="{{ $coupon['series_name'] ?? '' }}"
-                    style="display: -webkit-box;max-width: 250px;height:30px;-webkit-line-clamp: 1;-webkit-box-orient: vertical;overflow: hidden;text-overflow: ellipsis;"
+                    style=""
                     class="text-lg font-bold w-full">
                     {{ $coupon['series_name'] ?? '' }}
                 </h1>
-                <h2 class="text-md font-thin   ml-0.5" title="{{ $coupon['standard_description'] ??'' }}"
-                    style="display: -webkit-box;max-width: 250px;height:50px;-webkit-line-clamp: 2;-webkit-box-orient: vertical;overflow: hidden;text-overflow: ellipsis;">
-                    {{ $coupon['standard_description'] ?? ''}}
-                </h2>
                 @php
                 // $generator = new Picqer\Barcode\BarcodeGeneratorHTML();
                 $generator = new \Picqer\Barcode\BarcodeGeneratorJPG();

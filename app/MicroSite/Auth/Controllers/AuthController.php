@@ -120,7 +120,7 @@ class AuthController extends Controller
             $postData['otp'] = $request->otp_number;
             $verify_otp = $this->auth_service->validateOtp($postData);
             if ($verify_otp['status']['success'] == false) {
-                return redirect()->back()->with('false', $verify_otp['status']['message']);
+                return $this->throwLogin($verify_otp['status']['message']);
             }
             if ($verify_otp['status']['success'] == true && $verify_otp['user']['userRegisteredForPassword'] == true) {
                 $postData['authToken'] = $verify_otp['auth']['token'];
@@ -128,22 +128,21 @@ class AuthController extends Controller
                 if ($customer == []) {
                     return redirect()->back()->with('false', 'User creation failed! please try again.');
                 } else {
-                    // $response_data = [
-                    //     'token' => $postData['authToken'],
-                    //     'cap_mobile' => $customer['mobile'],
-                    // ];
-                    // if (isset($customer['user_id'])) {
-                    //     $user_id = $customer['user_id'];
-                    //     $user = User::where('user_id', $user_id)->first();
-                    //     if ($user != null) {
-                    //         Auth::login($user);
-                    //     }
-                    // }
-                    // $first_name = $formData['firstname'] ?? '';
-                    // $last_name = $formData['lastname'] ?? '';
-                    // Session::push('response_data', $response_data);
-                    Session::flush();
-                    return redirect()->route('login_page')->with('true', "Account creation suucessfully! please login.");
+                    $response_data = [
+                        'token' => $postData['authToken'],
+                        'cap_mobile' => $customer['mobile'],
+                    ];
+                    if (isset($customer['user_id'])) {
+                        $user_id = $customer['user_id'];
+                        $user = User::where('user_id', $user_id)->first();
+                        if ($user != null) {
+                            Auth::login($user);
+                        }
+                    }
+                    $first_name = $formData['firstname'] ?? '';
+                    $last_name = $formData['lastname'] ?? '';
+                    Session::push('response_data', $response_data);
+                    return redirect()->route('dashboard')->with('true', "Welcome $first_name $last_name");
                 }
 
             }
@@ -184,10 +183,14 @@ class AuthController extends Controller
                     'cap_mobile' => $phone,
                 ];
                 $user = $this->auth_service->getUserDetails($login['auth']['token'], $phone, $this->brand, $device_id);
-                $first_name = $user['customers']['customer'][0]['firstname'] ?? '';
-                $last_name = $user['customers']['customer'][0]['lastname'] ?? '';
-                Session::push('response_data', $response_data);
-                return to_route('dashboard')->with('true', "Welcome $first_name $last_name");
+                if($user['status']['success_count'] == 1)
+                {
+                    $first_name = $user['customers']['customer'][0]['firstname'] ?? '';
+                    $last_name = $user['customers']['customer'][0]['lastname'] ?? '';
+                    Session::push('response_data', $response_data);
+                    return to_route('dashboard')->with('true', "Welcome $first_name $last_name");
+                }
+                return redirect()->back()->with('false', "You don't have an account!")->withInput();
             }
         } else {
             return redirect()->back()->with('false', "You don't have an account!")->withInput();
@@ -197,6 +200,41 @@ class AuthController extends Controller
     public function forgetPassword()
     {
         return view('Auth.forget-password');
+    }
+
+    public function emailVerify()
+    {
+        $res =  $this->auth_service->oAuthToken();
+        $token = $res['data']['accessToken'] ?? '';
+        $email = request()->email;
+        if($token != '' && $email != '')
+        {
+            $email = $this->auth_service->isEmailorMobileAlready('email',$email,$token);
+            if(isset($email['errors'][0]['status']) && $email['errors'][0]['status'] == false)
+            {
+                return ['success' => true];
+            } else{
+                return ['success' => false];
+            }
+        }
+        return ['success' => false];
+    }
+
+    public function mobileVerify()
+    {
+        $res =  $this->auth_service->oAuthToken();
+        $token = $res['data']['accessToken'] ?? '';
+        $mobile = str_replace('+', '',request()->mobile);
+        if($token != '' && $mobile != '')
+        {
+            $mobile = $this->auth_service->isEmailorMobileAlready('mobile',$mobile,$token);
+            if(isset($mobile['errors'][0]['status']) &&  $mobile['errors'][0]['status'] == false)
+            {
+                return ['success' => true];
+            } else{
+                return ['success' => false];
+            }
+        }
     }
 
     public function updateForgetPassword(Request $request)

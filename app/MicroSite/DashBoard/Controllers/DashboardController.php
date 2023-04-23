@@ -22,8 +22,6 @@ class DashboardController extends Controller
     }
     public function dashboardView()
     {
-        $ip = request()->ip();
-        $currentUserInfo = Location::get($ip);
         try {
             $user_data = $this->service->getUserDetails();
             if ($user_data['success'] == false) {
@@ -38,12 +36,33 @@ class DashboardController extends Controller
                 }
                 $coupons = $this->service->getUserCoupons();
                 $mapped_data = $this->mapCouponsDetails($coupons['data']);
-                return view('Dashboard.home',['data'=>$user_data['data'],'coupons' =>  $mapped_data]);
+                $points_summary = $this->pointSummary($user_data['data']['points_summaries']['points_summary']);
+                return view('Dashboard.home',['data'=>$user_data['data'],'coupons' =>  $mapped_data,'points' => $points_summary]);
             }
         } catch (\Exception $e) {
             Log::info($e);
            return $this->throwLogin();
         }
+    }
+
+    public function pointSummary($data)
+    {
+        $redeemed = 0;
+        $expired = 0;
+        $returned = 0;
+        $adjusted = 0;
+        foreach ($data as $key => $value) {
+                $redeemed+=$value['redeemed'];       
+                $expired+=$value['expired'];       
+                $returned+=$value['returned'];       
+                $adjusted+=$value['adjusted'];       
+        }
+       return [
+        'redeemed' => $redeemed,
+        'expired' => $expired,
+        'returned' => $returned,
+        'adjusted' => $adjusted
+       ];
     }
 
     public function pointHistory(Request $request)

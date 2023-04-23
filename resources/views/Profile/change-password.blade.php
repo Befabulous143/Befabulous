@@ -26,7 +26,7 @@
                     </div>
                     <div class="col-span-12 relative mt-2">
                       <label for="password" class="block text-sm font-medium text-gray-700">New Password</label>
-                      <input required type="password" name="password" value="{{ old('password') }}" id="password"
+                      <input onkeyup="isPasswordValid(this.value)" required type="password" name="password" value="{{ old('password') }}" id="password"
                         autocomplete="given-name"
                         class="mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
                         <span class="absolute top-8 right-4">
@@ -35,15 +35,17 @@
                         @error('password')
                       <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
                       @enderror
+                      <p id="password-error" class="w-80 text-red-500 text-xs mt-2"></p>
                     </div>
                     <div class="col-span-12 mt-2">
                       <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirm Password</label>
-                      <input required type="password" name="password_confirmation" value="{{ old('password_confirmation') }}" id="password_confirmation"
+                      <input onkeyup="isConfirmPasswordValid(this.value)" required type="password" name="password_confirmation" value="{{ old('password_confirmation') }}" id="password_confirmation"
                         autocomplete="given-name"
                         class="mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
-                        @error('password_confirmation')
-                      <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
+                      @error('password_confirmation')
+                        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
                       @enderror
+                      <p id="cpassword-error" class="text-red-500 text-xs mt-2"></p>
                     </div>
                 </div>
             </div>
@@ -60,5 +62,6 @@
   </div>
 
   @include('loader.loader')
-  @include('Auth.js.password-validation')
+  @include('Auth.js.password-validations')
+  @include('Auth.js.show-hide-password')
 @endsection

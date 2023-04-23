@@ -38,6 +38,10 @@ Route::post('/update-forget-password', [AuthController::class, 'updateForgetPass
 Route::get('/forget-password-otp-page', [AuthController::class, 'forgetPasswordOtpPage'])->name('forget_password_otp_page');
 Route::post('/forget_password_verify_otp', [AuthController::class, 'validateOtpForForgetPassword'])->name('forget_password_verify_otp');
 
+//email check 
+Route::post('/email-check',[AuthController::class, 'emailVerify'])->name('email-verify');
+Route::post('/mobile-check',[AuthController::class, 'mobileVerify'])->name('mobile-verify');
+
 Route::group(['middleware' => 'auth_login'], function () {
     // dashboard
     Route::get('/dashboard', [DashboardController::class, 'dashboardView'])->name('dashboard');

@@ -1,5 +1,8 @@
 @extends('layouts.app')
 @section('content')
+<script>
+   $('#user-img').css({"display":"none"});
+</script>
 @include('countries-drop-down.countries-style')
 <div class="mt-0 lg:mt-2 p-2 pt-0  pb-10">
   <div class="mt-5 md:col-span-2 md:mt-0">
@@ -236,7 +239,7 @@
 @include('countries-drop-down.countries-js')
 @include('Auth.js.js')
 <script>
-  $('#user-img').css({"display":"none"});
+ 
   $('#image_removed').val('');
 </script>
 @include('loader.loader')

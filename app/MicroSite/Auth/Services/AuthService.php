@@ -43,6 +43,23 @@ class AuthService
         return Http::microsite()->post('/auth/v1/password/forget', $data)->json();
     }
 
+    public function getCurrencyValue($country_code)
+    {
+        return Http::microsite()->get('/auth/v1/points/value', $country_code)->json();
+    }
+
+    public function oAuthToken()
+    {
+        return Http::post('https://eu.api.capillarytech.com/v3/oauth/token/generate?=null', ['key' => "e6ZZNqcVrASowmSrwXOdFqTg7","secret" => 'vuEk0UM4rRWNr3VfYxKBqfj0YihS8Tf95i0ycXZO'])->json();
+    }
+
+    public function isEmailorMobileAlready($type,$value,$token)
+    {
+        return Http::withHeaders(['X-CAP-API-OAUTH-TOKEN' => $token])
+                    ->get("https://eu.api.capillarytech.com/v2/customers/lookup?source=INSTORE&identifierName=$type&identifierValue=$value")
+                    ->json();
+    }
+
     public function createCustomer($formData, $postData)
     {
         $user_data = [
@@ -153,5 +170,18 @@ class AuthService
                 'points_summary' => 'true',
                 'membership_retention_criteria' => 'true',
             ])->json();
+    }
+
+    public function countryCode($country_code)
+    {
+        switch ($country_code) {
+            case 'value':
+                # code...
+                break;
+            
+            default:
+                # code...
+                break;
+        }
     }
 }
