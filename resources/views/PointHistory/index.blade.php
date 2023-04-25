@@ -80,7 +80,7 @@
     </div>
     <div class=" flex flex-col justify-center items-center px-3">
       <span class="text-md  font-normal font-semibold"> {{ $trans['amount'] ?? '' }}</span>
-      <span class="text-sm  font-normal ml-0.5">QAR</span>
+      <span class="text-sm  font-normal ml-0.5">{{ $currency_symbol }}</span>
     </div>
     @php
       $transaction_detail = json_encode($trans);

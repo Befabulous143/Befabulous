@@ -1,10 +1,19 @@
 {{-- verify email --}}
 <script>
     var createBtn = document.getElementById('submit');
-    function emailCheck(email) {
+    function emailCheck(email,old_email = '') {
+        if(old_email === email){
+            document.querySelector('#email-error').textContent = '';
+            createBtn.disabled = false;
+            return;
+        }
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const validate = emailRegex.test(email);
-        if(validate)
+        if(email.length === 0){
+            document.querySelector('#email-error').textContent = 'The email field is required.';
+            createBtn.disabled = true;
+            return;
+        } else if(validate)
         {
             document.querySelector('#email-error').textContent = '';
             createBtn.disabled = false;

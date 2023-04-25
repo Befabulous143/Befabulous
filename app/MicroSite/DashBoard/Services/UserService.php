@@ -289,4 +289,74 @@ class UserService
 
         return $attributes;
     }
+
+    public function getCurrencyValue($point)
+    {
+        $headers = [
+            'cap_authorization' => request()->header('cap-authorization'),
+            'cap_brand' => request()->header('cap-brand'),
+            'cap_device_id' => request()->header('cap-device-id'),
+            'cap_mobile' => request()->header('cap-mobile'),
+        ];
+        $country_code = $this->countryCode();
+        return Http::microsite()->withHeaders($headers)->get("/mobile/v2/api/points/value/$country_code", ['points' => $point])->json();
+    }
+
+    public function countryCode()
+    {
+        $mobile = substr(request()->header('cap-mobile'),0,3);
+        switch ($mobile){
+            case '962':
+                $value = 'jordinar';
+                break;
+            case '971':
+                $value = 'uae';               
+                break;
+            case '968':
+                $value = 'oman';   
+                break;
+            case '973':
+                $value = 'bahrain'; 
+                break;
+            case '974':
+                $value = 'qatar'; 
+                break;
+            case '966':
+                $value = 'ksa';
+                break;
+            default:
+                $value = 'jordinar';
+                break;
+        }
+        return $value;
+    }
+
+    public function currencySymbol()
+    {
+        $mobile = substr(request()->header('cap-mobile'),0,3);
+        switch ($mobile){
+            case '962':
+                $value = "JOD";
+                break;
+            case '971':
+                $value = "AED";               
+                break;
+            case '968':
+                $value = 'OMR';   
+                break;
+            case '973':
+                $value = 'BHD'; 
+                break;
+            case '974':
+                $value = 'QAR'; 
+                break;
+            case '966':
+                $value = 'SAR';
+                break;
+            default:
+                $value = 'JOD';
+                break;
+        }
+        return $value;
+    }
 }

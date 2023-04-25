@@ -5,14 +5,14 @@
         </div>
         <div class="grid grid-cols-1 place-items-start lg:px-4 lg:pb-6 lg:pt-0 px-4 py-4  w-auto h-auto g-6 text-gray-800">
             <div class="grid  grid-cols-1 w-full">
-                <div class="grid grid-cols-2">
-                    <div class="flex gap-2">
+                <div class="grid  grid-cols-1 gap-4 place-items-end">
+                    {{-- <div class="flex gap-2">
                        <span class="app-text-color font-semibold text-3xl mt-2">Tier : </span>
                        @if(isset($data['current_slab']) && (Str::upper($data['current_slab']) == 'NONE' || Str::upper($data['current_slab']) == 'SILVER'))
                         <img class="w-14 h-14" src="{{ asset('images/Silver_Tier.png') }}" alt="">
                        @endif
-                    </div>
-                    <div class="grid  grid-cols-1 gap-4 place-items-end  pt-0 pb-2 mt-2">
+                    </div> --}}
+                    <div class="  pt-0 pb-2 mt-2">
                         <a href="{{ route('point_history') }}" class="overflow-hidden relative flex gap-1 px-10 py-3 shadow-md shadow-gray-400 rounded-xl text-white app-bg-color" data-mdb-ripple="true"
                             data-mdb-ripple-color="light">
                             <div class="grid grid-cols-1 place-items-center">
@@ -29,11 +29,11 @@
         <div class=" grid grid-cols-1 place-items-start lg:pt-0  px-4 pb-2  w-auto h-auto g-6 text-gray-800">
             <div class="grid grid-cols-3 shadow-md shadow-gray-400 lg:pr-10 lg:pl-20 px-4 lg:py-6 py-4 text-white app-bg-color grid-cols-1 w-full rounded ">
                 <div class="grid grid-rows-2 gap-0 text-center lg:text-left">
-                    Total Points
-                    <span class="text-2xl  font-extrabold">{{ $data['lifetime_purchases']??0 }}</span>
+                    Loyality Value
+                    <span class="text-2xl  font-extrabold">{{ $currency_value??0 }} <span class="text-xs">{{ $currency_symbol }}</span></span>
                 </div>
                 <div class="grid grid-rows-2 gap-0 text-center">
-                    <span class="text-center lg:text-left">Total Loyalty Points</span>
+                    <span class="text-center lg:text-left">Loyalty Points</span>
                     <span class="text-2xl text-center lg:text-left  font-extrabold">{{ $data['group_points_summaries']['group_points_summary'][0]['loyalty_points']??0 }}</span>
                 </div>
                 <div class="grid grid-rows-2 gap-0 text-center">

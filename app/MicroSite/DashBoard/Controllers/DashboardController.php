@@ -24,6 +24,13 @@ class DashboardController extends Controller
     {
         try {
             $user_data = $this->service->getUserDetails();
+            $loyality_point = $user_data['data']['group_points_summaries']['group_points_summary'][0]['loyalty_points'] ?? 0;
+            $currency_value = 0;
+            if($loyality_point != 0){
+                $currency_value = $this->service->getCurrencyValue($loyality_point)['response']['points']['redeemable']['points_redeem_local_value'] ?? 0;
+            }
+            $currency_symbol = $this->service->currencySymbol();
+            
             if ($user_data['success'] == false) {
                     return $this->throwLogin($user_data['data']);
             } else{
@@ -37,7 +44,7 @@ class DashboardController extends Controller
                 $coupons = $this->service->getUserCoupons();
                 $mapped_data = $this->mapCouponsDetails($coupons['data']);
                 $points_summary = $this->pointSummary($user_data['data']['points_summaries']['points_summary']);
-                return view('Dashboard.home',['data'=>$user_data['data'],'coupons' =>  $mapped_data,'points' => $points_summary]);
+                return view('Dashboard.home',['data'=>$user_data['data'],'coupons' =>  $mapped_data,'points' => $points_summary,'currency_value' => $currency_value,'currency_symbol' => $currency_symbol]);
             }
         } catch (\Exception $e) {
             Log::info($e);
@@ -84,7 +91,8 @@ class DashboardController extends Controller
             }
             return  redirect()->back()->with('false','Something went wrong!');
         }
-        return view('PointHistory.index',['data' => $points_summary['data'],'start_date' => $start_date,'end_date' => $end_date]);
+        $currency_symbol = $this->service->currencySymbol();
+        return view('PointHistory.index',['data' => $points_summary['data'],'start_date' => $start_date,'end_date' => $end_date,'currency_symbol' => $currency_symbol ]);
     }
 
     public function mapCouponsDetails($coupons = [])
@@ -105,6 +113,12 @@ class DashboardController extends Controller
        }
         return $result;
     }
+
+    public function getCurrencyValue()
+    {
+
+    }
+
     public function throwLogin($errMsg = '')
     {
         Auth::logout();

@@ -176,7 +176,6 @@
     // When the user clicks the button, open the modal 
     function openTransactionModal(trans)
     {
-     
       var transaction =  `
       <tr>
           <td>Account Number</td>
@@ -221,6 +220,22 @@
       <tr>
           <td>Status</td>
           <td>${trans.delivery_status}</td>
+      </tr>
+      <tr>
+          <td>Expired</td>
+          <td>${trans.points.expired}</td>
+      </tr>
+      <tr>
+          <td>Issued</td>
+          <td>${trans.points.issued}</td>
+      </tr>
+      <tr>
+          <td>Redeemed</td>
+          <td>${trans.points.redeemed}</td>
+      </tr>
+      <tr>
+          <td>Returned</td>
+          <td>${trans.points.returned}</td>
       </tr>
         `;
       document.getElementById('transactions_table').innerHTML = transaction;
