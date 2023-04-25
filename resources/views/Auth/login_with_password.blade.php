@@ -35,10 +35,10 @@
                             placeholder="Password" />
                         <div class="flex justify-between">
                             <div class="ml-2 mt-2">
-                                <input type="checkbox" onclick="showPassword()"> Show Password
+                                <input type="checkbox" class="lg:mt-0" onclick="showPassword()"> <span class="lg:text-sm sm:text-sm text-xs ">Show Password</span>
                             </div>
                             <div class="ml-2 mt-2">
-                                <a href="{{ route('forget_password') }}" class="app-text-color hover:underline">Forget
+                                <a href="{{ route('forget_password') }}" class="lg:text-sm sm:text-sm text-xs app-text-color hover:underline">Forget
                                     Password?</a>
                             </div>
                         </div>

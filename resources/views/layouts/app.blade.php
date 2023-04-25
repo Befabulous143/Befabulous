@@ -55,16 +55,20 @@
     </div>
   </section>
   <div class="lg:hidden sm:hidden md:hidden hover:block w-full app-bg-color h-16 fixed bottom-0">
-    <div class="grid grid-cols-3 w-full h-16 text-center justify-items-center	 text-white items-center">
-      <a href="{{ route('dashboard') }}"><i class="fa-solid fa-house text-xl"></i></a>
+    <div class="grid grid-cols-4 w-full h-16 text-center justify-items-center	 text-white items-center">
+      <a href="{{ route('dashboard') }}"><i style="font-size: 24px" class="fa-solid fa-house"></i></a>
       <a href="{{ route('point_history') }}" class="">
-        <img style="filter: invert(100%) sepia(16%) saturate(7463%) hue-rotate(222deg) brightness(119%) contrast(115%);"
-          class="w-6 h-6" src="{{ asset('images/transaction (1).png') }}" alt="">
+        <img  class="w-8 h-8" src="{{ asset('images/Icon_1.png') }}" alt="">
       </a>
-      <a href="{{ route('profile') }}"><i class="fa-solid fa-user text-xl"></i></a>
+      <a target="_blank" href="https://qa.bfab.com" class="">
+        <img  class="w-8 h-8" src="{{ asset('images/Icon_bfab.com link for mobile.png') }}" alt="">
+      </a>
+      <a href="{{ route('profile') }}"><img class="w-8 h-8" src="{{ asset('images/Icon_6.png') }}" alt="user" ></a>
     </div>
   </div>
-
+  <div>
+    <span class="text-xs text-gray-600 ml-2 lg:block sm:block hidden">Copyright © 2023 <b class="app-text-color">Bfab</b> all rights reserved.</span>
+  </div>
 </body>
 
 </html>
