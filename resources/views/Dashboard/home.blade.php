@@ -25,17 +25,17 @@
         </div>
         <div class=" grid grid-cols-1 place-items-start lg:pt-0  px-4 pb-2  w-auto h-auto g-6 text-gray-800">
             <div class="grid grid-cols-3 shadow-md shadow-gray-400 lg:pr-10 lg:pl-20 px-4 lg:py-6 py-4 text-white app-bg-color grid-cols-1 w-full rounded ">
-                <div class="grid grid-rows-2 gap-0 text-center lg:text-left">
-                    Current Loyality  Value
-                    <span  class="lg:text-2xl text-xl lg:mt-0 mt-3  font-extrabold">{{ $currency_value??0 }} <span class="text-xs">{{ $currency_symbol }}</span></span>
+                <div class="grid grid-rows-2 gap-0 text-center">
+                    <span class="text-center lg:text-left">Lifetime Points</span>
+                    <span class="lg:text-2xl text-xl lg:mt-0 mt-3 text-center lg:text-left  font-extrabold">{{ $data['group_points_summaries']['group_points_summary'][0]['lifetime_points']??0 }}</span>
                 </div>
                 <div class="grid grid-rows-2 gap-0 text-center">
                     <span class="text-center lg:text-left">Current Loyalty Points</span>
                     <span class="lg:text-2xl text-xl lg:mt-0 mt-3 text-center lg:text-left  font-extrabold">{{ $data['group_points_summaries']['group_points_summary'][0]['loyalty_points']??0 }}</span>
                 </div>
-                <div class="grid grid-rows-2 gap-0 text-center">
-                    <span class="text-center lg:text-left">Lifetime Points</span>
-                    <span class="lg:text-2xl text-xl lg:mt-0 mt-3 text-center lg:text-left  font-extrabold">{{ $data['group_points_summaries']['group_points_summary'][0]['lifetime_points']??0 }}</span>
+                <div class="grid grid-rows-2 gap-0 text-center lg:text-left">
+                    Currency Conversion Point
+                    <span  class="lg:text-2xl text-xl lg:mt-0 mt-3  font-extrabold">{{ $currency_value??0 }} <span class="text-xs">{{ $currency_symbol }}</span></span>
                 </div>
             </div>
         </div>

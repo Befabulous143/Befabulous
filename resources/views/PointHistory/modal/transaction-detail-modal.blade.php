@@ -178,7 +178,7 @@
     {
       var transaction =  `
       <tr>
-          <td>Account Number</td>
+          <td>Serial Number</td>
           <td>${trans.number}</td>
       </tr>
       <tr>
@@ -187,7 +187,7 @@
       </tr>
       <tr>
           <td>Discount</td>
-          <td>${trans.discount}%</td>
+          <td>${trans.discount}</td>
       </tr>
       <tr>
           <td>Gross Amount</td>
@@ -222,11 +222,7 @@
           <td>${trans.delivery_status}</td>
       </tr>
       <tr>
-          <td>Expired</td>
-          <td>${trans.points.expired}</td>
-      </tr>
-      <tr>
-          <td>Issued</td>
+          <td>Earned</td>
           <td>${trans.points.issued}</td>
       </tr>
       <tr>
@@ -242,14 +238,14 @@
 
       const lineItemList = trans.line_items['line_item'];
       var lineItemRow = '';
-      var lineItems = lineItemList.forEach(element => {
+      var lineItems = lineItemList.forEach((element,index) => {
           lineItemRow += `
          <tr>
-            <td>${element.serial}</td>
+            <td>${index + 1}</td>
             <td>${element.item_code}</td>
             <td>${element.amount}</td>
             <td>${element.description}</td>
-            <td>${element.discount}%</td>
+            <td>${element.discount}</td>
             <td>${element.qty}</td>
             <td>${element.rate}</td>
             <td>${element.value}</td>
