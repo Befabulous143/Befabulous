@@ -222,15 +222,15 @@
           <td>${trans.delivery_status}</td>
       </tr>
       <tr>
-          <td>Earned</td>
+          <td>Earned Points</td>
           <td>${trans.points.issued}</td>
       </tr>
       <tr>
-          <td>Redeemed</td>
+          <td>Redeemed Points</td>
           <td>${trans.points.redeemed}</td>
       </tr>
       <tr>
-          <td>Returned</td>
+          <td>Returned Points</td>
           <td>${trans.points.returned}</td>
       </tr>
         `;

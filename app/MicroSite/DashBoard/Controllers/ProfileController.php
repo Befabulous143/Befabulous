@@ -138,4 +138,8 @@ class ProfileController extends Controller
         }
         return redirect()->back()->with('false','Password updation failed!');
     }
+
+    public function getCouponData(Request $request){
+        return view('PointHistory.modal.carousel',['data' => $request->data])->render();
+    }
 }

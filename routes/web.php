@@ -47,6 +47,8 @@ Route::group(['middleware' => 'auth_login'], function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboardView'])->name('dashboard');
     //coupens
     Route::get('/terms&conditions', [ProfileController::class, 'termsConditions'])->name('terms');
+    Route::get('/coupon-details', [ProfileController::class, 'getCouponData'])->name('get-coupon-data');
+
     //profile
     Route::get('/user', [ProfileController::class, 'index'])->name('profile');
     Route::get('/edit', [ProfileController::class, 'edit'])->name('edit');
@@ -56,4 +58,5 @@ Route::group(['middleware' => 'auth_login'], function () {
     Route::post('/update_password', [ProfileController::class, 'updatePassword'])->name('update_password');
     //point history
     Route::any('/point_history', [DashboardController::class, 'pointHistory'])->name('point_history');
+
 });
