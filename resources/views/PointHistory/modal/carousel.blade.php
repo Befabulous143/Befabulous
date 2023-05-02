@@ -1,27 +1,24 @@
-<div  id="coupon-details-container">
+<div id="coupon-details-container">
     {{-- carousel section start --}}
     <div class="slideshow-container">
         <div class="mySlides fade">
-            <div id="slider1" class="w-full h-64"
-                style="background: url('{{ $data['standard_image_1'] ?? '' }}');
+            <div id="slider1" class="w-full h-64" style="background: url('{{ $data['standard_image_1'] ?? '' }}');
                 background-size: cover;
                 background-repeat: no-repeat; 
                 background-position: center center;">
             </div>
         </div>
         <div class="mySlides fade">
-            <div class="w-full h-64"
-                style="background: url('{{ $data['standard_image_2'] ?? '' }}');
+            <div class="w-full h-64" style="background: url('{{ $data['standard_image_2'] ?? '' }}');
                 background-size: cover;
                 background-repeat: no-repeat; 
                 background-position: center center;">
-                
+
             </div>
         </div>
-    
+
         <div class="mySlides fade">
-            <div class="w-full h-64"
-                style="background: url('{{ $data['standard_image_'] ?? '' }}') ;
+            <div class="w-full h-64" style="background: url('{{ $data['standard_image_3'] ?? '' }}') ;
                 background-size: cover;
                 background-repeat: no-repeat; 
                 background-position: center center;">
@@ -42,12 +39,11 @@
                 <span class="text-xs text-gray-700">Valid till {{ $data['valid_till'] ?? ''}}</span>
             </div>
             <div>
-                <img class="lg:w-36 w-24  " src="{{ asset('images/Logo_Matalan.png') }}" alt="" srcset="">
             </div>
         </div>
         <div class="text-base/loose  leading-relaxed text-gray-700 px-3">
             <p>
-               {{ $data['standard_description'] }}
+                {{ $data['standard_description'] }}
             </p>
             <a onclick="openOfferCondition()" class="app-text-color cursor-pointer">
                 *Conditions apply
@@ -55,7 +51,7 @@
         </div>
         <div class="py-3">
             <div class="flex justify-center">
-                <span class="text-xs text-gray-800 font-semibold">Scan the bar code to radeem other</span>
+                <span class="text-xs text-gray-800 font-semibold">Scan the bar code to redeem other</span>
             </div>
             <div class="flex  justify-center mt-0.5 ">
                 @php
@@ -74,13 +70,13 @@
         </div>
     </div>
 </div>
-<div id="coupon-condition-details"  style="padding:20px">
-   <div class="text-xl app-text-color font-medium " >
+<div id="coupon-condition-details" style="padding:20px">
+    <div class="text-xl app-text-color font-medium ">
         Offers Terms & conditions
         <div class="terms-condtions list-disc mt-3 text-sm text-gray-700 leading-7">
-           {{ $data['standard_terms_and_conditions'] ?? '' }}
+            {!! nl2br(e($data['standard_terms_and_conditions'])) ?? '' !!}
         </div>
-   </div>
+    </div>
 </div>
 
 <script>
