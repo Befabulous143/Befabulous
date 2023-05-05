@@ -60,11 +60,11 @@
             createBtn.disabled = true;
             return;
         }
-        if(mobile.length >= 13){
+        if(mobile.length >= 11){
             document.querySelector('#mobile-error').textContent = '';
             createBtn.disabled = false;
         } else{
-            document.querySelector('#mobile-error').textContent = 'Mobile number atleast must have 10 digits!';
+            document.querySelector('#mobile-error').textContent = 'Mobile number atleast must have 8 digits!';
             createBtn.disabled = true;
             return;
         }
