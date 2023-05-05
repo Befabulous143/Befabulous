@@ -74,7 +74,7 @@ class DashboardController extends Controller
 
     public function pointHistory(Request $request)
     {
-        $start_date = now()->subDays(30)->format('Y-m-d');
+        $start_date = '04/09/2005';
         $end_date = date('Y-m-d');
         if($request->has('daterange'))
         {
