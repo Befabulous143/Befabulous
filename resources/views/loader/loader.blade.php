@@ -57,5 +57,13 @@ button.addEventListener("click", function() {
 window.onload = function() {
     loader.style.display = "none";
 }
+window.onbeforeunload = function(event) {
+  if (event.currentTarget.performance.navigation.type === 1) {
+    loader.style.display = "none";
+  }
+};
 
+window.onunload = function() {
+    loader.style.display = "none";
+};
 </script>

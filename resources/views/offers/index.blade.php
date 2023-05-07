@@ -111,7 +111,7 @@
     @media only screen and (max-width: 600px) {
         .coupon-modal-content {
             max-height: 640px;
-            min-height: 570px;
+            min-height: 375px;
             width: 90%;
         }
 
@@ -151,7 +151,6 @@
         margin: auto;
         border-radius: 14px 14px 0 0;
         background-color: white !important;
-        height: 16rem;
     }
 
 
@@ -185,8 +184,9 @@
 
     .carousel-dots {
         position: absolute;
-        bottom: 10px;
+        bottom: -13px;
         left: 50%;
+        transform: translate(-50%, -50%);
     }
 
     .active,
