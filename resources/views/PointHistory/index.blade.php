@@ -72,6 +72,7 @@
           style="display: -webkit-box;max-width: 250px;height:20px;-webkit-line-clamp: 1;-webkit-box-orient: vertical;overflow: hidden;text-overflow: ellipsis;">
           {{ $trans['store'] ?? '' }}
         </h1>
+        <span class="mt-1.5 text-sm">{{ $trans['type'] }}</span>
         <h2 class="text-md  font-thin font-semibold mt-1  ml-0.5" title="{{ $trans['notes'] ?? '' }}"
           style="display: -webkit-box;max-width: 250px;height:70px;-webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden;text-overflow: ellipsis;">
           {{ $trans['notes'] ?? '' }}
@@ -80,7 +81,33 @@
     </div>
     <div class=" flex flex-col justify-center items-center px-3">
       <span class="text-md  font-normal font-semibold"> {{ $trans['amount'] ?? '' }}</span>
-      <span class="text-sm  font-normal ml-0.5">{{ $currency_symbol }}</span>
+      @php
+        $store_code = explode('.',$trans['store_code'])[1]??'';
+        switch ($store_code) {
+          case 'jordinar':
+                $currency = "JOD";
+                break;
+            case 'uae':
+                $currency = "AED";               
+                break;
+            case 'oman':
+                $currency = 'OMR';   
+                break;
+            case 'bahrain':
+                $currency = 'BHD'; 
+                break;
+            case 'qatar':
+                $currency = 'QAR'; 
+                break;
+            case 'ksa':
+                $currency = 'SAR';
+                break;
+            default:
+                $currency = $store_code;
+                break;
+        }
+      @endphp
+      <span class="text-sm  font-normal ml-0.5">{{ $currency }}</span>
     </div>
     @php
       $transaction_detail = json_encode($trans);

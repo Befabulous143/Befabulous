@@ -74,14 +74,14 @@ class DashboardController extends Controller
 
     public function pointHistory(Request $request)
     {
-        $start_date = '04/09/2005';
-        $end_date = date('Y-m-d');
+        $start_date = '2004-04-09';
+        $end_date = Carbon::parse(now())->addDay(1)->format('Y-m-d');
         if($request->has('daterange'))
         {
            $date = explode('-',$request->daterange);
            if(is_array($date)){
-               $start_date = Carbon::parse($date[0])->format('Y-m-d');
-               $end_date = Carbon::parse($date[1])->format('Y-m-d');
+               $start_date = Carbon::parse($date[0])->subDay(1)->format('Y-m-d');
+               $end_date = Carbon::parse($date[1])->addDay(1)->format('Y-m-d');
            }
         }
         $points_summary = $this->service->getUserPointHistory($start_date,$end_date);
@@ -92,6 +92,8 @@ class DashboardController extends Controller
             return  redirect()->back()->with('false','Something went wrong!');
         }
         $currency_symbol = $this->service->currencySymbol();
+        $start_date = Carbon::parse($start_date)->addDay(1)->format('Y-m-d');
+        $end_date = Carbon::parse($end_date)->subDay(1)->format('Y-m-d');
         return view('PointHistory.index',['data' => $points_summary['data'],'start_date' => $start_date,'end_date' => $end_date,'currency_symbol' => $currency_symbol ]);
     }
 
