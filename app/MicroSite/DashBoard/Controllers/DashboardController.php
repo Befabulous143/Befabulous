@@ -101,15 +101,17 @@ class DashboardController extends Controller
     {
        $result = [];
        foreach ($coupons as $k => $v) {
-        $result[$k]['series_name'] = $v['series_name'] ?? '';
-        $result[$k]['code'] = $v['code'] ?? '';
-        $result[$k]['created_date'] = isset($v['created_date']) && !empty($v['created_date']) ? Carbon::parse($v['created_date'])->format('d/m/Y') : '';
-        $result[$k]['valid_till'] = isset($v['valid_till']) && !empty($v['valid_till']) ? Carbon::parse($v['valid_till'])->format('d/m/Y') : '';;
-        if (isset($v['custom_properties']['custom_property'])) {
-            foreach ($v['custom_properties']['custom_property'] as $property) {
-                if(isset($property['name']) && isset($property['value']))
-                {
-                    $result[$k][$property['name']] = $property['value'];
+        if(isset($v['redemption_count']) && $v['redemption_count'] == 0 && !empty($v['valid_till']) && !Carbon::parse($v['valid_till'])->isPast()){
+            $result[$k]['series_name'] = $v['series_name'] ?? '';
+            $result[$k]['code'] = $v['code'] ?? '';
+            $result[$k]['created_date'] = isset($v['created_date']) && !empty($v['created_date']) ? Carbon::parse($v['created_date'])->format('d/m/Y') : '';
+            $result[$k]['valid_till'] = isset($v['valid_till']) && !empty($v['valid_till']) ? Carbon::parse($v['valid_till'])->format('d/m/Y') : '';;
+            if (isset($v['custom_properties']['custom_property'])) {
+                foreach ($v['custom_properties']['custom_property'] as $property) {
+                    if(isset($property['name']) && isset($property['value']))
+                    {
+                        $result[$k][$property['name']] = $property['value'];
+                    }
                 }
             }
         }

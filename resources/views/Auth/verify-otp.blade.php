@@ -4,7 +4,7 @@
 <section class="h-screen">
     <div class="container px-6 py-12 h-full">
         <div class="grid grid-cols-1 place-items-center h-full g-6 text-gray-800">
-            <div class="md:w-8/12 lg:w-5/12 mb-12 md:mb-0 bg-gray-100 rounded lg:p-20   p-10  w-full h-auto">
+            <div style="max-width: 500px" class="md:w-8/12 lg:w-5/12 mb-12 md:mb-0 bg-gray-100 rounded lg:p-20   p-10  w-full h-auto">
                 <form action="{{ route('verify-otp') }}" method="POST">
                     @csrf
                     <!-- Email input -->

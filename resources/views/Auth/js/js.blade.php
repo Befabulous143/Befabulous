@@ -1,5 +1,5 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<link rel="stylesheet" href="https://cdn.tutorialjinni.com/intl-tel-input/17.0.8/css/intlTelInput.css"/>
+<link rel="stylesheet" href="https://cdn.tutorialjinni.com/intl-tel-input/17.0.8/css/intlTelInput.css" />
 <script src="https://cdn.tutorialjinni.com/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
 <script>
     function preview_image1() {
@@ -120,4 +120,15 @@ input.value = inputValue.replace(/[^\d\+]/g, '');
     }
     $('#image_removed').val('image_removed');
 }
+</script>
+
+<script>
+    function validateNameInput(input) {
+        // Remove any non-alphabetic characters from the input value
+        input.value = input.value.replace(/[^A-Za-z]/g, '');
+        if (input.value.toLowerCase() != input.value) {
+            input.value = input.value.charAt(0).toUpperCase() + input.value.slice(1).toLowerCase();
+        }
+    }
+
 </script>

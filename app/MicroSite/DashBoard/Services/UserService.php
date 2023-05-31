@@ -47,17 +47,13 @@ class UserService
     public function getUserCoupons($status_value = '')
     {
         try {
-            $status = 'active';
-            if ($status_value != null) {
-                $status = $status_value;
-            }
             $response = Http::microsite()->withHeaders([
                 'cap_authorization' => request()->header('cap-authorization'),
                 'cap_brand' => request()->header('cap-brand'),
                 'cap_device_id' => request()->header('cap-device-id'),
                 'cap_mobile' => request()->header('cap-mobile'),
             ])->get('/mobile/v2/api/customer/coupon', [
-                'status' => $status,
+                'status' => 'active',
             ]);
             $json = $response->json()['response'];
             if ($json['status']['success'] == false) {

@@ -38,7 +38,7 @@
                         <div class="col-span-6 sm:col-span-3">
                             <label for="firstname" class="block text-sm font-medium text-gray-700">First
                                 name <span class="text-red-500">*</span></label>
-                            <input required type="text" name="firstname" value="{{ old('firstname') ?? '' }}"
+                            <input oninput="validateNameInput(this)" required type="text" name="firstname" value="{{ old('firstname') ?? '' }}"
                                 id="firstname" autocomplete="given-name"
                                 class="mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
                             @error('firstname')
@@ -47,9 +47,9 @@
                         </div>
 
                         <div class="col-span-6 sm:col-span-3">
-                            <label for="lastname" class="block text-sm font-medium text-gray-700">Last name <span
+                            <label   for="lastname" class="block text-sm font-medium text-gray-700">Last name <span
                                     class="text-red-500">*</span></label>
-                            <input required type="text" name="lastname" value="{{ old('lastname') ?? '' }}"
+                            <input oninput="validateNameInput(this)" required type="text" name="lastname" value="{{ old('lastname') ?? '' }}"
                                 id="lastname" autocomplete="family-name"
                                 class="mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
                             @error('lastname')
@@ -71,8 +71,9 @@
                         <div class="col-span-6 sm:col-span-3">
                             <label for="mobile" class="block mb-1.5 text-sm font-medium text-gray-700">Mobile <span
                                     class="text-red-500">*</span></label>
-                            <input onkeyup="mobileCheck(this.value)" value="{{ old('mobile') ?? request()->header('cap_mobile') }}" type="text"
-                                name="mobile" id="phone" autocomplete="mobile"
+                            <input onkeyup="mobileCheck(this.value)"
+                                value="{{ old('mobile') ?? request()->header('cap_mobile') }}" type="text" name="mobile"
+                                id="phone" autocomplete="mobile"
                                 class=" mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
                             @error('mobile')
                             <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
@@ -83,8 +84,8 @@
                             <label for="password" class="block text-sm font-medium text-gray-700">Password <span
                                     class="text-red-500">*</span></label>
                             <div class="relative">
-                                <input onkeyup="isPasswordValid(this.value)" type="password" required name="password" value="{{ old('password') }}"
-                                    id="password" autocomplete="password"
+                                <input onkeyup="isPasswordValid(this.value)" type="password" required name="password"
+                                    value="{{ old('password') }}" id="password" autocomplete="password"
                                     class="mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
                                 <span class="absolute top-2 right-4">
                                     <i class="fa-solid fa-eye app-text-color" onclick="showPassword(1)"></i>
@@ -99,9 +100,9 @@
                             <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirm
                                 Password <span class="text-red-500">*</span></label>
                             <div class="relative">
-                                <input onkeyup="isConfirmPasswordValid(this.value)" type="password" required name="password_confirmation"
-                                    value="{{ old('password_confirmation') ?? '' }}" id="password_confirmation"
-                                    autocomplete="password_confirmation"
+                                <input onkeyup="isConfirmPasswordValid(this.value)" type="password" required
+                                    name="password_confirmation" value="{{ old('password_confirmation') ?? '' }}"
+                                    id="password_confirmation" autocomplete="password_confirmation"
                                     class="mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
                                 <span class="absolute top-2 right-4">
                                     <i class="fa-solid fa-eye app-text-color" onclick="showPassword(2)"></i>
@@ -123,9 +124,9 @@
                         </div>
                         <div class="col-span-6 sm:col-span-2">
                             <label for="age" class="block text-sm font-medium text-gray-700">Age</label>
-                            <input type="number" min="0" max="150" value="{{ old('age') ?? '' }}" name="age" id="age"
-                                autocomplete="address-level2"
-                                class="mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
+                            <input type="text" value="{{ old('age') ?? '' }}" name="age" id="age"
+                                autocomplete="address-level2" 
+                                class="mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm" readonly>
                             @error('age')
                             <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
                             @enderror
@@ -162,7 +163,8 @@
                             <label for="zip" class="block text-sm font-medium text-gray-700">ZIP / Postal
                                 code</label>
                             <input type="text" value="{{ old('zip') ?? '' }}" name="zip" id="zip" autocomplete="zip"
-                                class="mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
+                                class="mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm"
+                                onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="10">
                             @error('zip')
                             <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
                             @enderror

@@ -8,7 +8,7 @@
 </style>
 <section class=" h-screen w-full">
         <div   class="" style="display:flex;justify-content:center;align-items:center;height: 100%;padding: 0 12px 0 12px;"> 
-                <div  class="md:w-8/12 lg:w-5/12 mb-6 md:mb-0 bg-gray-100 rounded lg:px-16 lg:py-8   p-10  w-full h-auto">
+                <div style="max-width: 500px"  class="md:w-8/12 lg:w-5/12 mb-6 md:mb-0 bg-gray-100 rounded lg:px-16 lg:py-8   p-10  w-full h-auto">
                     <form action="{{ route('login') }}" method="POST">
                         @csrf
                         <!-- Email input -->
