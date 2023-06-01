@@ -88,7 +88,11 @@
         position: relative;
         max-height: 580px;
         min-height: 480px;
-        overflow-y: auto;
+        overflow-y: auto;        
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 
     /* The Close Button */
@@ -112,7 +116,11 @@
         .coupon-modal-content {
             max-height: 640px;
             min-height: 375px;
-            width: 90%;
+            width: 90%;            
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
         .close {
