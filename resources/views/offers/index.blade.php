@@ -264,7 +264,7 @@
             modal.style.display = "none";
         }
         }
-        setTimeout(setTimeForSlides, 200);
+        setTimeout(setTimeForSlides, 500);
     }
     setTimeout(function() {
         
