@@ -18,10 +18,6 @@
             $coupon_img = '';
             if(isset($coupon['standard_image_1']) && !empty($coupon['standard_image_1'])){
             $coupon_img = $coupon['standard_image_1'];
-            } else if(isset($coupon['standard_image_2']) && !empty($coupon['standard_image_2'])){
-            $coupon_img = $coupon['standard_image_2'];
-            } else if(isset($coupon['standard_image_3']) && !empty($coupon['standard_image_3'])){
-            $coupon_img = $coupon['standard_image_3'];
             } else{
             $coupon_img = asset('images/undraw_gifts_0ceh.svg');
             }
@@ -241,36 +237,75 @@
 </div>
 
 <script>
+    let slideIndex = 1;
     function openCouponModal(data) {
-    var modal = document.getElementById("couponModal");
-    $.ajax({
-        url: '{{ route('get-coupon-data') }}',
-        type: 'GET',
-        data: {
-            data: data
-        },
-        success: function(response) {
-            $('#coupon-carousel').html(response);
-             var couponDetailsContainer = document.getElementById("coupon-details-container");
-            var couponConditionDetails = document.getElementById("coupon-condition-details");
-            couponDetailsContainer.style.display  = 'block';
-            couponConditionDetails.style.display  = 'none';  
-        },
-        error: function(xhr, status, error) {
-            console.log(error);
+        var modal = document.getElementById("couponModal");
+        $.ajax({
+            url: '{{ route('get-coupon-data') }}',
+            type: 'GET',
+            data: {
+                data: data
+            },
+            success: function(response) {
+                $('#coupon-carousel').html(response);
+                var couponDetailsContainer = document.getElementById("coupon-details-container");
+                var couponConditionDetails = document.getElementById("coupon-condition-details");
+                couponDetailsContainer.style.display  = 'block';
+                couponConditionDetails.style.display  = 'none';  
+            },
+            error: function(xhr, status, error) {
+                console.log(error);
+            }
+        });
+
+        modal.style.display = "block";
+        window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
         }
-    });
-
-    modal.style.display = "block";
-    window.onclick = function(event) {
-      if (event.target == modal) {
-        modal.style.display = "none";
-      }
+        }
+        setTimeout(setTimeForSlides, 200);
     }
+    setTimeout(function() {
+        
+    }, 2000);
+    function setTimeForSlides()
+    {
+        showSlides(1);
     }
-
     function closeModal(){
         const modal = document.getElementById("couponModal");
         modal.style.display = "none";
+    }
+
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
+
+    function currentSlide(n) {
+        showSlides(slideIndex = n);
+    }
+
+    function showSlides(n) {
+    let i;
+    let slides = document.getElementsByClassName("mySlides");
+    let dots = document.getElementsByClassName("dot");
+    if (n > slides.length) {slideIndex = 1}    
+    if (n < 1) {slideIndex = slides.length}
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";  
+    }
+    for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+    }
+    slides[slideIndex-1].style.display = "block";  
+    dots[slideIndex-1].className += " active";
+    }
+
+    function openOfferCondition(){
+        var couponDetailsContainer = document.getElementById("coupon-details-container");
+        var couponConditionDetails = document.getElementById("coupon-condition-details");
+        couponDetailsContainer.style.display  = 'none';
+        couponConditionDetails.style.display  = 'block';
     }
 </script>
