@@ -156,11 +156,6 @@
         border-radius: 14px 14px 0 0;
         background-color: white !important;
     }
-
-
-
-
-
     /* Caption text */
     .text {
         color: #f2f2f2;
@@ -264,14 +259,16 @@
             modal.style.display = "none";
         }
         }
-        setTimeout(setTimeForSlides, 500);
+        setTimeout(setTimeForSlides, 1000);
     }
-    setTimeout(function() {
-        
-    }, 2000);
     function setTimeForSlides()
     {
         showSlides(1);
+        var elements = document.getElementsByClassName('slideshow-container');
+        if (elements.length > 0) {
+        var element = elements[0];
+        element.classList.remove('animate-pulse');
+        }
     }
     function closeModal(){
         const modal = document.getElementById("couponModal");

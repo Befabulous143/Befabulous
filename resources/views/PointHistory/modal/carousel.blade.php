@@ -1,6 +1,6 @@
 <div id="coupon-details-container">
     {{-- carousel section start --}}
-    <div class="slideshow-container lg:h-64 h-32">
+    <div class="slideshow-container animate-pulse lg:h-64 h-32">
         <div class="mySlides fade">
             <div id="slider1" class="w-full lg:h-64 h-32" style="background: url('{{ $data['standard_image_2'] ?? '' }}');
                 background-size: cover;
