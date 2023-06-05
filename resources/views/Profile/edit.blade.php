@@ -43,7 +43,7 @@
           <div class="grid grid-cols-6 gap-6">
             <div class="col-span-6 sm:col-span-3">
               <label for="firstname" class="block text-sm font-medium text-gray-700">First name</label>
-              <input type="text" name="firstname" value="{{ $data['firstname'] ?? '' }}" id="firstname"
+              <input oninput="validateNameInput(this)" type="text" name="firstname" value="{{ $data['firstname'] ?? '' }}" id="firstname"
                 autocomplete="given-name"
                 class="mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
               @error('firstname')
@@ -53,7 +53,7 @@
 
             <div class="col-span-6 sm:col-span-3">
               <label for="lastname" class="block text-sm font-medium text-gray-700">Last name</label>
-              <input type="text" name="lastname" value="{{ $data['lastname'] ?? '' }}" id="lastname"
+              <input oninput="validateNameInput(this)" type="text" name="lastname" value="{{ $data['lastname'] ?? '' }}" id="lastname"
                 autocomplete="family-name"
                 class="mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
               @error('lastname')
@@ -83,7 +83,7 @@
             </div>
             <div class="col-span-6 sm:col-span-2">
               <label for="dob" class="block text-sm font-medium text-gray-700">Date of birth</label>
-              <input onchange="_calculateAge(this.value)" {{ isset($data['dob']) ? 'readonly' : '' }} type="date"
+              <input max="{{ date('Y-m-d') }}" onchange="_calculateAge(this.value)" {{ isset($data['dob']) ? 'readonly' : '' }} type="date"
                 value="{{ isset($data['dob']) ? \Carbon\Carbon::parse($data['dob'])->format('Y-m-d') : '' }}" name="dob"
                 id="dob" autocomplete="city"
                 class="cursor-pointer mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
@@ -111,7 +111,7 @@
             </div>
             <div class="col-span-6 sm:col-span-6 lg:col-span-2">
               <label for="city" class="block text-sm font-medium text-gray-700">City</label>
-              <input type="text" value="{{ $data['city'] ?? '' }}" name="city" id="city" autocomplete="address-level2"
+              <input oninput="validateNameInput(this)" type="text" value="{{ $data['city'] ?? '' }}" name="city" id="city" autocomplete="address-level2"
                 class="mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
               @error('city')
               <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
@@ -120,7 +120,7 @@
 
             <div class="col-span-6 sm:col-span-3 lg:col-span-2">
               <label for="State" class="block text-sm font-medium text-gray-700">State</label>
-              <input type="text" value="{{ $data['state'] ?? '' }}" name="State" id="State"
+              <input oninput="validateNameInput(this)" type="text" value="{{ $data['state'] ?? '' }}" name="State" id="State"
                 autocomplete="address-level1"
                 class="mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
               @error('State')
@@ -131,6 +131,7 @@
             <div class="col-span-6 sm:col-span-3 lg:col-span-2">
               <label for="zip" class="block text-sm font-medium text-gray-700">ZIP / Postal code</label>
               <input type="text" value="{{ $data['zip'] ?? '' }}" name="zip" id="zip" autocomplete="zip"
+              onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="10"
                 class="mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
               @error('zip')
               <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
@@ -139,7 +140,7 @@
 
             <div class="col-span-6 sm:col-span-3 lg:col-span-2">
               <label for="country_of_residence" class="block text-sm font-medium text-gray-700">Country</label>
-              <input type="text" value="{{ $data['country_of_residence'] ?? '' }}" name="country_of_residence"
+              <input oninput="validateNameInput(this)" type="text" value="{{ $data['country_of_residence'] ?? '' }}" name="country_of_residence"
                 id="country_of_residence" autocomplete="address-level1"
                 class="mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
               @error('country_of_residence')
@@ -165,6 +166,7 @@
             <div class="col-span-6 sm:col-span-2">
               <label for="wedding_date" class="block text-sm font-medium text-gray-700">Wedding Date</label>
               <input
+              max="{{ date('Y-m-d') }}"
                 value="{{ isset($data['wedding_date']) ? \Carbon\Carbon::parse($data['wedding_date'])->format('Y-m-d') : '' }}"
                 type="date" name="wedding_date" id="wedding_date" autocomplete="wedding_date"
                 class="cursor-pointer mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">

@@ -19,6 +19,7 @@
     // <p id="cpassword-error" class="text-red-500 text-xs mt-2"></p>
     //submit btn id="submit"
     function isConfirmPasswordValid (cpassword) {
+       
         const passwordValue = document.getElementById("password").value;
         if (passwordValue === cpassword) {
             document.querySelector('#cpassword-error').textContent = '';
@@ -31,4 +32,11 @@
             return;
         }
     }    
+
+    function removeSpace()
+    {
+        if (event.keyCode === 32) {
+            event.preventDefault();
+        }
+    }
 </script>

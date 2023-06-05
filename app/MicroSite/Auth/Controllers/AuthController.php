@@ -280,6 +280,9 @@ class AuthController extends Controller
         $validateData = Session::get('forget_password')[0];
         $validateData['otp'] = $request->otp;
         $verify_otp = $this->auth_service->validateOtp($validateData);
+        if(isset($verify_otp['status']['success']) && $verify_otp['status']['success'] == false){
+            return redirect()->back()->with('false',"Please enter a valid verification code sent");
+        }
         if (isset($verify_otp['user']['userRegisteredForPassword']) && $verify_otp['user']['userRegisteredForPassword'] == true) {
             return to_route('login_page')->with('true', 'Password reset successfully!');
         }

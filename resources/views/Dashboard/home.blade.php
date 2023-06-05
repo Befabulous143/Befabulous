@@ -52,23 +52,27 @@
                 <div class="grid grid-cols-4 shadow-md shadow-gray-400 px-2 lg:py-8 py-4 lg:px-2 text-white app-bg-color grid-cols-1 w-full h-auto rounded ">
                     <div class="flex flex-col items-center gap-1  text-center">
                         <img class="w-12 h-12" src="{{ asset('images/Icon_2.png') }}" alt="">
-                        <span class="text-sm  font-semibold">{{ $points['adjusted']??0 }} Pts</span>
-                        <span>Adjusted</span>
+                        <span class="text-sm  font-semibold">{{ $points['adjusted']??0 }}</span>
+                        <span>Points</span>
+                        <span class="mt-2">Adjusted</span>
                     </div>
                     <div class="flex flex-col gap-1 items-center text-center">
                         <img class="w-12 h-12" src="{{ asset('images/Icon_3.png') }}" alt="">
-                        <span class="text-sm  font-semibold">{{ $points['redeemed']??0 }} Pts</span>
-                        <span>Redeemed</span>
+                        <span class="text-sm  font-semibold">{{ $points['redeemed']??0 }}</span>
+                        <span>Points</span>
+                        <span class="mt-2">Redeemed</span>
                     </div>
                     <div class="flex flex-col gap-1 items-center text-center">
                         <img class="w-12 h-12" src="{{ asset('images/Icon_4.png') }}" alt="">
-                        <span class="text-sm  font-semibold">{{ $points['returned']??0 }} Pts</span>
-                        <span>Returned</span>
+                        <span class="text-sm  font-semibold">{{ $points['returned']??0 }}</span>
+                        <span>Points</span>
+                        <span class="mt-2">Returned</span>
                     </div>
                     <div class="flex flex-col gap-1 items-center text-center">
                         <img class="w-12 h-12" src="{{ asset('images/Icon_5.png') }}" alt="">
-                        <span class="text-sm  font-semibold">{{ $points['expired']??0 }} Pts</span>
-                        <span>Expired</span>
+                        <span class="text-sm  font-semibold">{{ $points['expired']??0 }}</span>
+                        <span>Points</span>
+                        <span class="mt-2">Expired</span>
                     </div>
                 </div>
             </div>

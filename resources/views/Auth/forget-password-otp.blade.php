@@ -18,7 +18,7 @@
             <div class="lg:col-span-6 col-span-12">
               <div class="col-span-12 mt-4">
                 <label for="otp" class="block text-sm font-medium text-gray-700">Please Enter OTP to Continue</label>
-                <input  value="{{ old('otp') }}" minlength="6" maxlength="6" autocomplete="off" id="otp" type="text" name="otp"
+                <input  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/^0[^.]/, '0');" value="{{ old('otp') }}" minlength="6" maxlength="6" autocomplete="off" id="otp" type="text" name="otp"
                 class="mt-5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm"
                 placeholder="OTP" />
                 @error('otp')
