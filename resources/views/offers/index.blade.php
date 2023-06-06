@@ -26,7 +26,7 @@
         </div>
         <div class="text-white w-52 mt-4  px-3">
             <div class="flex flex-col justify-left">
-                <h1 title="{{ $coupon['series_name'] ?? '' }}" style="" class="text-lg font-bold w-full">
+                <h1 title="{{ $coupon['series_name'] ?? '' }}" style="" class="text-sm font-bold w-full">
                     {{ $coupon['series_name'] ?? '' }}
                 </h1>
                 @php
