@@ -43,7 +43,7 @@
         </div>
         <div class="text-base/loose  leading-relaxed text-gray-700 px-3">
             <p>
-                {{ $data['standard_description'] }}
+                {!! $data['standard_description'] !!}
             </p>
             <a onclick="openOfferCondition()" class="app-text-color cursor-pointer">
                 *Conditions apply
