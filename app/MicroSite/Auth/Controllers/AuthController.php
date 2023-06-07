@@ -92,8 +92,13 @@ class AuthController extends Controller
             if ($data['sessionId'] != '') {
                 $otpGeneratePostData = collect($data)->except(['password', 'confirmPassword']);
                 Session::push('validateOtpPayload', $otpGeneratePostData);
-                $this->auth_service->generateOtp($otpGeneratePostData);
-                return to_route('otp-index')->with('true', 'OTP sent successfully to your mobile number.');
+                $res = $this->auth_service->generateOtp($otpGeneratePostData);
+                if(isset($res['status']['success']) && $res['status']['success'] == true){
+                    return to_route('otp-index')->with('true', 'OTP sent successfully to your mobile number.');
+                }
+                else{
+                    $this->throwLogin();                    
+                }
             }
         } catch (\Exception $e) {
             $this->throwLogin($e);
@@ -120,7 +125,7 @@ class AuthController extends Controller
             $postData['otp'] = $request->otp_number;
             $verify_otp = $this->auth_service->validateOtp($postData);
             if ($verify_otp['status']['success'] == false) {
-                return $this->throwLogin($verify_otp['status']['message']);
+                return redirect()->back()->with('false', 'Please enter a valid verification code sent');
             }
             if ($verify_otp['status']['success'] == true && $verify_otp['user']['userRegisteredForPassword'] == true) {
                 $postData['authToken'] = $verify_otp['auth']['token'];

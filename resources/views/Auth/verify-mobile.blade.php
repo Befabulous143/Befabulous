@@ -30,9 +30,9 @@
 
                 </form>
 
-                <div class="mt-4">
+                {{-- <div class="mt-4">
                     Don't have an account? <a class="app-text-color font-semibold" href="">Sign up</a>
-                </div>
+                </div> --}}
             </div>
             <div class="md:w-8/12 lg:w-5/12 lg:ml-20">
 

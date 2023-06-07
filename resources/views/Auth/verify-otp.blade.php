@@ -20,7 +20,7 @@
 
                     <!-- Password input -->
                     <div class="mb-6">
-                        <input maxlength="6" name="otp_number" autocomplete="off" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/^0[^.]/, '0');" type="text"
+                        <input maxlength="6" name="otp_number" autocomplete="off" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/^[^.]/, '0');" type="text"
                             class="form-control text-lg block w-full px-4 py-2  font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                             placeholder="Enter Your OTP Here" />
                     </div>

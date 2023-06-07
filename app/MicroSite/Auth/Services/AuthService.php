@@ -10,7 +10,7 @@ class AuthService
 {
     public function generateOtp($data)
     {
-        return Http::microsite()->post('/auth/v1/otp/generate', $data);
+        return Http::microsite()->post('/auth/v1/otp/generate', $data)->json();
     }
 
     public function validateOtp($data)
