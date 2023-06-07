@@ -74,7 +74,6 @@
             <div class="col-span-6 sm:col-span-3">
               <label for="mobile" class="block text-sm font-medium text-gray-700">Mobile</label>
               <input readonly value="{{ '+'.$data['mobile'] ?? '' }}"
-                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/^0[^.]/, '0');"
                 type="text" name="mobile" id="mobile" autocomplete="mobile"
                 class=" mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
               @error('mobile')
