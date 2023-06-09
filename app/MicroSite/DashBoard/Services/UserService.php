@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 
 class UserService
 {
@@ -32,8 +31,7 @@ class UserService
             $json = $response->json();
             if ($json['status']['success'] == false) {
                 return ['success' => false, 'data' => $json['status']['message']];
-            }
-            else{
+            } else {
                 $customer = $json['customers']['customer'][0] ?? [];
                 return ['success' => true, 'data' => $customer];
             }
@@ -152,21 +150,21 @@ class UserService
                                         "name" => "marital_status",
                                         "value" => $request->marital_status,
                                     ],
-                                        [
-                                    "name" => "age",
-                                    "value" => $request->age,
+                                    [
+                                        "name" => "age",
+                                        "value" => $request->age,
                                     ],
                                     [
                                         "name" => "area",
-                                        "value" => $request->area
+                                        "value" => $request->area,
                                     ],
                                     [
                                         "name" => "nationality",
-                                        "value" => $request->nationality
+                                        "value" => $request->nationality,
                                     ],
                                     [
                                         "name" => "religion",
-                                        "value" => $request->religion
+                                        "value" => $request->religion,
                                     ],
                                 ],
                             ],
@@ -187,12 +185,14 @@ class UserService
                 }
                 return ['success' => false, 'data' => 'Something went wrong!'];
             }
-            if($request->image_removed == 'image_removed' && isset($json['customers']['customer'][0]['user_id']))
-            {
+            if ($request->image_removed == 'image_removed' && isset($json['customers']['customer'][0]['user_id'])) {
                 $user_id = $json['customers']['customer'][0]['user_id'];
                 $user = User::where('user_id', $user_id);
-                if (\File::exists(public_path( $user->first()->profile))) {
-                    \File::delete(public_path( $user->first()->profile));
+                if ($user->first() != null) {
+                    $profile = $user->first()->profile;
+                    if ($profile != null && \File::exists(public_path($profile))) {
+                        \File::delete(public_path($profile));
+                    }
                 }
                 $user->delete();
                 Auth::logout();
@@ -201,19 +201,18 @@ class UserService
                 $user_id = $json['customers']['customer'][0]['user_id'];
                 $user = User::where('user_id', $user_id);
                 if ($user->first() != null) {
-                    if (\File::exists(public_path( $user->first()->profile))) {
-                        \File::delete(public_path( $user->first()->profile));
+                    if (\File::exists(public_path($user->first()->profile))) {
+                        \File::delete(public_path($user->first()->profile));
                     }
-                    $profile_path = $this->imgStore(request()->file('profile'),$user_id);
+                    $profile_path = $this->imgStore(request()->file('profile'), $user_id);
                     $user->update(['profile' => $profile_path]);
                 } else {
-                    $profile_path = $this->imgStore(request()->file('profile'),$user_id);
+                    $profile_path = $this->imgStore(request()->file('profile'), $user_id);
                     $user = new User();
                     $user->user_id = $user_id;
                     $user->profile = $profile_path;
                     $user->save();
-                    if(auth()->user() == null)
-                    {
+                    if (auth()->user() == null) {
                         Auth::login($user);
                     }
                 }
@@ -228,10 +227,10 @@ class UserService
         }
     }
 
-    public function imgStore($image,$user_id)
+    public function imgStore($image, $user_id)
     {
         $extension = $image->getClientOriginalExtension();
-        $fileName = 'image_' . time() .$user_id. '.' . $extension;
+        $fileName = 'image_' . time() . $user_id . '.' . $extension;
         $image->move(public_path('profile'), $fileName);
         return 'profile/' . $fileName;
     }
@@ -300,22 +299,22 @@ class UserService
 
     public function countryCode()
     {
-        $mobile = substr(request()->header('cap-mobile'),0,3);
-        switch ($mobile){
+        $mobile = substr(request()->header('cap-mobile'), 0, 3);
+        switch ($mobile) {
             case '962':
                 $value = 'jordinar';
                 break;
             case '971':
-                $value = 'uae';               
+                $value = 'uae';
                 break;
             case '968':
-                $value = 'oman';   
+                $value = 'oman';
                 break;
             case '973':
-                $value = 'bahrain'; 
+                $value = 'bahrain';
                 break;
             case '974':
-                $value = 'qatar'; 
+                $value = 'qatar';
                 break;
             case '966':
                 $value = 'ksa';
@@ -329,22 +328,22 @@ class UserService
 
     public function currencySymbol()
     {
-        $mobile = substr(request()->header('cap-mobile'),0,3);
-        switch ($mobile){
+        $mobile = substr(request()->header('cap-mobile'), 0, 3);
+        switch ($mobile) {
             case '962':
                 $value = "JOD";
                 break;
             case '971':
-                $value = "AED";               
+                $value = "AED";
                 break;
             case '968':
-                $value = 'OMR';   
+                $value = 'OMR';
                 break;
             case '973':
-                $value = 'BHD'; 
+                $value = 'BHD';
                 break;
             case '974':
-                $value = 'QAR'; 
+                $value = 'QAR';
                 break;
             case '966':
                 $value = 'SAR';

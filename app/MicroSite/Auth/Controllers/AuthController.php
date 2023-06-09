@@ -90,9 +90,10 @@ class AuthController extends Controller
             $token = $this->token_service->tokenGenerate($data);
             $data['sessionId'] = $token['user']['sessionId'] ?? '';
             if ($data['sessionId'] != '') {
-                $otpGeneratePostData = collect($data)->except(['password', 'confirmPassword']);
-                Session::push('validateOtpPayload', $otpGeneratePostData);
-                $res = $this->auth_service->generateOtp($otpGeneratePostData);
+                unset($data['password']);
+                unset($data['confirmPassword']);
+                Session::push('validateOtpPayload', $data);
+                $res = $this->auth_service->generateOtp($data);
                 if(isset($res['status']['success']) && $res['status']['success'] == true){
                     return to_route('otp-index')->with('true', 'OTP sent successfully to your mobile number.');
                 }
@@ -120,8 +121,20 @@ class AuthController extends Controller
             return redirect()->back()->with('false', 'OTP number length atleast 6 digits required!');
         }
         try {
-            $formData = Session::get('formData')[0];
-            $postData = Session::get('validateOtpPayload')[0];
+            $formSession = Session::get('formData');
+            if (is_array($formSession) && count($formSession) > 0) {
+                $formData = $formSession[0];
+            }
+            else{
+                $this->throwLogin('Something Went wrong! Please contact our support.');
+            }
+            $postSession = Session::get('validateOtpPayload');
+            if (is_array($postSession) && count($postSession) > 0) {
+                $postData = $postSession[0];
+            }
+            else{
+                $this->throwLogin('Something Went wrong! Please contact our support.');
+            }
             $postData['otp'] = $request->otp_number;
             $verify_otp = $this->auth_service->validateOtp($postData);
             if ($verify_otp['status']['success'] == false) {
