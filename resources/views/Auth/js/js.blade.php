@@ -123,12 +123,13 @@ input.value = inputValue.replace(/[^\d\+]/g, '');
 </script>
 
 <script>
+    function nameValidate(input) {
+        input.value = input.value.replace(/[^A-Za-z\s]/g, '');
+    }
     function validateNameInput(input) {
         // Remove any non-alphabetic characters from the input value
-        input.value = input.value.replace(/[^A-Za-z]/g, '');
-        if (input.value.toLowerCase() != input.value) {
-            input.value = input.value.charAt(0).toUpperCase() + input.value.slice(1).toLowerCase();
-        }
+        input.value = input.value.replace(/[^A-Za-z\s]/g, '');
+        // input.value = input.value.replace(/[^A-Za-z]/g, '');
     }
 
 </script>

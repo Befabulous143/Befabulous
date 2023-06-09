@@ -115,7 +115,7 @@
                         </div>
                         <div class="col-span-6 sm:col-span-2">
                             <label for="dob" class="block text-sm font-medium text-gray-700">Date of birth</label>
-                            <input onchange="_calculateAge(this.value)" type="date" value="{{ old('dob') }}" name="dob"
+                            <input  max="{{ date('Y-m-d') }}" onchange="_calculateAge(this.value)" type="date" value="{{ old('dob') }}" name="dob"
                                 id="dob" autocomplete="city"
                                 class="cursor-pointer mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
                             @error('dob')
@@ -142,7 +142,7 @@
                         </div>
                         <div class="col-span-6 sm:col-span-6 lg:col-span-2">
                             <label for="city" class="block text-sm font-medium text-gray-700">City</label>
-                            <input type="text" value="{{ old('city') ?? '' }}" name="city" id="city"
+                            <input oninput="validateNameInput(this)" type="text" value="{{ old('city') ?? '' }}" name="city" id="city"
                                 autocomplete="address-level2"
                                 class="mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
                             @error('city')
@@ -151,7 +151,7 @@
                         </div>
                         <div class="col-span-6 sm:col-span-3 lg:col-span-2">
                             <label for="State" class="block text-sm font-medium text-gray-700">State</label>
-                            <input type="text" value="{{ old('state') ?? '' }}" name="state" id="State"
+                            <input oninput="validateNameInput(this)" type="text" value="{{ old('state') ?? '' }}" name="state" id="State"
                                 autocomplete="address-level1"
                                 class="mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
                             @error('state')
@@ -173,7 +173,7 @@
                         <div class="col-span-6 sm:col-span-3 lg:col-span-2">
                             <label for="country_of_residence"
                                 class="block text-sm font-medium text-gray-700">Country</label>
-                            <input type="text" value="{{ old('country_of_residence') ?? '' }}"
+                            <input oninput="validateNameInput(this)" type="text" value="{{ old('country_of_residence') ?? '' }}"
                                 name="country_of_residence" id="country_of_residence" autocomplete="address-level1"
                                 class="mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
                             @error('country_of_residence')
@@ -198,7 +198,7 @@
                         <div class="col-span-6 sm:col-span-2">
                             <label for="wedding_date" class="block text-sm font-medium text-gray-700">Wedding
                                 Date</label>
-                            <input value="{{ old('wedding_date') }}" type="date" name="wedding_date" id="wedding_date"
+                            <input  max="{{ date('Y-m-d') }}" value="{{ old('wedding_date') }}" type="date" name="wedding_date" id="wedding_date"
                                 autocomplete="wedding_date"
                                 class="cursor-pointer mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
                             @error('wedding_date')

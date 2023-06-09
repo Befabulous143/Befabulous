@@ -48,9 +48,29 @@
             }
         });
     }
+
+ 
     function  mobileCheck(mobile) {
+        const data = {
+        "+962": 9,
+        "+973": 8,
+        "+968": 8,
+        "+974": 8,
+        "+966": 9,
+        "+971": 9
+        };
+        var isMobilLength = 10;
+        switch (data[mobile.substring(0, 4)]) {
+            case 9:
+            isMobilLength = 13;
+            break;
+            case 8:
+                isMobilLength = 12;
+                break;
+        }
         var pattern = /^\+(?:[1-9]){1,3}(?:\d{1,14})$/; 
         var isValid = pattern.test(mobile);
+
         if(isValid)
         {
             document.querySelector('#mobile-error').textContent = '';
@@ -60,11 +80,11 @@
             createBtn.disabled = true;
             return;
         }
-        if(mobile.length >= 11){
+        if(mobile.length >= isMobilLength){
             document.querySelector('#mobile-error').textContent = '';
             createBtn.disabled = false;
         } else{
-            document.querySelector('#mobile-error').textContent = 'Mobile number atleast must have 8 digits!';
+            document.querySelector('#mobile-error').textContent = 'Mobile number atleast must have '+ (isMobilLength - 4) +' digits!';
             createBtn.disabled = true;
             return;
         }
