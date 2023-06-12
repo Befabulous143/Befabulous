@@ -50,7 +50,13 @@ class AuthService
 
     public function isEmailorMobileAlready($type,$value,$token)
     {
-        return Http::withHeaders(['X-CAP-API-OAUTH-TOKEN' => $token])
+        return Http::withHeaders([
+                    'Content-Type' => 'application/json',
+                    'X-CAP-API-OAUTH-TOKEN' => $token,
+                    'Accept' => 'application/json',
+                    'X-CAP-API-ATTRIBUTION-ENTITY-TYPE' => 'STORE_EXTERNAL_ID',
+                    'X-CAP-API-ATTRIBUTION-ENTITY-CODE' => 'microsite'
+                    ])
                     ->get("https://eu.api.capillarytech.com/v2/customers/lookup?source=INSTORE&identifierName=$type&identifierValue=$value")
                     ->json();
     }
