@@ -113,7 +113,7 @@
                             @enderror
                             <p id="cpassword-error" class="text-red-500 text-xs mt-2"></p>
                         </div>
-                        <div class="col-span-6 sm:col-span-2">
+                        {{-- <div class="col-span-6 sm:col-span-2">
                             <label for="dob" class="block text-sm font-medium text-gray-700">Date of birth</label>
                             <input  max="{{ date('Y-m-d') }}" onchange="_calculateAge(this.value)" type="date" value="{{ old('dob') }}" name="dob"
                                 id="dob" autocomplete="city"
@@ -179,8 +179,8 @@
                             @error('country_of_residence')
                             <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
                             @enderror
-                        </div>
-
+                        </div> --}}
+{{-- 
                         <div class="col-span-6 sm:col-span-2">
                             <label for="gender" class="block text-sm font-medium text-gray-700">Gender</label>
                             <select name="gender"
@@ -235,7 +235,7 @@
                             @error('nationality')
                             <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
                             @enderror
-                        </div>
+                        </div> --}}
                         {{-- currently we don't need --}}
                         {{-- <div class="col-span-6 sm:col-span-2">
                             <label for="religion" class="block text-sm font-medium text-gray-700">Religion</label>
