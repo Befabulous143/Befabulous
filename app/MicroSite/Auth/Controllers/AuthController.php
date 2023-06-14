@@ -43,7 +43,30 @@ class AuthController extends Controller
     {
         Session::flush();
         $this->service->validate();
+    
         $plus_removed_mobile_number = str_replace('+', '', $request->mobile);
+        $data = [
+            "identifierType" => "MOBILE",
+            "identifierValue" => $plus_removed_mobile_number,
+            "deviceId" => $request->header('User-Agent'),
+            "brand" => $this->brand,
+            "password" => $request->password,
+            "confirmPassword" => $request->password_confirmation,
+        ];
+        $token = $this->token_service->tokenGenerate($data);
+      
+        if(isset($token['user']['userRegisteredForPassword']) && $token['user']['userRegisteredForPassword']){
+            return redirect()->back()->withInput()->with('false', 'User already exists! Please sign in to continue.');
+        }
+        $email_already_exits = $this->emailVerify();
+    
+        if(!$email_already_exits['success']){
+            return redirect()->back()->withInput()->with('false', 'Email is already taken!Please try some other email.');
+        }
+        $mobile_already_exits = $this->mobileVerify();
+        if(!$mobile_already_exits['success']){
+            return redirect()->back()->withInput()->with('false', 'Mobile number is already taken!Please try some other email.');
+        }
         $request->merge(['mobile' => $plus_removed_mobile_number]);
         if (request()->hasFile('profile')) {
             $profile_path = $this->imgStore(request()->file('profile'));

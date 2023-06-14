@@ -60,7 +60,7 @@
                         <div class="col-span-6 sm:col-span-3">
                             <label for="email" class="block text-sm font-medium text-gray-700">Email address <span
                                     class="text-red-500">*</span></label>
-                            <input onkeyup="emailCheck(this.value)" type="email" name="email"
+                            <input required onkeyup="emailCheck(this.value)" type="email" name="email"
                                 value="{{ old('email') ?? '' }}" id="email" autocomplete="email"
                                 class="mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
                             @error('email')
@@ -74,9 +74,10 @@
                             <input onkeyup="mobileCheck(this.value)"
                                 value="{{ old('mobile') ?? request()->header('cap_mobile') }}" type="text" name="mobile"
                                 id="phone" autocomplete="mobile"
+                                minlength="6"
                                 class=" mt-1.5 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-200 sm:text-sm">
                             @error('mobile')
-                            <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
+                            <p id="mobile-error" class="text-red-500 text-xs mt-2">{{ $message }}</p>
                             @enderror
                             <p id="mobile-error" class="text-red-500 text-xs mt-2"></p>
                         </div>

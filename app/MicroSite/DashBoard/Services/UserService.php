@@ -251,13 +251,13 @@ class UserService
             "state" => 'nullable',
             "zip" => 'nullable',
             "country_of_residence" => 'nullable',
-            "gender" => "required",
+            "gender" => "nullable",
             "wedding_date" => "nullable|date",
             "marital_status" => "nullable",
             "nationality" => 'nullable',
             "religion" => 'nullable',
         ]);
-
+        
         return $attributes;
     }
 
@@ -275,7 +275,7 @@ class UserService
             "state" => 'nullable',
             "zip" => 'nullable',
             "country_of_residence" => 'nullable',
-            "gender" => "required",
+            "gender" => "nullable",
             "wedding_date" => "nullable|date",
             "marital_status" => "nullable",
             "nationality" => 'nullable',
