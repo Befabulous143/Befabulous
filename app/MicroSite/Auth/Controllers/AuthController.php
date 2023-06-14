@@ -43,7 +43,7 @@ class AuthController extends Controller
     {
         Session::flush();
         $this->service->validate();
-    
+
         $plus_removed_mobile_number = str_replace('+', '', $request->mobile);
         $data = [
             "identifierType" => "MOBILE",
@@ -54,18 +54,18 @@ class AuthController extends Controller
             "confirmPassword" => $request->password_confirmation,
         ];
         $token = $this->token_service->tokenGenerate($data);
-      
-        if(isset($token['user']['userRegisteredForPassword']) && $token['user']['userRegisteredForPassword']){
+
+        if (isset($token['user']['userRegisteredForPassword']) && $token['user']['userRegisteredForPassword']) {
             return redirect()->back()->withInput()->with('false', 'User already exists! Please sign in to continue.');
         }
         $email_already_exits = $this->emailVerify();
-    
-        if(!$email_already_exits['success']){
+
+        if (!$email_already_exits['success']) {
             return redirect()->back()->withInput()->with('false', 'Email is already taken!Please try some other email.');
         }
         $mobile_already_exits = $this->mobileVerify();
-        if(!$mobile_already_exits['success']){
-            return redirect()->back()->withInput()->with('false', 'Mobile number is already taken!Please try some other email.');
+        if (!$mobile_already_exits['success']) {
+            return redirect()->back()->withInput()->with('false', 'Mobile number is already taken!Please try some other mobile.');
         }
         $request->merge(['mobile' => $plus_removed_mobile_number]);
         if (request()->hasFile('profile')) {
@@ -117,11 +117,10 @@ class AuthController extends Controller
                 unset($data['confirmPassword']);
                 Session::push('validateOtpPayload', $data);
                 $res = $this->auth_service->generateOtp($data);
-                if(isset($res['status']['success']) && $res['status']['success'] == true){
+                if (isset($res['status']['success']) && $res['status']['success'] == true) {
                     return to_route('otp-index')->with('true', 'OTP sent successfully to your mobile number.');
-                }
-                else{
-                    $this->throwLogin();                    
+                } else {
+                    $this->throwLogin();
                 }
             }
         } catch (\Exception $e) {
@@ -147,15 +146,13 @@ class AuthController extends Controller
             $formSession = Session::get('formData');
             if (is_array($formSession) && count($formSession) > 0) {
                 $formData = $formSession[0];
-            }
-            else{
+            } else {
                 $this->throwLogin('Something Went wrong! Please contact our support.');
             }
             $postSession = Session::get('validateOtpPayload');
             if (is_array($postSession) && count($postSession) > 0) {
                 $postData = $postSession[0];
-            }
-            else{
+            } else {
                 $this->throwLogin('Something Went wrong! Please contact our support.');
             }
             $postData['otp'] = $request->otp_number;
@@ -224,8 +221,7 @@ class AuthController extends Controller
                     'cap_mobile' => $phone,
                 ];
                 $user = $this->auth_service->getUserDetails($login['auth']['token'], $phone, $this->brand, $device_id);
-                if($user['status']['success_count'] == 1)
-                {
+                if ($user['status']['success_count'] == 1) {
                     $first_name = $user['customers']['customer'][0]['firstname'] ?? '';
                     $last_name = $user['customers']['customer'][0]['lastname'] ?? '';
                     Session::push('response_data', $response_data);
@@ -245,16 +241,14 @@ class AuthController extends Controller
 
     public function emailVerify()
     {
-        $res =  $this->auth_service->oAuthToken();
+        $res = $this->auth_service->oAuthToken();
         $token = $res['data']['accessToken'] ?? '';
         $email = request()->email;
-        if($token != '' && $email != '')
-        {
-            $email = $this->auth_service->isEmailorMobileAlready('email',$email,$token);
-            if(isset($email['errors'][0]['status']) && $email['errors'][0]['status'] == false)
-            {
+        if ($token != '' && $email != '') {
+            $email = $this->auth_service->isEmailorMobileAlready('email', $email, $token);
+            if (isset($email['errors'][0]['status']) && $email['errors'][0]['status'] == false) {
                 return ['success' => true];
-            } else{
+            } else {
                 return ['success' => false];
             }
         }
@@ -263,16 +257,14 @@ class AuthController extends Controller
 
     public function mobileVerify()
     {
-        $res =  $this->auth_service->oAuthToken();
+        $res = $this->auth_service->oAuthToken();
         $token = $res['data']['accessToken'] ?? '';
-        $mobile = str_replace('+', '',request()->mobile);
-        if($token != '' && $mobile != '')
-        {
-            $mobile = $this->auth_service->isEmailorMobileAlready('mobile',$mobile,$token);
-            if(isset($mobile['errors'][0]['status']) &&  $mobile['errors'][0]['status'] == false)
-            {
+        $mobile = str_replace('+', '', request()->mobile);
+        if ($token != '' && $mobile != '') {
+            $mobile = $this->auth_service->isEmailorMobileAlready('mobile', $mobile, $token);
+            if (isset($mobile['errors'][0]['status']) && $mobile['errors'][0]['status'] == false) {
                 return ['success' => true];
-            } else{
+            } else {
                 return ['success' => false];
             }
         }
@@ -321,8 +313,8 @@ class AuthController extends Controller
         $validateData = Session::get('forget_password')[0];
         $validateData['otp'] = $request->otp;
         $verify_otp = $this->auth_service->validateOtp($validateData);
-        if(isset($verify_otp['status']['success']) && $verify_otp['status']['success'] == false){
-            return redirect()->back()->with('false',"Please enter a valid verification code sent");
+        if (isset($verify_otp['status']['success']) && $verify_otp['status']['success'] == false) {
+            return redirect()->back()->with('false', "Please enter a valid verification code sent");
         }
         if (isset($verify_otp['user']['userRegisteredForPassword']) && $verify_otp['user']['userRegisteredForPassword'] == true) {
             return to_route('login_page')->with('true', 'Password reset successfully!');
