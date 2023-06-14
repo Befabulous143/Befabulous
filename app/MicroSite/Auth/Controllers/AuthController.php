@@ -220,7 +220,7 @@ class AuthController extends Controller
                     'cap_mobile' => $phone,
                 ];
                 $user = $this->auth_service->getUserDetails($login['auth']['token'], $phone, $this->brand, $device_id);
-                if ($user['status']['success_count'] == 1) {
+                if (isset($user['status']['success_count']) && $user['status']['success_count'] == 1) {
                     $first_name = $user['customers']['customer'][0]['firstname'] ?? '';
                     $last_name = $user['customers']['customer'][0]['lastname'] ?? '';
                     Session::push('response_data', $response_data);

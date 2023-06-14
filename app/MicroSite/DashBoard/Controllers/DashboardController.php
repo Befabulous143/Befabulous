@@ -42,8 +42,13 @@ class DashboardController extends Controller
                     }
                 }
                 $coupons = $this->service->getUserCoupons();
-                $mapped_data = $this->mapCouponsDetails($coupons['data']);
-                $points_summary = $this->pointSummary($user_data['data']['points_summaries']['points_summary']);
+                if(isset($coupons['data'])){
+                    $mapped_data = $this->mapCouponsDetails($coupons['data']);
+                }
+                $points_summary = [];
+                if(isset($user_data['data']['points_summaries']['points_summary'])){
+                    $points_summary = $this->pointSummary($user_data['data']['points_summaries']['points_summary']);
+                }
                 return view('Dashboard.home',['data'=>$user_data['data'],'coupons' =>  $mapped_data,'points' => $points_summary,'currency_value' => $currency_value,'currency_symbol' => $currency_symbol]);
             }
         } catch (\Exception $e) {
