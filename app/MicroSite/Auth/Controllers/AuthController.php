@@ -56,17 +56,16 @@ class AuthController extends Controller
         $token = $this->token_service->tokenGenerate($data);
 
         if (isset($token['user']['userRegisteredForPassword']) && $token['user']['userRegisteredForPassword']) {
-            return redirect()->back()->withInput()->with('false', 'User already exists! Please sign in to continue.');
+            return to_route('login_page')->with('false', 'User already exists! Please sign in to continue.');
         }
         $email_already_exits = $this->emailVerify();
-
+        // $mobile_already_exits = $this->mobileVerify();
         if (!$email_already_exits['success']) {
             return redirect()->back()->withInput()->with('false', 'Email is already taken!Please try some other email.');
         }
-        $mobile_already_exits = $this->mobileVerify();
-        if (!$mobile_already_exits['success']) {
-            return redirect()->back()->withInput()->with('false', 'Mobile number is already taken!Please try some other mobile.');
-        }
+        // if (!$mobile_already_exits['success']) {
+        //     return redirect()->back()->withInput()->with('false', 'Mobile number is already taken!Please try some other mobile.');
+        // }
         $request->merge(['mobile' => $plus_removed_mobile_number]);
         if (request()->hasFile('profile')) {
             $profile_path = $this->imgStore(request()->file('profile'));
