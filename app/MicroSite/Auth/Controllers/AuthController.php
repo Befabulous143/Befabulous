@@ -123,6 +123,7 @@ class AuthController extends Controller
                 }
             }
         } catch (\Exception $e) {
+            Log::info($e);
             $this->throwLogin($e);
         }
     }

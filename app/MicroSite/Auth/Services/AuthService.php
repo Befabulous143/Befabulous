@@ -10,11 +10,13 @@ class AuthService
 {
     public function generateOtp($data)
     {
+        Log::info(['message' => 'generateOTP', 'payload' => $data]);
         return Http::microsite()->post('/auth/v1/otp/generate', $data)->json();
     }
 
     public function validateOtp($data)
     {
+        Log::info(['message' => 'validateOTP', 'payload' => $data]);
         return Http::microsite()->post('/auth/v1/otp/validate', $data)->json();
     }
 
@@ -25,7 +27,7 @@ class AuthService
 
     public function delete($headers)
     {
-        return Http::microsite()->withHeaders($headers) ->withBody('{}', 'application/json')->post('/mobile/v2/api/PII/delete')->json();
+        return Http::microsite()->withHeaders($headers)->withBody('{}', 'application/json')->post('/mobile/v2/api/PII/delete')->json();
     }
 
     public function login($data)
@@ -45,20 +47,20 @@ class AuthService
 
     public function oAuthToken()
     {
-        return Http::post('https://eu.api.capillarytech.com/v3/oauth/token/generate?=null', ['key' => "e6ZZNqcVrASowmSrwXOdFqTg7","secret" => 'vuEk0UM4rRWNr3VfYxKBqfj0YihS8Tf95i0ycXZO'])->json();
+        return Http::post('https://eu.api.capillarytech.com/v3/oauth/token/generate?=null', ['key' => "e6ZZNqcVrASowmSrwXOdFqTg7", "secret" => 'vuEk0UM4rRWNr3VfYxKBqfj0YihS8Tf95i0ycXZO'])->json();
     }
 
-    public function isEmailorMobileAlready($type,$value,$token)
+    public function isEmailorMobileAlready($type, $value, $token)
     {
         return Http::withHeaders([
-                    'Content-Type' => 'application/json',
-                    'X-CAP-API-OAUTH-TOKEN' => $token,
-                    'Accept' => 'application/json',
-                    'X-CAP-API-ATTRIBUTION-ENTITY-TYPE' => 'STORE_EXTERNAL_ID',
-                    'X-CAP-API-ATTRIBUTION-ENTITY-CODE' => 'microsite'
-                    ])
-                    ->get("https://eu.api.capillarytech.com/v2/customers/lookup?source=INSTORE&identifierName=$type&identifierValue=$value")
-                    ->json();
+            'Content-Type' => 'application/json',
+            'X-CAP-API-OAUTH-TOKEN' => $token,
+            'Accept' => 'application/json',
+            'X-CAP-API-ATTRIBUTION-ENTITY-TYPE' => 'STORE_EXTERNAL_ID',
+            'X-CAP-API-ATTRIBUTION-ENTITY-CODE' => 'microsite',
+        ])
+            ->get("https://eu.api.capillarytech.com/v2/customers/lookup?source=INSTORE&identifierName=$type&identifierValue=$value")
+            ->json();
     }
 
     public function createCustomer($formData, $postData)
@@ -154,24 +156,23 @@ class AuthService
 
     }
 
-    public function getUserDetails($token,$mobile,$brand,$device)
+    public function getUserDetails($token, $mobile, $brand, $device)
     {
-            return Http::microsite()->withHeaders([
-                'cap_authorization' => $token,
-                'cap_brand' => $brand,
-                'cap_device_id' => $device,
-                'cap_mobile' => $mobile,
-            ])->get('/mobile/v2/api/customer/get', [
-                'subscriptions' => 'true',
-                'mlp' => 'true',
-                'user_id' => 'true',
-                'optin_status' => 'true',
-                'slab_history' => 'true',
-                'expired_points' => 'true',
-                'points_summary' => 'true',
-                'membership_retention_criteria' => 'true',
-            ])->json();
+        return Http::microsite()->withHeaders([
+            'cap_authorization' => $token,
+            'cap_brand' => $brand,
+            'cap_device_id' => $device,
+            'cap_mobile' => $mobile,
+        ])->get('/mobile/v2/api/customer/get', [
+            'subscriptions' => 'true',
+            'mlp' => 'true',
+            'user_id' => 'true',
+            'optin_status' => 'true',
+            'slab_history' => 'true',
+            'expired_points' => 'true',
+            'points_summary' => 'true',
+            'membership_retention_criteria' => 'true',
+        ])->json();
     }
 
-  
 }

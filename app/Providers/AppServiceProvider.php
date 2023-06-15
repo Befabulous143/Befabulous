@@ -27,8 +27,9 @@ class AppServiceProvider extends ServiceProvider
         set_time_limit(0);
         Http::macro('microsite', function () {
             return Http::withHeaders([
-                'X-Example' => 'example',
-            ])->baseUrl(config('app.api_base_url'));
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+            ])->connectTimeout(30)->timeout(30)->baseUrl(config('app.api_base_url'));
         });
     }
 }
