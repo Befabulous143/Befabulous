@@ -54,7 +54,6 @@ class AuthController extends Controller
             "confirmPassword" => $request->password_confirmation,
         ];
         $token = $this->token_service->tokenGenerate($data);
-
         if (isset($token['user']['userRegisteredForPassword']) && $token['user']['userRegisteredForPassword']) {
             return to_route('login_page')->with('false', 'User already exists! Please sign in to continue.');
         }
@@ -211,6 +210,7 @@ class AuthController extends Controller
         $token = $this->token_service->tokenGenerate($data);
         if (isset($token['user']['userRegisteredForPassword']) && $token['user']['userRegisteredForPassword'] == true) {
             $data['sessionId'] = $token['user']['sessionId'];
+
             $login = $this->auth_service->login(collect($data)->except('confirmPassword'));
             if ($login['status']['success'] == false) {
                 return redirect()->back()->with('false', $login['status']['message'])->withInput();
@@ -221,6 +221,7 @@ class AuthController extends Controller
                     'cap_mobile' => $phone,
                 ];
                 $user = $this->auth_service->getUserDetails($login['auth']['token'], $phone, $this->brand, $device_id);
+
                 if (isset($user['status']['success_count']) && $user['status']['success_count'] == 1) {
                     $first_name = $user['customers']['customer'][0]['firstname'] ?? '';
                     $last_name = $user['customers']['customer'][0]['lastname'] ?? '';
@@ -246,6 +247,7 @@ class AuthController extends Controller
         $email = request()->email;
         if ($token != '' && $email != '') {
             $email = $this->auth_service->isEmailorMobileAlready('email', $email, $token);
+
             if (isset($email['errors'][0]['status']) && $email['errors'][0]['status'] == false) {
                 return ['success' => true];
             } else {
@@ -288,13 +290,17 @@ class AuthController extends Controller
             "confirmPassword" => $request->password_confirmation,
         ];
         $generatedToken = $this->token_service->tokenGenerate($data);
+
         if (isset($generatedToken['user']['sessionId'])) {
             $data['sessionId'] = $generatedToken['user']['sessionId'];
             $updated = $this->auth_service->updateForgetPassword($data);
+
             if ($updated['status']['success'] == true) {
-                $otpGeneratePostData = collect($data)->except(['password', 'confirmPassword']);
-                Session::push('forget_password', $otpGeneratePostData);
-                $this->auth_service->generateOtp($otpGeneratePostData);
+                unset($data['password']);
+                unset($data['confirmPassword']);
+                Session::push('forget_password', $data);
+                $this->auth_service->generateOtp($data);
+
                 return to_route('forget_password_otp_page')->with('true', 'Please verify your mobile first!');
             } else {
                 return redirect()->back()->withInput()->with('false', $updated['status']['message'] ?? 'Something Went wrong!');
@@ -310,7 +316,12 @@ class AuthController extends Controller
 
     public function validateOtpForForgetPassword(Request $request)
     {
-        $validateData = Session::get('forget_password')[0];
+        $validateData = Session::get('forget_password');
+        if (is_array($validateData) && count($validateData) > 0) {
+            $validateData = $validateData[0];
+        } else {
+            $this->throwLogin('Something Went wrong! Please contact our support.');
+        }
         $validateData['otp'] = $request->otp;
         $verify_otp = $this->auth_service->validateOtp($validateData);
         if (isset($verify_otp['status']['success']) && $verify_otp['status']['success'] == false) {

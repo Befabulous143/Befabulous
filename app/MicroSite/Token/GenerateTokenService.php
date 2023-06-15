@@ -9,7 +9,8 @@ class GenerateTokenService
 {
     public function tokenGenerate($data)
     {
-        Log::info(['message' => 'generateOTP', 'payload' => $data]);
-       return Http::microsite()->post('/auth/v1/token/generate', $data)->json();
+        $res = Http::microsite()->post('/auth/v1/token/generate', $data)->json();
+        Log::info(['message' => '/auth/v1/token/generate', 'payload' => $data, 'response' => $res]);
+        return $res;
     }
 }
