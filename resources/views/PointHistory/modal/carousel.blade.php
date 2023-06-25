@@ -51,7 +51,7 @@
         </div>
         <div class="py-3">
             <div class="flex justify-center">
-                <span class="text-xs text-gray-800 font-semibold">Scan the bar code to redeem other</span>
+                <span class="text-xs text-gray-800 font-semibold">Scan the barcode to redeem other</span>
             </div>
             <div class="flex  justify-center mt-0.5 ">
                 @php
