@@ -118,7 +118,7 @@ class AuthController extends Controller
                 if (isset($res['status']['success']) && $res['status']['success'] == true) {
                     return to_route('otp-index')->with('true', 'OTP sent successfully to your mobile number.');
                 } else {
-                    $this->throwLogin();
+                    return redirect()->back()->with('false','OTP generation failed! please try again.');
                 }
             }
         } catch (\Exception $e) {
@@ -299,9 +299,12 @@ class AuthController extends Controller
                 unset($data['password']);
                 unset($data['confirmPassword']);
                 Session::push('forget_password', $data);
-                $this->auth_service->generateOtp($data);
-
-                return to_route('forget_password_otp_page')->with('true', 'Please verify your mobile first!');
+                $res = $this->auth_service->generateOtp($data);
+                if (isset($res['status']['success']) && $res['status']['success'] == true) {
+                    return to_route('forget_password_otp_page')->with('true', 'Please verify your mobile first!');
+                } else {
+                   return redirect()->back()->with('false','OTP generation failed! please try again.');
+                }
             } else {
                 return redirect()->back()->withInput()->with('false', $updated['status']['message'] ?? 'Something Went wrong!');
             }
