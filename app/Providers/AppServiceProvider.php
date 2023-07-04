@@ -29,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
             return Http::withHeaders([
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
+                'Client-IP' => request()->ip()
             ])->connectTimeout(30)->timeout(30)->baseUrl(config('app.api_base_url'));
         });
     }
