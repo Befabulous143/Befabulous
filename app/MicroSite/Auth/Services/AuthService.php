@@ -60,6 +60,7 @@ class AuthService
         $res = Http::withHeaders([
             'Content-Type' => 'application/json',
             'Accept' => 'application/json',
+            'Client-IP' => request()->ip()    
         ])->connectTimeout(30)
         ->timeout(30)
         ->post('https://eu.api.capillarytech.com/v3/oauth/token/generate?=null', ['key' => "e6ZZNqcVrASowmSrwXOdFqTg7", "secret" => 'vuEk0UM4rRWNr3VfYxKBqfj0YihS8Tf95i0ycXZO'])
@@ -76,6 +77,7 @@ class AuthService
             'Accept' => 'application/json',
             'X-CAP-API-ATTRIBUTION-ENTITY-TYPE' => 'STORE_EXTERNAL_ID',
             'X-CAP-API-ATTRIBUTION-ENTITY-CODE' => 'microsite',
+            'Client-IP' => request()->ip()
         ])
             ->get("https://eu.api.capillarytech.com/v2/customers/lookup?source=INSTORE&identifierName=$type&identifierValue=$value")
             ->json();
@@ -192,6 +194,7 @@ class AuthService
             'cap_brand' => $brand,
             'cap_device_id' => $device,
             'cap_mobile' => $mobile,
+            'Client-IP' => request()->ip()
         ])->get('/mobile/v2/api/customer/get', [
             'subscriptions' => 'true',
             'mlp' => 'true',
