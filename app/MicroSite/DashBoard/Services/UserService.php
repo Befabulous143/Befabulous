@@ -16,7 +16,7 @@ class UserService
             $response = Http::microsite()->withHeaders([
                 'cap_authorization' => request()->header('cap-authorization'),
                 'cap_brand' => request()->header('cap-brand'),
-                'cap_device_id' => request()->header('cap-device-id'),
+                // 'cap_device_id' => request()->header('cap-device-id'),
                 'cap_mobile' => request()->header('cap-mobile'),
             ])->get('/mobile/v2/api/customer/get', [
                 'subscriptions' => 'true',
@@ -48,7 +48,7 @@ class UserService
             $response = Http::microsite()->withHeaders([
                 'cap_authorization' => request()->header('cap-authorization'),
                 'cap_brand' => request()->header('cap-brand'),
-                'cap_device_id' => request()->header('cap-device-id'),
+                // 'cap_device_id' => request()->header('cap-device-id'),
                 'cap_mobile' => request()->header('cap-mobile'),
             ])->get('/mobile/v2/api/customer/coupon', [
                 'status' => 'active',
@@ -78,7 +78,7 @@ class UserService
             $response = Http::microsite()->withHeaders([
                 'cap_authorization' => request()->header('cap-authorization'),
                 'cap_brand' => request()->header('cap-brand'),
-                'cap_device_id' => request()->header('cap-device-id'),
+                // 'cap_device_id' => request()->header('cap-device-id'),
                 'cap_mobile' => request()->header('cap-mobile'),
             ])->get('/mobile/v2/api/points/history', [
                 'start_date' => $start_date,
@@ -175,7 +175,7 @@ class UserService
             $response = Http::microsite()->withHeaders([
                 'cap_authorization' => request()->header('cap-authorization'),
                 'cap_brand' => request()->header('cap-brand'),
-                'cap_device_id' => request()->header('cap-device-id'),
+                // 'cap_device_id' => request()->header('cap-device-id'),
                 'cap_mobile' => $request->mobile ?? request()->header('cap-mobile'),
             ])->post('/mobile/v2/api/customer/update', $user_data);
             $json = $response->json();
@@ -290,7 +290,7 @@ class UserService
         $headers = [
             'cap_authorization' => request()->header('cap-authorization'),
             'cap_brand' => request()->header('cap-brand'),
-            'cap_device_id' => request()->header('cap-device-id'),
+            // 'cap_device_id' => request()->header('cap-device-id'),
             'cap_mobile' => request()->header('cap-mobile'),
         ];
         $country_code = $this->countryCode();

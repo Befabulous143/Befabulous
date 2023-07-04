@@ -124,7 +124,7 @@ return [
     'key' => env('APP_KEY'),
 
     'cipher' => 'AES-256-CBC',
-    'api_base_url' => env('API_BASE_URL','https://eu-auth-api.capillarytech.com/auth/v1/token/generate'),
+    'api_base_url' => env('API_BASE_URL','https://eu-auth-api.capillarytech.com/auth/v1/'),
     'main_color' => env('COLOR_CODE'),
     'brand' => env('BRAND','BTCDEMO'),
     /*
