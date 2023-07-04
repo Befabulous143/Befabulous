@@ -2,22 +2,34 @@
 
 namespace App\MicroSite\Auth\Services;
 
+use App\Helpers\DeviceHelper;
 use App\Models\User;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 class AuthService
 {
+    protected $base_url;
+    public function __construct()
+    {
+        $userAgent = request()->header('User-Agent');
+
+        $this->base_url = '/auth/v1/web';
+        if (DeviceHelper::getDeviceType($userAgent)) {
+            $this->base_url = '/auth/v1/web';
+        }
+    }
+    
     public function generateOtp($data)
     {
-        $res = Http::microsite()->post('/auth/v1/otp/generate', $data)->json();
+        $res = Http::microsite()->post($this->base_url.'/otp/generate', $data)->json();
         Log::info(['message' => '/auth/v1/otp/generate', 'payload' => $data, 'response' => $res]);
         return $res;
     }
 
     public function validateOtp($data)
     {
-        $res = Http::microsite()->post('/auth/v1/otp/validate', $data)->json();
+        $res = Http::microsite()->post($this->base_url.'/otp/validate', $data)->json();
         Log::info(['message' => '/auth/v1/otp/validate', 'payload' => $data,'Response' => $res]);
         return $res;
     }
@@ -36,21 +48,21 @@ class AuthService
 
     public function login($data)
     {
-        $res = Http::microsite()->post('/auth/v1/password/validate', $data)->json();
-        Log::info(['message' => '/auth/v1/password/validate', 'payload' => $data, 'response' => $res]);
+        $res = Http::microsite()->post($this->base_url.'/password/validate', $data)->json();
+        Log::info(['message' => $this->base_url.'/password/validate', 'payload' => $data, 'response' => $res]);
         return $res;
     }
 
     public function updatePassword($data)
     {
-        $res = Http::microsite()->post('/auth/v1/password/change', $data)->json();
+        $res = Http::microsite()->post($this->base_url.'/password/change', $data)->json();
         Log::info(['message' => '/auth/v1/password/change', 'payload' => $data, 'response' => $res]);
         return $res;
     }
 
     public function updateForgetPassword($data)
     {
-        $res = Http::microsite()->post('/auth/v1/password/forget', $data)->json();
+        $res = Http::microsite()->post($this->base_url.'/password/forget', $data)->json();
         Log::info(['message' => '/auth/v1/password/forget', 'payload' => $data, 'response' => $res]);
         return $res;
     }
@@ -160,7 +172,7 @@ class AuthService
         $headers = [
             'cap_authorization' => $postData['authToken'],
             'cap_brand' => $postData['brand'],
-            'cap_device_id' => $postData['deviceId'],
+            // 'cap_device_id' => $postData['deviceId'],
             'cap_mobile' => $postData['identifierValue'],
         ];
         $response = $this->create($headers, $user_data);
@@ -192,7 +204,7 @@ class AuthService
         $res = Http::microsite()->withHeaders([
             'cap_authorization' => $token,
             'cap_brand' => $brand,
-            'cap_device_id' => $device,
+            // 'cap_device_id' => $device,
             'cap_mobile' => $mobile,
             'Client-IP' => request()->ip()
         ])->get('/mobile/v2/api/customer/get', [

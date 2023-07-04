@@ -2,6 +2,7 @@
 
 namespace App\MicroSite\Auth\Controllers;
 
+use App\Helpers\DeviceHelper;
 use App\Http\Controllers\Controller;
 use App\MicroSite\Auth\Services\AuthService;
 use App\MicroSite\DashBoard\Services\UserService;
@@ -18,10 +19,12 @@ class AuthController extends Controller
     protected $service;
     protected $auth_service;
     protected $token_service;
+    protected $device_type;
 
     public function __construct()
     {
         $this->brand = config('app.brand');
+        $this->device_type = "MOBILE";
         $this->service = new UserService();
         $this->auth_service = new AuthService();
         $this->token_service = new GenerateTokenService();
@@ -46,9 +49,9 @@ class AuthController extends Controller
 
         $plus_removed_mobile_number = str_replace('+', '', $request->mobile);
         $data = [
-            "identifierType" => "MOBILE",
+            "identifierType" => $this->device_type,
             "identifierValue" => $plus_removed_mobile_number,
-            "deviceId" => $request->header('User-Agent'),
+            // "deviceId" => $request->header('User-Agent'),
             "brand" => $this->brand,
             "password" => $request->password,
             "confirmPassword" => $request->password_confirmation,
@@ -101,9 +104,9 @@ class AuthController extends Controller
             $device_id = $request->header('User-Agent');
             $form_data = Session::get('formData')[0];
             $data = [
-                "identifierType" => "MOBILE",
+                "identifierType" => $this->device_type,
                 "identifierValue" => $mobile,
-                "deviceId" => $device_id,
+                // "deviceId" => $device_id,
                 "brand" => $this->brand,
                 "password" => $form_data['password'],
                 "confirmPassword" => $form_data['password_confirmation'],
@@ -198,11 +201,10 @@ class AuthController extends Controller
         }
         $phone = str_replace('+', '', $request->phone);
         $device_id = $request->header('User-Agent');
-
         $data = [
-            "identifierType" => "MOBILE",
+            "identifierType" => $this->device_type,
             "identifierValue" => $phone,
-            "deviceId" => $device_id,
+            // "deviceId" => $device_id,
             "brand" => $this->brand,
             "password" => $request->password,
             "confirmPassword" => $request->password,
@@ -212,6 +214,9 @@ class AuthController extends Controller
             $data['sessionId'] = $token['user']['sessionId'];
 
             $login = $this->auth_service->login(collect($data)->except('confirmPassword'));
+            if(!isset($login['status']['success'])){
+                return redirect()->back()->with('false', 'Something went wrong! please contact our support')->withInput();
+            }
             if ($login['status']['success'] == false) {
                 return redirect()->back()->with('false', $login['status']['message'])->withInput();
             }
@@ -282,9 +287,9 @@ class AuthController extends Controller
         ]);
         $phone = str_replace('+', '', $request->phone);
         $data = [
-            "identifierType" => "MOBILE",
+            "identifierType" => $this->device_type,
             "identifierValue" => $phone,
-            "deviceId" => $request->header('User-Agent'),
+            // "deviceId" => $request->header('User-Agent'),
             "brand" => $this->brand,
             "password" => $request->password,
             "confirmPassword" => $request->password_confirmation,
