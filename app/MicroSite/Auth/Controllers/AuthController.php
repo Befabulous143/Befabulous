@@ -10,6 +10,7 @@ use App\MicroSite\Token\GenerateTokenService;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
@@ -358,6 +359,7 @@ class AuthController extends Controller
     public function logout()
     {
         Session::flush();
+        Cache::clear();
         return to_route('login_page')->with('true', 'Logout Successfully! Please visit again.');
     }
 

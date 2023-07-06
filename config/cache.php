@@ -52,6 +52,7 @@ return [
         'file' => [
             'driver' => 'file',
             'path' => storage_path('framework/cache/data'),
+            'ttl' => env('CACHE_LIFETIME',60), // Set the default cache timeout to 60 minutes
         ],
 
         'memcached' => [
