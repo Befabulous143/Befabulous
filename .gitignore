@@ -18,3 +18,8 @@ bootstrap/cache/*
 # General
 .DS_Store
 Thumbs.db
+
+public/.htaccess
+.env-old
+.env
+public/profile
