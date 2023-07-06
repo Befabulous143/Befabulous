@@ -15,5 +15,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/redirect-to-dashboard', [AjaxAuthController::class, 'redirectToDashborad'])->name('redirect-to-dashboard');
+
 
