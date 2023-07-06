@@ -6,6 +6,7 @@
     var successMessage =  document.getElementById('js-success-msg');
     var submitBtn =  document.getElementById('submit');
     var loaderAnim = document.getElementById("loader");
+    var csrfToken = '{{ csrf_token() }}';
     $(document).ready(function() {
             $('#loginForm').submit(function(e) {
                 e.preventDefault();
@@ -117,6 +118,7 @@
                                 user_id: res.customers.customer[0].user_id,
                                 firstname: res.customers.customer[0].firstname,
                                 lastname: res.customers.customer[0].lastname,
+                                _token: csrfToken,
                             };
                             return redirectToDashboard(redirectFormData);
                         } else{

@@ -1,5 +1,6 @@
 <?php
 
+use App\MicroSite\Auth\Controllers\AjaxAuthController;
 use App\MicroSite\Auth\Controllers\AuthController;
 use App\MicroSite\DashBoard\Controllers\DashboardController;
 use App\MicroSite\DashBoard\Controllers\ProfileController;
@@ -31,7 +32,7 @@ Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('verify-o
 /** Login route */
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
-
+Route::post('/redirect-to-dashboard', [AjaxAuthController::class, 'redirectToDashborad'])->name('redirect-to-dashboard');
 /** Forget Password */
 Route::get('/forget-password', [AuthController::class, 'forgetPassword'])->name('forget_password');
 Route::post('/update-forget-password', [AuthController::class, 'updateForgetPassword'])->name('update_forget_password');
