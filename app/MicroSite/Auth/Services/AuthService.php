@@ -19,25 +19,25 @@ class AuthService
             $this->base_url = '/auth/v1/web';
         }
     }
-    
+
     public function generateOtp($data)
     {
-        $res = Http::microsite()->post($this->base_url.'/otp/generate', $data)->json();
+        $res = Http::microsite()->post($this->base_url . '/otp/generate', $data)->json();
         Log::info(['message' => '/auth/v1/otp/generate', 'payload' => $data, 'response' => $res]);
         return $res;
     }
 
     public function validateOtp($data)
     {
-        $res = Http::microsite()->post($this->base_url.'/otp/validate', $data)->json();
-        Log::info(['message' => '/auth/v1/otp/validate', 'payload' => $data,'Response' => $res]);
+        $res = Http::microsite()->post($this->base_url . '/otp/validate', $data)->json();
+        Log::info(['message' => '/auth/v1/otp/validate', 'payload' => $data, 'Response' => $res]);
         return $res;
     }
 
     public function create($headers, $data)
     {
         $res = Http::microsite()->withHeaders($headers)->post('/mobile/v2/api/customer/add', $data)->json();
-        Log::info(['message' => '/mobile/v2/api/customer/add','header' => $headers, 'payload' => $data, 'response' => $res]);
+        Log::info(['message' => '/mobile/v2/api/customer/add', 'header' => $headers, 'payload' => $data, 'response' => $res]);
         return $res;
     }
 
@@ -48,21 +48,21 @@ class AuthService
 
     public function login($data)
     {
-        $res = Http::microsite()->post($this->base_url.'/password/validate', $data)->json();
-        Log::info(['message' => $this->base_url.'/password/validate', 'payload' => $data, 'response' => $res]);
+        $res = Http::microsite()->post($this->base_url . '/password/validate', $data)->json();
+        Log::info(['message' => $this->base_url . '/password/validate', 'payload' => $data, 'response' => $res]);
         return $res;
     }
 
     public function updatePassword($data)
     {
-        $res = Http::microsite()->post($this->base_url.'/password/change', $data)->json();
+        $res = Http::microsite()->post($this->base_url . '/password/change', $data)->json();
         Log::info(['message' => '/auth/v1/password/change', 'payload' => $data, 'response' => $res]);
         return $res;
     }
 
     public function updateForgetPassword($data)
     {
-        $res = Http::microsite()->post($this->base_url.'/password/forget', $data)->json();
+        $res = Http::microsite()->post($this->base_url . '/password/forget', $data)->json();
         Log::info(['message' => '/auth/v1/password/forget', 'payload' => $data, 'response' => $res]);
         return $res;
     }
@@ -72,11 +72,11 @@ class AuthService
         $res = Http::withHeaders([
             'Content-Type' => 'application/json',
             'Accept' => 'application/json',
-            'Client-IP' => request()->ip()    
+            'Client-IP' => request()->ip(),
         ])->connectTimeout(30)
-        ->timeout(30)
-        ->post('https://eu.api.capillarytech.com/v3/oauth/token/generate?=null', ['key' => "e6ZZNqcVrASowmSrwXOdFqTg7", "secret" => 'vuEk0UM4rRWNr3VfYxKBqfj0YihS8Tf95i0ycXZO'])
-        ->json();
+            ->timeout(30)
+            ->post('https://eu.api.capillarytech.com/v3/oauth/token/generate?=null', ['key' => "e6ZZNqcVrASowmSrwXOdFqTg7", "secret" => 'vuEk0UM4rRWNr3VfYxKBqfj0YihS8Tf95i0ycXZO'])
+            ->json();
         Log::info(['message' => 'https://eu.api.capillarytech.com/v3/oauth/token/generate?=null', 'payload' => ['key' => "e6ZZNqcVrASowmSrwXOdFqTg7", "secret" => 'vuEk0UM4rRWNr3VfYxKBqfj0YihS8Tf95i0ycXZO'], 'response' => $res]);
         return $res;
     }
@@ -89,19 +89,19 @@ class AuthService
             'Accept' => 'application/json',
             'X-CAP-API-ATTRIBUTION-ENTITY-TYPE' => 'STORE_EXTERNAL_ID',
             'X-CAP-API-ATTRIBUTION-ENTITY-CODE' => 'microsite',
-            'Client-IP' => request()->ip()
+            'Client-IP' => request()->ip(),
         ])
             ->get("https://eu.api.capillarytech.com/v2/customers/lookup?source=INSTORE&identifierName=$type&identifierValue=$value")
             ->json();
         Log::info([
-        'message' => "https://eu.api.capillarytech.com/v2/customers/lookup?source=INSTORE&identifierName=$type&identifierValue=$value", 
-        'payload' => [ 'Content-Type' => 'application/json',
-        'X-CAP-API-OAUTH-TOKEN' => $token,
-        'Accept' => 'application/json',
-        'X-CAP-API-ATTRIBUTION-ENTITY-TYPE' => 'STORE_EXTERNAL_ID',
-        'X-CAP-API-ATTRIBUTION-ENTITY-CODE' => 'microsite'],
-         'response' => $res]);
-        return $res;   
+            'message' => "https://eu.api.capillarytech.com/v2/customers/lookup?source=INSTORE&identifierName=$type&identifierValue=$value",
+            'payload' => ['Content-Type' => 'application/json',
+                'X-CAP-API-OAUTH-TOKEN' => $token,
+                'Accept' => 'application/json',
+                'X-CAP-API-ATTRIBUTION-ENTITY-TYPE' => 'STORE_EXTERNAL_ID',
+                'X-CAP-API-ATTRIBUTION-ENTITY-CODE' => 'microsite'],
+            'response' => $res]);
+        return $res;
     }
 
     public function createCustomer($formData, $postData)
@@ -176,8 +176,8 @@ class AuthService
             'cap_mobile' => $postData['identifierValue'],
         ];
         $response = $this->create($headers, $user_data);
-        Log::info(['message' => 'customerAdd','headers' => $headers ,'payload' => $user_data, 'response' => $response]);
-        
+        Log::info(['message' => 'customerAdd', 'headers' => $headers, 'payload' => $user_data, 'response' => $response]);
+
         if (isset($formData['profile_path'])) {
             $user_id = $response['customers']['customer'][0]['user_id'] ?? 0;
 
@@ -204,9 +204,7 @@ class AuthService
         $res = Http::microsite()->withHeaders([
             'cap_authorization' => $token,
             'cap_brand' => $brand,
-            // 'cap_device_id' => $device,
             'cap_mobile' => $mobile,
-            'Client-IP' => request()->ip()
         ])->get('/mobile/v2/api/customer/get', [
             'subscriptions' => 'true',
             'mlp' => 'true',
@@ -217,11 +215,6 @@ class AuthService
             'points_summary' => 'true',
             'membership_retention_criteria' => 'true',
         ])->json();
-
-        Log::info(['message' => '/mobile/v2/api/customer/get', 'headers' => ['cap_authorization' => $token,
-        'cap_brand' => $brand,
-        'cap_device_id' => $device,
-        'cap_mobile' => $mobile,],'response' => $res]);
         return $res;
     }
 

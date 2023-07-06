@@ -78,4 +78,30 @@
             </div>
         <div class="mt-6 border  border-gray-200 w-full"></div>
         @include('offers.index',['coupons' => $coupons])
+
+        <script>
+            function showSuccessMessage(message) {
+            const errorContainer =  document.getElementById('js-error-container');
+            const successContainer =  document.getElementById('js-success-container');
+            const successMessage =  document.getElementById('js-success-msg');
+            successContainer.style.display = 'block';
+            errorContainer.style.display = "none";
+            successMessage.innerHTML  = message;
+            }
+        const params = new URLSearchParams(window.location.search);
+        if (params.has('logined')) {
+            showSuccessMessage('Welcome ' + localStorage.getItem('firstname') +' '+localStorage.getItem('lastname'));
+        }
+        if (params.has('password_changed')) {
+            showSuccessMessage("Password reset successfully!");
+        }
+        if (window.location.search.includes('?logined')) {
+        var urlWithoutLoginParam = window.location.href.replace('?logined=true', '');
+        history.replaceState(null, '', urlWithoutLoginParam);
+        }
+        if (window.location.search.includes('?password_changed')) {
+        var urlWithoutLoginParam = window.location.href.replace('?password_changed', '');
+        history.replaceState(null, '', urlWithoutLoginParam);
+        }
+        </script>
 @endsection

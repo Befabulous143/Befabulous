@@ -127,6 +127,8 @@ return [
     'api_base_url' => env('API_BASE_URL','https://eu-auth-api.capillarytech.com/auth/v1/'),
     'main_color' => env('COLOR_CODE'),
     'brand' => env('BRAND','BTCDEMO'),
+    'oauthkey' => env('OAUTHKEY','e6ZZNqcVrASowmSrwXOdFqTg7'),
+    'oauthsecret' => env('OAUTHSECRET','vuEk0UM4rRWNr3VfYxKBqfj0YihS8Tf95i0ycXZO'),
     /*
     |--------------------------------------------------------------------------
     | Maintenance Mode Driver

@@ -47,23 +47,27 @@ var loader = document.getElementById("loader");
 var button = document.getElementById("submit");
 
 button.addEventListener("click", function() {
-    // Show the loader when the page is about to be unloaded or reloaded
+    // // Show the loader when the page is about to be unloaded or reloaded
     window.onbeforeunload = function() {
+        button.disabled = true;
         loader.style.display = "block";
     }
 });
 
 // Hide the loader when the page has finished reloading
 window.onload = function() {
+    button.disabled = false;
     loader.style.display = "none";
 }
 window.onbeforeunload = function(event) {
   if (event.currentTarget.performance.navigation.type === 1) {
+    button.disabled = false;
     loader.style.display = "none";
   }
 };
 
 window.onunload = function() {
+    button.disabled = false;
     loader.style.display = "none";
 };
 </script>
