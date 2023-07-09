@@ -149,7 +149,6 @@
                     method: 'POST',
                     data: formData,
                     success: function(res) {
-                        console.log(res);
                         if (res.success) {
                             localStorage.setItem('cap_authorization', formData.authToken);
                             localStorage.setItem('cap_brand', "{{ config('app.brand') }}" );

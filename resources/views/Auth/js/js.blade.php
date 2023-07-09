@@ -105,7 +105,15 @@ input.value = inputValue.replace(/[^\d\+]/g, '');
     var phoneContainer = document.querySelector(".iti");
     phoneContainer.style.width = "100%";
     phoneInput.placeholder  = "Mobile number with country code";
+    fetch('https://freeipapi.com/api/json')
+            .then(response => response.json())
+            .then(data => {
+                // Retrieve the country code from the response
+                var userCountry = data.countryCode;
 
+                // Set the country in the input field
+                iti.setCountry(userCountry);
+            });
 </script>
 
 {{-- removing profile image --}}

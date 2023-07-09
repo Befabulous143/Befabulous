@@ -3,6 +3,7 @@
 namespace App\MicroSite\Auth\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\MicroSite\Auth\Services\AuthService;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,5 +32,36 @@ class AjaxAuthController extends Controller
         } catch (\Throwable $th) {
             return response()->json(['success' => false]);
         }
+    }
+
+    public function uploadImage(Request $request)
+    {   
+        if(isset($request->user_id)){
+            $user_id = $request->user_id;
+            $profile_path = $this->imgStore($request->file('profile'));
+    
+            $user = User::where('user_id', $user_id);
+            if ($user->first()) {
+                if (\File::exists(public_path($user->first()->profile))) {
+                    \File::delete(public_path($user->first()->profile));
+                }
+                $user->update(['profile' => $profile_path]);
+            } else {
+                $user = new User();
+                $user->user_id = $user_id;
+                $user->profile = $profile_path;
+                $user->save();
+            }
+            return response()->json(['success' => true]);
+        }       
+        return response()->json(['success' => true]);
+    }
+
+    public function imgStore($image)
+    {
+        $extension = $image->getClientOriginalExtension();
+        $fileName = 'image_' . time() . '.' . $extension;
+        $image->move(public_path('profile'), $fileName);
+        return 'profile/' . $fileName;
     }
 }

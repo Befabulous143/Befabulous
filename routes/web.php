@@ -32,16 +32,15 @@ Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('verify-o
 /** Login route */
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
-Route::post('/redirect-to-dashboard', [AjaxAuthController::class, 'redirectToDashborad'])->name('redirect-to-dashboard');
 /** Forget Password */
 Route::get('/forget-password', [AuthController::class, 'forgetPassword'])->name('forget_password');
 Route::post('/update-forget-password', [AuthController::class, 'updateForgetPassword'])->name('update_forget_password');
 Route::get('/forget-password-otp-page', [AuthController::class, 'forgetPasswordOtpPage'])->name('forget_password_otp_page');
 Route::post('/forget_password_verify_otp', [AuthController::class, 'validateOtpForForgetPassword'])->name('forget_password_verify_otp');
 
-//email check 
-Route::post('/email-check',[AuthController::class, 'emailVerify'])->name('email-verify');
-Route::post('/mobile-check',[AuthController::class, 'mobileVerify'])->name('mobile-verify');
+//email check
+Route::post('/email-check', [AuthController::class, 'emailVerify'])->name('email-verify');
+Route::post('/mobile-check', [AuthController::class, 'mobileVerify'])->name('mobile-verify');
 
 Route::group(['middleware' => 'auth_login'], function () {
     // dashboard
@@ -61,3 +60,7 @@ Route::group(['middleware' => 'auth_login'], function () {
     Route::any('/point_history', [DashboardController::class, 'pointHistory'])->name('point_history');
 
 });
+
+// ajax routes
+Route::post('/redirect-to-dashboard', [AjaxAuthController::class, 'redirectToDashborad'])->name('redirect-to-dashboard');
+Route::post('/upload-image', [AjaxAuthController::class, 'uploadImage'])->name('upload-image');

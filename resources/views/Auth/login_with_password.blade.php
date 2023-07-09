@@ -52,10 +52,10 @@
 
             </form>
 
-            {{-- <div class="mt-4">
+            <div class="mt-4">
                 Don't have an account? <a class="app-text-color font-semibold" href="{{ route('register') }}">Sign
                     up</a>
-            </div> --}}
+            </div>
         </div>
     </div>
 </section>
