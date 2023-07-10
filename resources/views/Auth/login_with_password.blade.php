@@ -81,12 +81,27 @@
             errorContainer.style.display = "none";
             successMessage.innerHTML  = message;
         }
+        function showErrorMessage(message) {
+            const successContainer =  document.getElementById('js-success-container');
+            const errorContainer =  document.getElementById('js-error-container');
+            const errorMessage =  document.getElementById('js-error-msg');
+            successContainer.style.display = 'none';
+            errorContainer.style.display = "block";
+            errorMessage.innerHTML  = message;
+        }
         const params = new URLSearchParams(window.location.search);
         if (params.has('password_changed')) {
             showSuccessMessage('Password reset successfully!');
         }
+        if (params.has('user_already_exists')) {
+            showErrorMessage('User Already Exists!');
+        }
         if (window.location.search.includes('?password_changed')) {
         var urlWithoutLoginParam = window.location.href.replace('?password_changed=1', '');
+        history.replaceState(null, '', urlWithoutLoginParam);
+        }
+        if (window.location.search.includes('?user_already_exists')) {
+        var urlWithoutLoginParam = window.location.href.replace('?user_already_exists', '');
         history.replaceState(null, '', urlWithoutLoginParam);
         }
 </script>

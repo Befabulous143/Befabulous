@@ -33,27 +33,7 @@ class ProfileController extends Controller
 
     public function edit()
     {
-        try {
-            $user_data = $this->service->getUserDetails();
-            if (isset($user_data['success']) && ($user_data['success'] == false)) {
-                return $this->throwLogin();
-            }
-            $data = [
-                'firstname' => $user_data['data']['firstname'] ?? '',
-                'lastname' => $user_data['data']['lastname'] ?? '',
-                'mobile' => $user_data['data']['mobile'] ?? '',
-                'email' => $user_data['data']['email'] ?? '',
-            ];
-            $fields = $user_data['data']['extended_fields']['field'];
-            if (is_array($fields)) {
-                foreach ($fields as  $value) {
-                    $data[$value['name']] = $value['value'];
-                }
-            }
-            return view('Profile.edit', ['data' => $data]);
-        } catch (\Exception $e) {
-            return $this->throwLogin($e);
-        }
+        return view('Profile.edit' );
     }
 
     public function update(Request $request)
