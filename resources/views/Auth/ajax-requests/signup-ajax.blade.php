@@ -78,9 +78,8 @@
                     loaderAnim.style.display = 'none';
                     errorContainer.style.display = "none";
                     if (res && res.user && res.user.userRegisteredForPassword && res.user.userRegisteredForPassword  === true) { 
-                        successContainer.style.display = 'none';
-                        errorContainer.style.display = "block";
-                        errorMessage.innerHTML  = "User Already Exist!";
+                        window.location.href = "{{ route('login_page') }}?user_already_exists";
+                        return;
                     } else{
                         sessionId = res.user.sessionId;
                         return otpGenerate();

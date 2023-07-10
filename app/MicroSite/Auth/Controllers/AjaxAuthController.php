@@ -51,6 +51,9 @@ class AjaxAuthController extends Controller
                 $user->user_id = $user_id;
                 $user->profile = $profile_path;
                 $user->save();
+                if ($user) {
+                    Auth::login($user);
+                }
             }
             return response()->json(['success' => true]);
         }       

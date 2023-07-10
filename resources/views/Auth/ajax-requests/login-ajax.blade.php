@@ -160,7 +160,14 @@
                             setTimeout(function() {
                                 successContainer.style.display = 'block';
                                 errorContainer.style.display = "none";
-                                successMessage.innerHTML  = "Welcome" + formData.firstname + formData.lastname;
+                                const userName = '';
+                                if(formData.firstname){
+                                    userName += formData.firstname;
+                                }
+                                if (formData.lastname) {
+                                    userName += formData.lastname;
+                                }
+                                successMessage.innerHTML  = "Welcome" + userName;
                             }, 10000);
                         } else{
                             submitBtn.disabled  = false;
