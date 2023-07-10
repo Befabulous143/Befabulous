@@ -19,6 +19,7 @@
     var profile = '';
     var authToken = '';
     var email = '';
+    var retry = 0;
 
     function hideErrorMsg(){
         setTimeout(function() {
@@ -28,6 +29,14 @@
     }
 
     function showResendOtpOption(){
+        retry++;
+        console.log(retry);
+        if(retry > 3){
+            successContainer.style.display = 'none';
+            errorContainer.style.display = "block";
+            errorMessage.innerHTML  = "You can't resend OTP! please try later.";
+            return;
+        }
         setTimeout(function() {
             resendOtpBtn.style.display = "block";
         }, 10000);
@@ -42,8 +51,8 @@
     $(document).ready(function() {
         $('#registerForm').submit(function(e) {
             e.preventDefault();
-            // submitBtn.disabled  = true;
-            // loaderAnim.style.display = 'block';
+            submitBtn.disabled  = true;
+            loaderAnim.style.display = 'block';
             password = $('#password').val();
             confirmPassword = $('#password_confirmation').val();
             identifierValue = $('#phone').val().replace('+','');
@@ -68,7 +77,7 @@
                     submitBtn.disabled  = false;
                     loaderAnim.style.display = 'none';
                     errorContainer.style.display = "none";
-                    if (res && res.user && res.user.userRegisteredForPassword && res.user.userRegisteredForPassword  === false) { //later change it to true
+                    if (res && res.user && res.user.userRegisteredForPassword && res.user.userRegisteredForPassword  === true) { 
                         successContainer.style.display = 'none';
                         errorContainer.style.display = "block";
                         errorMessage.innerHTML  = "User Already Exist!";
