@@ -70,8 +70,9 @@ class AjaxAuthController extends Controller
     public function couponsView(Request $request)
     {
         if(isset($request->coupons)){
-           $mapped_coupons = $this->mapCouponsDetails($request->coupons);
-           return view('offers.index',['coupons' => $mapped_coupons])->render();
+            $data = json_decode($request->coupons,true);
+            $mapped_coupons = $this->mapCouponsDetails($data);
+            return view('offers.index',['coupons' => $mapped_coupons])->render();
         }
     }
 

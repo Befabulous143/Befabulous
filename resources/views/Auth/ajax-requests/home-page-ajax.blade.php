@@ -211,7 +211,7 @@
                 type: 'POST',
                 data:{
                     _token: '{{ csrf_token() }}',
-                    coupons: coupons
+                    coupons: JSON.stringify(coupons)
                 },
                 success: function(res) {
                     if(res){
