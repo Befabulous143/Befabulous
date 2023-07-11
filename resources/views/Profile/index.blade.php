@@ -177,18 +177,19 @@
     if (result.isConfirmed) {
         $.ajax({
             url: '{{ config('app.api_base_url') }}/mobile/v2/api/PII/delete', // Replace with your server-side fetch endpoint
-            type: 'GET',
+            type: 'POST',
             headers: {
                 'cap_authorization' : localStorage.getItem('cap_authorization'),
                 'cap_brand' : "{{ config('app.brand') }}",
                 'cap_mobile' : localStorage.getItem('cap_mobile'),
             },
-            data:{},
+            contentType: 'application/json',
+            data:JSON.stringify({}),
             success: function(res) {
-                if(res.status.success){
-
+                if(res.createdId){
+                    localStorage.clear();
                     Swal.fire('Your account closed successfully!', '', 'success')
-                    window.location.href = "{{ route('login_page') }}?account_deleted";
+                    window.location.href = "{{ route('logout') }}";
                 } else{
                     Swal.fire('Something wen wrong!', '', 'warning')
                 }
