@@ -3,11 +3,10 @@
 namespace App\MicroSite\Auth\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\MicroSite\Auth\Services\AuthService;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 
 class AjaxAuthController extends Controller
@@ -66,5 +65,44 @@ class AjaxAuthController extends Controller
         $fileName = 'image_' . time() . '.' . $extension;
         $image->move(public_path('profile'), $fileName);
         return 'profile/' . $fileName;
+    }
+
+    public function couponsView(Request $request)
+    {
+        if(isset($request->coupons)){
+           $mapped_coupons = $this->mapCouponsDetails($request->coupons);
+           return view('offers.index',['coupons' => $mapped_coupons])->render();
+        }
+    }
+
+    public function mapCouponsDetails($coupons = [])
+    {
+       $result = [];
+       foreach ($coupons as $k => $v) {
+        if(isset($v['redemption_count']) && $v['redemption_count'] == 0 && !empty($v['valid_till']) && !Carbon::parse($v['valid_till'])->isPast()){
+            $result[$k]['series_name'] = $v['series_name'] ?? '';
+            $result[$k]['code'] = $v['code'] ?? '';
+            $result[$k]['created_date'] = isset($v['created_date']) && !empty($v['created_date']) ? Carbon::parse($v['created_date'])->format('d/m/Y') : '';
+            $result[$k]['valid_till'] = isset($v['valid_till']) && !empty($v['valid_till']) ? Carbon::parse($v['valid_till'])->format('d/m/Y') : '';;
+            if (isset($v['custom_properties']['custom_property'])) {
+                foreach ($v['custom_properties']['custom_property'] as $property) {
+                    if(isset($property['name']) && isset($property['value']))
+                    {
+                        $result[$k][$property['name']] = $property['value'];
+                    }
+                }
+            }
+        }
+        
+       }
+        return $result;
+    }
+
+    public function transactionHistory(Request $request)
+    {
+        if($request->transactions){
+            $data = json_decode($request->transactions,true);
+            return view('PointHistory.transaction_list',['data' => $data])->render();
+        }
     }
 }

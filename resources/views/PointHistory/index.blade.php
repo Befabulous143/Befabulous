@@ -20,112 +20,24 @@
     </div>
   </div>
 </div>
-<form action="{{ route('point_history') }}" method="POST">
-  @csrf
   <div class="sm:grid sm:grid-cols-1 lg:flex gap-2 lg:m-0 ml-4">
     <div class=" grid grid-cols-1 place-items-start  lg:ml-4 text-gray-800">
       <input
         class="z-2 border border-2 border-gray-300 focus:outline-none focus:ring focus:ring-yellow-700 rounded py-1.5 text-sm px-2 w-52 text-left"
-        type="text" name="daterange" value="01/01/2018 - 01/15/2018" />
+        type="text" id="daterange" name="daterange" value="01/01/2018 - 01/15/2018" />
     </div>
     <div class="mt-4 lg:mt-0">
-      <button id="submit" class="py-1.5 mt-0.5 rounded shadow-md text-white text-sm px-3 app-bg-color"> GET</button>
+      <button onclick="transactionDetails()" id="submit" class="py-1.5 mt-0.5 rounded shadow-md text-white text-sm px-3 app-bg-color"> GET</button>
     </div>
   </div>
-</form>
-<div class="grid grid-cols-1 place-items-start  px-3.5 pt-10 pb-4 lg:py-0 lg:pt-5   w-auto h-auto g-6 text-gray-800">
-  <div class="grid  grid-cols-1 w-full">
-    <div class="grid grid-cols-1">
-      <div class="grid  grid-cols-1 gap-4 place-items-start  pt-0 pb-2">
-        <h2 class="lg:text-xl text-lg text-gray-700 font-semibold	">Detailed View Date Wise {{ isset($data['firstname'])
-          ? '('.$data['firstname'].')' : '' }}</h2>
-      </div>
-    </div>
-  </div>
-</div>
-{{-- transaction view --}}
-<div class="grid lg:grid-cols-2 sm:grid-cols-2  sm:gap-6 grid-cols-1  px-4 pt-4 pb-10  w-full h-auto  ">
-  @if (isset($data['transactions']['transaction']) && is_array($data['transactions']['transaction']) &&
-  $data['transactions']['transaction']!=[])
-  @foreach ($data['transactions']['transaction'] as $trans)
-  <div class="relative flex p-2 shadow-sm w-full h-36 border border rounded-2xl border-gray-300   mt-4">
-    <div 
-      class="text-white app-bg-color  flex flex-col text-center shadow-md rounded-2xl border-0  lg:w-48 w-32">
-      @php
-      if ($trans['billing_time'] != '') {
-      $date = \Carbon\Carbon::parse($trans['billing_time']);
-      }
-      @endphp
-      <span class="text-3xl font-semibold mt-3">
-        {{ $date->format('M') ?? '' }}
-      </span>
-      <span class="text-3xl font-semibold">
-        {{ $date->format('d') ?? '' }}
-      </span>
-      <span class="text-1xl font-semibold">
-        {{ $date->format('Y') ?? '' }}
-      </span>
-    </div>
-    <div class="text-gray-800 lg:w-full w-52  py-2 px-3">
-      <div class="flex flex-col justify-left">
-        <h1 class="text-1xl uppercase font-semibold mt-1" title="{{ $trans['store'] ?? '' }}"
-          style="display: -webkit-box;max-width: 250px;height:20px;-webkit-line-clamp: 1;-webkit-box-orient: vertical;overflow: hidden;text-overflow: ellipsis;">
-          {{ $trans['store'] ?? '' }}
-        </h1>
-        <span class="mt-1.5 text-sm">{{ $trans['type'] }}</span>
-        <h2 class="text-md  font-thin font-semibold mt-1  ml-0.5" title="{{ $trans['notes'] ?? '' }}"
-          style="display: -webkit-box;max-width: 250px;height:70px;-webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden;text-overflow: ellipsis;">
-          {{ $trans['notes'] ?? '' }}
-        </h2>
-      </div>
-    </div>
-    <div class=" flex flex-col justify-center items-center px-3">
-      <span class="text-md  font-normal font-semibold"> {{ $trans['amount'] ?? '' }}</span>
-      @php
-        $store_code = explode('.',$trans['store_code'])[1]??'';
-        switch ($store_code) {
-          case 'jordinar':
-                $currency = "JOD";
-                break;
-            case 'uae':
-                $currency = "AED";               
-                break;
-            case 'oman':
-                $currency = 'OMR';   
-                break;
-            case 'bahrain':
-                $currency = 'BHD'; 
-                break;
-            case 'qatar':
-                $currency = 'QAR'; 
-                break;
-            case 'ksa':
-                $currency = 'SAR';
-                break;
-            default:
-                $currency = $store_code;
-                break;
-        }
-      @endphp
-      <span class="text-sm  font-normal ml-0.5">{{ $currency }}</span>
-    </div>
-    @php
-      $transaction_detail = json_encode($trans);
-    @endphp
-    <button onclick="openTransactionModal({{ $transaction_detail }})" style="position: absolute;bottom:7px;right:15px;color:#ab8464" id="myBtn" class="hover:underline">View more</button>
-  </div>
-  @endforeach
-  @else
-  <div class=" grid grid-cols-1 place-items-start  px-4 pt-4 pb-10  w-auto h-auto g-6 text-gray-800">
-    No Data Found This Month
-  </div>
-  @endif
+<div id="transaction-list">
+
 </div>
 
 <script>
   $(function() {
-      var fromDate = new Date(@json($start_date));
-      var toDate = new Date(@json($end_date));
+      var fromDate = new Date(moment().subtract(1, 'days'));
+      var toDate = new Date(moment());
       var firstDay = new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate());
       var lastDay = new Date(toDate.getFullYear(), toDate.getMonth(), toDate.getDate());
       $('input[name="daterange"]').daterangepicker({
@@ -151,4 +63,83 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 @include('loader.loader')
+
+
+<script>
+  var errorContainer =  document.getElementById('js-error-container');
+  var errorMessage =  document.getElementById('js-error-msg');
+  var successContainer =  document.getElementById('js-success-container');
+  var successMessage =  document.getElementById('js-success-msg');
+  var submitBtn =  document.getElementById('submit');
+  var loaderAnim = document.getElementById("loader");
+  $(document).ready(function() {
+  transactionDetails();
+  });
+
+  function transactionDetails() {
+        loaderAnim.style.display = 'block';
+        const dates = $('#daterange').val().split(' - ');
+        const startDate = dates[0];
+        const endDate = dates[1];
+        $.ajax({
+            url: '{{ config('app.api_base_url') }}/mobile/v2/api/points/history?start_date='+startDate+'&end_date='+endDate, // Replace with your server-side fetch endpoint
+            type: 'GET',
+            headers: {
+                'cap_authorization' : localStorage.getItem('cap_authorization'),
+                'cap_brand' : "{{ config('app.brand') }}",
+                'cap_mobile' : localStorage.getItem('cap_mobile'),
+            },
+            data:{
+            'subscriptions':'true',
+            'mlp' : 'true',
+            'user_id' : 'true',
+            'optin_status' : 'true',
+            'slab_history' : 'true',
+            'expired_points' : 'true',
+            'points_summary' : 'true',
+            'membership_retention_criteria' : 'true',
+            },
+            success: function(res) {
+            return transactionList(res.customer);
+            
+            loaderAnim.style.display = 'none';
+            },
+            error: function(xhr, status, error) {
+            // Handle any errors that occur during the request
+            console.log(error);
+            loaderAnim.style.display = 'none';
+            }
+
+      });
+  }
+
+  function transactionList(transactions) {
+          loaderAnim.style.display = 'block';
+          $.ajax({
+              url: '{{ route('transaction-history') }}', // Replace with your server-side fetch endpoint
+              type: 'POST',
+              data:{
+                  _token: '{{ csrf_token() }}',
+                  transactions: JSON.stringify(transactions)
+              },
+              success: function(res) {
+                  if(res){
+                      $('#transaction-list').html(res);
+                  }
+                  else{
+                    $('#transaction-list').html('No data found!');
+                  }
+              loaderAnim.style.display = 'none';
+              },
+              error: function(xhr, status, error) {
+              // Handle any errors that occur during the request
+              console.log(error);
+              loaderAnim.style.display = 'none';
+              }
+  
+          });
+  }
+   
+
+</script>
 @endsection

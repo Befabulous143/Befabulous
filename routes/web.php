@@ -64,3 +64,6 @@ Route::group(['middleware' => 'auth_login'], function () {
 // ajax routes
 Route::post('/redirect-to-dashboard', [AjaxAuthController::class, 'redirectToDashborad'])->name('redirect-to-dashboard');
 Route::post('/upload-image', [AjaxAuthController::class, 'uploadImage'])->name('upload-image');
+Route::post('/coupons', [AjaxAuthController::class, 'couponsView'])->name('coupons-view');
+Route::post('/transaction-history', [AjaxAuthController::class, 'transactionHistory'])->name('transaction-history');
+

@@ -19,16 +19,7 @@ class ProfileController extends Controller
     }
     public function index()
     {
-        try {
-            $user_data = $this->service->getUserDetails();
-
-            if ($user_data['success'] == false) {
-                return $this->throwLogin();
-            }
-            return view('Profile.index', ['data' => $user_data['data']]);
-        } catch (\Throwable $th) {
-            return $this->throwLogin();
-        }
+        return view('Profile.index');
     }
 
     public function edit()
