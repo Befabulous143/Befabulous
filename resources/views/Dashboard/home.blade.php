@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+@include('loader.loader')
         <div class=" grid grid-cols-1  place-items-center px-4 w-auto h-auto g-6 text-gray-800">
                 <img class="lg:w-auto w-56" src="{{ asset('images/banner_image.svg') }}" alt="">
         </div>
@@ -27,15 +28,15 @@
             <div class="grid grid-cols-3 shadow-md shadow-gray-400 lg:pr-10 lg:pl-20 px-4 lg:py-6 py-4 text-white app-bg-color grid-cols-1 w-full rounded ">
                 <div class="grid grid-rows-2 gap-0 text-center">
                     <span class="text-center lg:text-left">Lifetime Points</span>
-                    <span class="lg:text-2xl text-xl lg:mt-0 mt-3 text-center lg:text-left  font-extrabold">{{ $data['group_points_summaries']['group_points_summary'][0]['lifetime_points']??0 }}</span>
+                    <span id="lifetime_points" class="lg:text-2xl text-xl lg:mt-0 mt-3 text-center lg:text-left  font-extrabold">0</span>
                 </div>
                 <div class="grid grid-rows-2 gap-0 text-center">
                     <span class="text-center lg:text-left">Current Loyalty Points</span>
-                    <span class="lg:text-2xl text-xl lg:mt-0 mt-3 text-center lg:text-left  font-extrabold">{{ $data['group_points_summaries']['group_points_summary'][0]['loyalty_points']??0 }}</span>
+                    <span id="loyalty_points" class="lg:text-2xl text-xl lg:mt-0 mt-3 text-center lg:text-left  font-extrabold">0</span>
                 </div>
                 <div class="grid grid-rows-2 gap-0 text-center lg:text-left">
                     Currency Conversion Point
-                    <span  class="lg:text-2xl text-xl lg:mt-0 mt-3  font-extrabold">{{ $currency_value??0 }} <span class="text-xs">{{ $currency_symbol }}</span></span>
+                    <span id="converted_points"  class="lg:text-2xl text-xl lg:mt-0 mt-3  font-extrabold">0</span>
                 </div>
             </div>
         </div>
@@ -52,33 +53,34 @@
                 <div class="grid grid-cols-4 shadow-md shadow-gray-400 px-2 lg:py-8 py-4 lg:px-2 text-white app-bg-color grid-cols-1 w-full h-auto rounded ">
                     <div class="flex flex-col items-center gap-1  text-center">
                         <img class="w-12 h-12" src="{{ asset('images/Icon_2.png') }}" alt="">
-                        <span class="text-sm  font-semibold">{{ $points['adjusted']??0 }}</span>
+                        <span class="text-sm  font-semibold" id="adjusted">0</span>
                         <span>Points</span>
                         <span class="mt-2">Adjusted</span>
                     </div>
                     <div class="flex flex-col gap-1 items-center text-center">
                         <img class="w-12 h-12" src="{{ asset('images/Icon_3.png') }}" alt="">
-                        <span class="text-sm  font-semibold">{{ $points['redeemed']??0 }}</span>
+                        <span id="redeemed" class="text-sm  font-semibold">0</span>
                         <span>Points</span>
                         <span class="mt-2">Redeemed</span>
                     </div>
                     <div class="flex flex-col gap-1 items-center text-center">
                         <img class="w-12 h-12" src="{{ asset('images/Icon_4.png') }}" alt="">
-                        <span class="text-sm  font-semibold">{{ $points['returned']??0 }}</span>
+                        <span class="text-sm  font-semibold" id="returned">0</span>
                         <span>Points</span>
                         <span class="mt-2">Returned</span>
                     </div>
                     <div class="flex flex-col gap-1 items-center text-center">
                         <img class="w-12 h-12" src="{{ asset('images/Icon_5.png') }}" alt="">
-                        <span class="text-sm  font-semibold">{{ $points['expired']??0 }}</span>
+                        <span class="text-sm  font-semibold" id="expired">0</span>
                         <span>Points</span>
                         <span class="mt-2">Expired</span>
                     </div>
                 </div>
             </div>
         <div class="mt-6 border  border-gray-200 w-full"></div>
-        @include('offers.index',['coupons' => $coupons])
+        <div id="coupons-show">
 
+        </div>
         <script>
             function showSuccessMessage(message) {
             const errorContainer =  document.getElementById('js-error-container');
@@ -104,4 +106,7 @@
         history.replaceState(null, '', urlWithoutLoginParam);
         }
         </script>
+
+
+@include('Auth.ajax-requests.home-page-ajax')
 @endsection

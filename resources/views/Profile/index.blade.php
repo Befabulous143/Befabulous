@@ -1,11 +1,12 @@
 @extends('layouts.app')
 @section('content')
+@include('loader.loader')
 <style>
     .none {
         display: none;
     }
 </style>
-{{-- {{ dd($data) }} --}}
+
 <div class=" grid grid-cols-1  place-items-start lg:p-4 px-4 pb-2 py-16  w-auto h-64 g-6 text-gray-800">
     <div class="grid  shadow-xl app-bg-color rounded grid-cols-1 w-full  p-4 lg:pr-10 lg:pl-10">
         <div class="grid grid-cols-1 place-items-center h-36" style="">
@@ -29,11 +30,10 @@
     <div class="grid  grid-cols-1 w-full">
         <div class="grid grid-cols-1">
             <div class="grid lg:mt-0 sm:mt-2 mt-5  grid-cols-1 gap-4 place-items-center  pt-0 pb-0">
-                <h2 class="lg:text-lg text-lg text-gray-700 font-semibold	">{{ $data['firstname'] ?? '' }} {{
-                    $data['lastname'] ?? '-----' }}</h2>
+                <h2 class="lg:text-lg text-lg text-gray-700 font-semibold" id="user-name"></h2>
             </div>
             <div class="grid  grid-cols-1 gap-4 place-items-center  pt-0 pb-2">
-                <h2 class="lg:text-lg text-lg text-gray-700 font-semibold	">({{ $data['email'] ?? '' }})
+                <h2 class="lg:text-lg text-lg text-gray-700 font-semibold	" id="email">
                     <a href="{{ route('edit') }}"><i class="fa-solid fa-pen-to-square"></i> </a>
                 </h2>
             </div>
@@ -150,6 +150,7 @@
     }
     }).then((result) => {
     if (result.isConfirmed) {
+        localStorage.clear();
         Swal.fire('Logout successfully!', '', 'success')
         document.getElementById('logOut').click();
     } 
@@ -172,12 +173,92 @@
         confirmButton: 'order-2',
     }
     }).then((result) => {
+
     if (result.isConfirmed) {
-        Swal.fire('Your account closed successfully!', '', 'success')
-        document.getElementById('closeAccount').click();
+        $.ajax({
+            url: '{{ config('app.api_base_url') }}/mobile/v2/api/PII/delete', // Replace with your server-side fetch endpoint
+            type: 'GET',
+            headers: {
+                'cap_authorization' : localStorage.getItem('cap_authorization'),
+                'cap_brand' : "{{ config('app.brand') }}",
+                'cap_mobile' : localStorage.getItem('cap_mobile'),
+            },
+            data:{},
+            success: function(res) {
+                if(res.status.success){
+
+                    Swal.fire('Your account closed successfully!', '', 'success')
+                    window.location.href = "{{ route('login_page') }}?account_deleted";
+                } else{
+                    Swal.fire('Something wen wrong!', '', 'warning')
+                }
+
+            },
+            error: function(xhr, status, error) {
+            // Handle any errors that occur during the request
+            console.log(error);
+            loaderAnim.style.display = 'none';
+            }
+
+        });
+      
+        
     } 
     })
     });
+});
+</script>
+
+<script>
+var errorContainer =  document.getElementById('js-error-container');
+var errorMessage =  document.getElementById('js-error-msg');
+var successContainer =  document.getElementById('js-success-container');
+var successMessage =  document.getElementById('js-success-msg');
+var submitBtn =  document.getElementById('submit');
+var loaderAnim = document.getElementById("loader");
+$(document).ready(function() {
+
+    function showFormDetails() {
+        loaderAnim.style.display = 'block';
+        $.ajax({
+            url: '{{ config('app.api_base_url') }}/mobile/v2/api/customer/get', // Replace with your server-side fetch endpoint
+            type: 'GET',
+            headers: {
+                'cap_authorization' : localStorage.getItem('cap_authorization'),
+                'cap_brand' : "{{ config('app.brand') }}",
+                'cap_mobile' : localStorage.getItem('cap_mobile'),
+            },
+            data:{
+            'subscriptions':'true',
+            'mlp' : 'false',
+            'user_id' : 'true',
+            'optin_status' : 'false',
+            'slab_history' : 'false',
+            'expired_points' : 'false',
+            'points_summary' : 'false',
+            'membership_retention_criteria' : 'true',
+            },
+            success: function(res) {
+            // Assuming the response is a JSON object
+            let username = res.customers.customer[0].firstname;
+            if(res.customers.customer[0].lastname){
+                username += ' '+ res.customers.customer[0].lastname;
+            }
+            $('#user-name').html(username);
+            $('#email').html('('+res.customers.customer[0].email+') <a href="{{ route('edit') }}"><i class="fa-solid fa-pen-to-square"></i> </a>');
+            loaderAnim.style.display = 'none';
+            },
+            error: function(xhr, status, error) {
+            // Handle any errors that occur during the request
+            console.log(error);
+            loaderAnim.style.display = 'none';
+            }
+
+        });
+    }
+
+    // Call the function to populate the form on page load
+    showFormDetails();
 });
 </script>
 @endsection

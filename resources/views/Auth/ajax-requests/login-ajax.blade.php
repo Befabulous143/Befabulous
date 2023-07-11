@@ -111,7 +111,7 @@
                     },
                     headers: header,
                     success: function(res) {
-                        if (res.status.success_count) {
+                        if (res && res.status && res.status.success_count) {
                             const redirectFormData = {
                                 authToken: header.cap_authorization,
                                 cap_mobile: header.cap_mobile,
@@ -126,8 +126,11 @@
                             loaderAnim.style.display = 'none';
                             errorContainer.style.display = "block";
                             errorMessage.innerHTML  = 'Something went wrong! Please contact our support';
-                            if(res.status.message){
+                            if(res && res.status && res.status.message){
                                 errorMessage.innerHTML  = res.status.message;
+                            }
+                            if(res && !res.success){
+                                errorMessage.innerHTML  = res.message;
                             }
                         }
                     },

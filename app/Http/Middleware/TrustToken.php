@@ -24,6 +24,7 @@ class TrustToken
         if($session){
             $request->headers->set('cap_authorization', $session[0]['token']);
             $request->headers->set('cap_brand', config('app.brand'));
+            $request->headers->set('user_id', $session[0]['user_id']);
             $request->headers->set('cap_mobile', $session[0]['cap_mobile']);
             $request->headers->set('cap_device_id', $request->header('user-agent'));
             return $next($request);

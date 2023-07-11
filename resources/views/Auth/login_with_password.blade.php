@@ -96,12 +96,19 @@
         if (params.has('user_already_exists')) {
             showErrorMessage('User Already Exists!');
         }
+        if (params.has('account_deleted')) {
+            showErrorMessage('Account deleted!');
+        }
         if (window.location.search.includes('?password_changed')) {
         var urlWithoutLoginParam = window.location.href.replace('?password_changed=1', '');
         history.replaceState(null, '', urlWithoutLoginParam);
         }
         if (window.location.search.includes('?user_already_exists')) {
         var urlWithoutLoginParam = window.location.href.replace('?user_already_exists', '');
+        history.replaceState(null, '', urlWithoutLoginParam);
+        }
+        if (window.location.search.includes('?account_deleted')) {
+        var urlWithoutLoginParam = window.location.href.replace('?account_deleted', '');
         history.replaceState(null, '', urlWithoutLoginParam);
         }
 </script>
