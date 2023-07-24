@@ -98,12 +98,12 @@
             showSuccessMessage("Password reset successfully!");
         }
         if (window.location.search.includes('?logined')) {
-        var urlWithoutLoginParam = window.location.href.replace('?logined=true', '');
-        history.replaceState(null, '', urlWithoutLoginParam);
+            var urlWithoutLoginParam = window.location.href.replace('?logined=true', '');
+            history.replaceState(null, '', urlWithoutLoginParam);
         }
         if (window.location.search.includes('?password_changed')) {
-        var urlWithoutLoginParam = window.location.href.replace('?password_changed', '');
-        history.replaceState(null, '', urlWithoutLoginParam);
+            var urlWithoutLoginParam = window.location.href.replace('?password_changed', '');
+            history.replaceState(null, '', urlWithoutLoginParam);
         }
         </script>
 

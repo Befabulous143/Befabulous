@@ -80,7 +80,7 @@ class AjaxAuthController extends Controller
     {
        $result = [];
        foreach ($coupons as $k => $v) {
-        if(isset($v['redemption_count']) && $v['redemption_count'] == 0 && !empty($v['valid_till']) && !Carbon::parse($v['valid_till'])->isPast()){
+        if(!empty($v['valid_till']) && !Carbon::parse($v['valid_till'])->isPast()){
             $result[$k]['series_name'] = $v['series_name'] ?? '';
             $result[$k]['code'] = $v['code'] ?? '';
             $result[$k]['created_date'] = isset($v['created_date']) && !empty($v['created_date']) ? Carbon::parse($v['created_date'])->format('d/m/Y') : '';
