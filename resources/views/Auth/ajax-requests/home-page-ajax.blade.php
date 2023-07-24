@@ -28,7 +28,6 @@
                 'membership_retention_criteria' : 'true',
                 },
                 success: function(res) {
-                console.log(res);
                 if(res.customers.customer[0].group_points_summaries.group_points_summary[0].lifetime_points){
                     $('#lifetime_points').html(res.customers.customer[0].group_points_summaries.group_points_summary[0].lifetime_points);
                 }
@@ -38,7 +37,6 @@
                 }
                 if(res.customers.customer[0].points_summaries.points_summary.length > 0){
                    const allPoints = pointSummary(res.customers.customer[0].points_summaries.points_summary);
-                   console.log(allPoints);
                    $('#redeemed').html(allPoints.redeemed);
                    $('#expired').html(allPoints.expired);
                    $('#returned').html(allPoints.returned);
@@ -98,6 +96,13 @@
                 },
                 success: function(res) {
                 if(res && res.response && res.response.customers && res.response.customers.customer[0] && res.response.customers.customer[0].coupons && res.response.customers.customer[0].coupons.coupon){
+                    const items = res.response.customers.customer[0].coupons.coupon;
+                    if(items){
+                        const filteredItems = items.filter(item => item.redemption_count > 0);
+                        const seriesId =new Set(filteredItems.map(item => item.series_id));
+                        const uniqueSeriesIdsArray = Array.from(seriesId);
+                        return checkMultiCoupons(res.response.customers.customer[0].coupons.coupon,uniqueSeriesIdsArray);
+                    }
                     return showCoupons(res.response.customers.customer[0].coupons.coupon);
                 }
                 loaderAnim.style.display = 'none';
@@ -217,6 +222,49 @@
                     if(res){
                         $('#coupons-show').html(res);
                     }
+                loaderAnim.style.display = 'none';
+                },
+                error: function(xhr, status, error) {
+                // Handle any errors that occur during the request
+                console.log(error);
+                loaderAnim.style.display = 'none';
+                }
+    
+            });
+        }
+
+        function checkMultiCoupons(allCoupons,seriesIds) {
+            const seriesIdsString = seriesIds.join(',');
+            console.log(allCoupons,seriesIdsString);
+            loaderAnim.style.display = 'block';
+            const phoneNumber = localStorage.getItem('cap_mobile');
+            $.ajax({
+                url: '{{ config('app.api_base_url') }}/mobile/v2/api/get/coupons/series/info?id='+seriesIdsString, // Replace with your server-side fetch endpoint
+                type: 'GET',
+                headers: {
+                    'cap_authorization' : localStorage.getItem('cap_authorization'),
+                    'cap_brand' : "{{ config('app.brand') }}",
+                    'cap_mobile' : phoneNumber,
+                },
+                success: function(res) {
+                const items = res?.response?.series?.items?.item;
+                if(items?.length > 0){
+                    const filterMultiCoupon = items.filter(item => item.same_user_multiple_redeem == 1);
+                    var multiCoupons = {};
+                    filterMultiCoupon.forEach(item => {
+                        multiCoupons[item.id] = item.max_redemptions_in_series_per_user;
+                    });
+                    var couponList = [];
+                    allCoupons.forEach(item => {
+                        if(item.redemption_count < multiCoupons[item.series_id] || item.redemption_count === 0){
+                            couponList.push(item);
+                        }
+                    });       
+                    return showCoupons(couponList);
+                }else{
+                    const couponList = allCoupons;
+                }
+                return showCoupons(allCoupons);
                 loaderAnim.style.display = 'none';
                 },
                 error: function(xhr, status, error) {

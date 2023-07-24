@@ -36,8 +36,8 @@
 
 <script>
   $(function() {
-      var fromDate = new Date(moment().subtract(1, 'days'));
-      var toDate = new Date(moment());
+      var fromDate = new Date(moment().subtract(1, 'months').startOf('month'));
+      var toDate = new Date(moment().subtract(1, 'months').endOf('month'));
       var firstDay = new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate());
       var lastDay = new Date(toDate.getFullYear(), toDate.getMonth(), toDate.getDate());
       $('input[name="daterange"]').daterangepicker({
