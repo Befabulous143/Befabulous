@@ -235,7 +235,6 @@
 
         function checkMultiCoupons(allCoupons,seriesIds) {
             const seriesIdsString = seriesIds.join(',');
-            console.log(allCoupons,seriesIdsString);
             loaderAnim.style.display = 'block';
             const phoneNumber = localStorage.getItem('cap_mobile');
             $.ajax({
