@@ -255,7 +255,7 @@
                     });
                     var couponList = [];
                     allCoupons.forEach(item => {
-                        if(item.redemption_count < multiCoupons[item.series_id] || item.redemption_count === 0){
+                        if(item.redemption_count < multiCoupons[item.series_id] || item.redemption_count === 0 || multiCoupons[item.series_id] < 0){
                             couponList.push(item);
                         }
                     });       
