@@ -36,8 +36,11 @@
 
 <script>
   $(function() {
-      var fromDate = new Date(moment().subtract(1, 'months').startOf('month'));
-      var toDate = new Date(moment().subtract(1, 'months').endOf('month'));
+      // Calculate the start date (fromDate) for the last 30 days
+      var fromDate = moment().subtract(30, 'days').startOf('day').toDate();
+
+      // Calculate the end date (toDate) for the last 30 days (set to the current date and time)
+      var toDate = new Date(); // Current date and time
       var firstDay = new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate());
       var lastDay = new Date(toDate.getFullYear(), toDate.getMonth(), toDate.getDate());
       $('input[name="daterange"]').daterangepicker({
