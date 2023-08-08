@@ -70,8 +70,8 @@
                     'points' : point 
                 },
                 success: function(res) {
-                if(res.response.points.redeemable.points){
-                    $('#converted_points').html(res.response.points.redeemable.points + '<span class="text-xs"> '+currencySymbol+'</span>');
+                if(res.response.points.redeemable.points_redeem_local_value){
+                    $('#converted_points').html(res.response.points.redeemable.points_redeem_local_value + '<span class="text-xs"> '+currencySymbol+'</span>');
                 }
                 loaderAnim.style.display = 'none';
                 },
