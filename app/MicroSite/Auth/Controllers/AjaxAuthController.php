@@ -34,11 +34,11 @@ class AjaxAuthController extends Controller
     }
 
     public function uploadImage(Request $request)
-    {   
-        if(isset($request->user_id)){
+    {
+        if (isset($request->user_id)) {
             $user_id = $request->user_id;
             $profile_path = $this->imgStore($request->file('profile'));
-    
+
             $user = User::where('user_id', $user_id);
             if ($user->first()) {
                 if (\File::exists(public_path($user->first()->profile))) {
@@ -55,7 +55,7 @@ class AjaxAuthController extends Controller
                 }
             }
             return response()->json(['success' => true]);
-        }       
+        }
         return response()->json(['success' => true]);
     }
 
@@ -69,41 +69,76 @@ class AjaxAuthController extends Controller
 
     public function couponsView(Request $request)
     {
-        if(isset($request->coupons)){
-            $data = json_decode($request->coupons,true);
-            $mapped_coupons = $this->mapCouponsDetails($data);
-            return view('offers.index',['coupons' => $mapped_coupons])->render();
+        if (isset($request->coupons)) {
+            $data = json_decode($request->coupons, true);
+            $mobile = Session::get('response_data')[0]['cap_mobile'] ?? '';
+            $coupon_type = $this->getCouponType($mobile);
+            $mapped_coupons = $this->mapCouponsDetails($data, $coupon_type);
+            return view('offers.index', ['coupons' => $mapped_coupons])->render();
         }
     }
 
-    public function mapCouponsDetails($coupons = [])
+    public function mapCouponsDetails($coupons = [], $coupon_type)
     {
-       $result = [];
-       foreach ($coupons as $k => $v) {
-        if(!empty($v['valid_till']) && !Carbon::parse($v['valid_till'])->isPast()){
-            $result[$k]['series_name'] = $v['series_name'] ?? '';
-            $result[$k]['code'] = $v['code'] ?? '';
-            $result[$k]['created_date'] = isset($v['created_date']) && !empty($v['created_date']) ? Carbon::parse($v['created_date'])->format('d/m/Y') : '';
-            $result[$k]['valid_till'] = isset($v['valid_till']) && !empty($v['valid_till']) ? Carbon::parse($v['valid_till'])->format('d/m/Y') : '';;
-            if (isset($v['custom_properties']['custom_property'])) {
-                foreach ($v['custom_properties']['custom_property'] as $property) {
-                    if(isset($property['name']) && isset($property['value']))
-                    {
-                        $result[$k][$property['name']] = $property['value'];
+        $result = [];
+        foreach ($coupons as $k => $v) {
+            $string = strtolower($v['series_name']);
+            $found = array_reduce($coupon_type, function ($carry, $value) use ($string) {
+                return $carry || stripos($string, $value) !== false;
+            }, false);
+            if (!empty($v['valid_till']) && !Carbon::parse($v['valid_till'])->isPast() && $found) {
+                $result[$k]['series_name'] = $v['series_name'] ?? '';
+                $result[$k]['code'] = $v['code'] ?? '';
+                $result[$k]['created_date'] = isset($v['created_date']) && !empty($v['created_date']) ? Carbon::parse($v['created_date'])->format('d/m/Y') : '';
+                $result[$k]['valid_till'] = isset($v['valid_till']) && !empty($v['valid_till']) ? Carbon::parse($v['valid_till'])->format('d/m/Y') : '';
+                if (isset($v['custom_properties']['custom_property'])) {
+                    foreach ($v['custom_properties']['custom_property'] as $property) {
+                        if (isset($property['name']) && isset($property['value'])) {
+                            $result[$k][$property['name']] = $property['value'];
+                        }
                     }
                 }
             }
+
         }
-        
-       }
         return $result;
+    }
+
+    public function getCouponType($mobile)
+    {
+        $values = [];
+        switch (substr($mobile, 0, 3)) {
+            case '962':
+                $values = ['matalan'];
+                break;
+            case '971':
+                $values = ['matalan', 'balabala'];
+                break;
+            case '968':
+                $values = ['matalan'];
+                break;
+            case '973':
+                $values = ['matalan'];
+                break;
+            case '974':
+                $values = ['matalan', 'superdry', 'balabala', 'miniso'];
+                break;
+            case '966':
+                $values = ['matalan'];
+                break;
+            default:
+                $values = ['matalan'];
+                break;
+        }
+
+        return $values;
     }
 
     public function transactionHistory(Request $request)
     {
         if($request->transactions){
             $data = json_decode($request->transactions,true);
-            return view('PointHistory.transaction_list',['data' => $data])->render();
+            return view('PointHistory.transaction_list', ['data' => $data])->render();
         }
     }
 }
