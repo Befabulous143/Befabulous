@@ -109,25 +109,25 @@ class AjaxAuthController extends Controller
         $values = [];
         switch (substr($mobile, 0, 3)) {
             case '962':
-                $values = ['matalan'];
+                $values = ['matalan','staff discount'];
                 break;
             case '971':
-                $values = ['matalan', 'balabala'];
+                $values = ['matalan', 'balabala','staff discount'];
                 break;
             case '968':
-                $values = ['matalan'];
+                $values = ['matalan','staff discount'];
                 break;
             case '973':
-                $values = ['matalan'];
+                $values = ['matalan','staff discount'];
                 break;
             case '974':
-                $values = ['matalan', 'superdry', 'balabala', 'miniso'];
+                $values = ['matalan', 'superdry', 'balabala', 'miniso','staff discount'];
                 break;
             case '966':
-                $values = ['matalan'];
+                $values = ['matalan','staff discount'];
                 break;
             default:
-                $values = ['matalan'];
+                $values = ['matalan','staff discount'];
                 break;
         }
 
