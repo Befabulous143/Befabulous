@@ -3,8 +3,10 @@
 namespace App\MicroSite\Auth\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\MicroSite\Auth\Services\DialCodeClass;
 use App\Models\User;
 use Carbon\Carbon;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -72,10 +74,28 @@ class AjaxAuthController extends Controller
         if (isset($request->coupons)) {
             $data = json_decode($request->coupons, true);
             $mobile = Session::get('response_data')[0]['cap_mobile'] ?? '';
-            $coupon_type = $this->getCouponType($mobile);
+            $ip = "49.37.225.140" ??$request->ip(); // Get the user's IP address
+            $dial_code = $this->getDialCode($ip);
+            $coupon_type = $this->getCouponType($mobile,$dial_code);
             $mapped_coupons = $this->mapCouponsDetails($data, $coupon_type);
             return view('offers.index', ['coupons' => $mapped_coupons])->render();
         }
+    }
+
+    public function getDialCode($ip)
+    {
+        $client = new Client();
+        $response = $client->get("http://ipinfo.io/{$ip}/json");
+        $ip_details = json_decode($response->getBody(), true);
+        $country_code = $ip_details['country'];
+        $dial_code = DialCodeClass::DIALCODE;
+        foreach ($dial_code as $item) {
+            if($item["code"] === $country_code)
+            {
+                $getDialCode = $item['dial_code'];
+            }
+        }
+        return $getDialCode;
     }
 
     public function mapCouponsDetails($coupons = [], $coupon_type)
@@ -104,10 +124,10 @@ class AjaxAuthController extends Controller
         return $result;
     }
 
-    public function getCouponType($mobile)
+    public function getCouponType($dial_code)
     {
         $values = [];
-        switch (substr($mobile, 0, 3)) {
+        switch ($dial_code) {
             case '962':
                 $values = ['matalan','staff discount'];
                 break;
@@ -130,7 +150,6 @@ class AjaxAuthController extends Controller
                 $values = ['matalan','staff discount'];
                 break;
         }
-
         return $values;
     }
 
@@ -141,4 +160,5 @@ class AjaxAuthController extends Controller
             return view('PointHistory.transaction_list', ['data' => $data])->render();
         }
     }
+    
 }
