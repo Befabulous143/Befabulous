@@ -74,7 +74,7 @@ class AjaxAuthController extends Controller
         if (isset($request->coupons)) {
             $data = json_decode($request->coupons, true);
             $mobile = Session::get('response_data')[0]['cap_mobile'] ?? '';
-            $ip = "49.37.225.140" ??$request->ip(); // Get the user's IP address
+            $ip = $request->ip(); // Get the user's IP address
             $dial_code = $this->getDialCode($ip);
             $coupon_type = $this->getCouponType($mobile,$dial_code);
             $mapped_coupons = $this->mapCouponsDetails($data, $coupon_type);
