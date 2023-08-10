@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
 class AjaxAuthController extends Controller
@@ -76,7 +77,7 @@ class AjaxAuthController extends Controller
             $mobile = Session::get('response_data')[0]['cap_mobile'] ?? '';
             $ip = $request->ip(); // Get the user's IP address
             $dial_code = $this->getDialCode($ip);
-            $coupon_type = $this->getCouponType($mobile,$dial_code);
+            $coupon_type = $this->getCouponType($dial_code);
             $mapped_coupons = $this->mapCouponsDetails($data, $coupon_type);
             return view('offers.index', ['coupons' => $mapped_coupons])->render();
         }
@@ -103,6 +104,8 @@ class AjaxAuthController extends Controller
         $result = [];
         foreach ($coupons as $k => $v) {
             $string = strtolower($v['series_name']);
+            Log::info($string);
+            Log::info($coupon_type);
             $found = array_reduce($coupon_type, function ($carry, $value) use ($string) {
                 return $carry || stripos($string, $value) !== false;
             }, false);
