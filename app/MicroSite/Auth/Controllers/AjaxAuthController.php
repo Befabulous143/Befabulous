@@ -104,8 +104,6 @@ class AjaxAuthController extends Controller
         $result = [];
         foreach ($coupons as $k => $v) {
             $string = strtolower($v['series_name']);
-            Log::info($string);
-            Log::info($coupon_type);
             $found = array_reduce($coupon_type, function ($carry, $value) use ($string) {
                 return $carry || stripos($string, $value) !== false;
             }, false);
