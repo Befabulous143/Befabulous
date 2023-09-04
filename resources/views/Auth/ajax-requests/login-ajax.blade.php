@@ -154,6 +154,7 @@
                     data: formData,
                     success: function(res) {
                         if (res.success) {
+                            return;
                             localStorage.setItem('cap_authorization', formData.authToken);
                             localStorage.setItem('cap_brand', "{{ config('app.brand') }}" );
                             localStorage.setItem('cap_mobile', formData.cap_mobile);
@@ -206,7 +207,7 @@
 
         }
         function fetchIpDetails(ipAddress) {
-           return fetch(`http://ip-api.com/json/${ipAddress}?fields=countryCode`)
+           return fetch(`https://freeipapi.com/api/json/${ipAddress}`)
             .then(response => response.json())
             .then(data => {
                 localStorage.setItem('countryCode', data.countryCode);

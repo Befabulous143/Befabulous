@@ -388,7 +388,7 @@
 
         }
         function fetchIpDetails(ipAddress) {
-           fetch(`http://ip-api.com/json/${ipAddress}?fields=countryCode`)
+           fetch(`https://freeipapi.com/api/json/${ipAddress}`)
             .then(response => response.json())
             .then(data => {
                 localStorage.setItem('countryCode', data.countryCode);
