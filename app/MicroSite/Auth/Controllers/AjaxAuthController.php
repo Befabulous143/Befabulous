@@ -9,7 +9,6 @@ use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
 class AjaxAuthController extends Controller
@@ -76,23 +75,25 @@ class AjaxAuthController extends Controller
             $data = json_decode($request->coupons, true);
             $mobile = Session::get('response_data')[0]['cap_mobile'] ?? '';
             $ip = $request->ip(); // Get the user's IP address
-            $dial_code = $this->getDialCode($ip);
+            $country_code = $request->country_code;
+            $dial_code = $this->getDialCode($ip, $country_code);
             $coupon_type = $this->getCouponType($dial_code);
             $mapped_coupons = $this->mapCouponsDetails($data, $coupon_type);
             return view('offers.index', ['coupons' => $mapped_coupons])->render();
         }
     }
 
-    public function getDialCode($ip)
+    public function getDialCode($ip, $country_code)
     {
-        $client = new Client();
-        $response = $client->get("http://ipinfo.io/{$ip}/json");
-        $ip_details = json_decode($response->getBody(), true);
-        $country_code = $ip_details['country'];
+        if (empty($country_code)) {
+            $client = new Client();
+            $response = $client->get("http://ipinfo.io/{$ip}/json");
+            $ip_details = json_decode($response->getBody(), true);
+        }
+        $country_code = $country_code ?? $ip_details['country'] ?? '';
         $dial_code = DialCodeClass::DIALCODE;
         foreach ($dial_code as $item) {
-            if($item["code"] === $country_code)
-            {
+            if ($item["code"] === $country_code) {
                 $getDialCode = $item['dial_code'];
             }
         }
@@ -130,25 +131,25 @@ class AjaxAuthController extends Controller
         $values = [];
         switch ($dial_code) {
             case '962':
-                $values = ['matalan','staff discount'];
+                $values = ['matalan', 'staff discount'];
                 break;
             case '971':
-                $values = ['matalan', 'balabala','staff discount'];
+                $values = ['matalan', 'balabala', 'staff discount'];
                 break;
             case '968':
-                $values = ['matalan','staff discount'];
+                $values = ['matalan', 'staff discount'];
                 break;
             case '973':
-                $values = ['matalan','staff discount'];
+                $values = ['matalan', 'staff discount'];
                 break;
             case '974':
-                $values = ['matalan', 'superdry', 'balabala', 'miniso','staff discount'];
+                $values = ['matalan', 'superdry', 'balabala', 'miniso', 'staff discount'];
                 break;
             case '966':
-                $values = ['matalan','staff discount'];
+                $values = ['matalan', 'staff discount'];
                 break;
             default:
-                $values = ['matalan','staff discount'];
+                $values = ['matalan', 'staff discount'];
                 break;
         }
         return $values;
@@ -156,10 +157,10 @@ class AjaxAuthController extends Controller
 
     public function transactionHistory(Request $request)
     {
-        if($request->transactions){
-            $data = json_decode($request->transactions,true);
+        if ($request->transactions) {
+            $data = json_decode($request->transactions, true);
             return view('PointHistory.transaction_list', ['data' => $data])->render();
         }
     }
-    
+
 }
