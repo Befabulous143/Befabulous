@@ -349,10 +349,8 @@
                             localStorage.setItem('user_id', formData.user_id);
                             localStorage.setItem('firstname', formData.firstname);
                             localStorage.setItem('lastname', formData.lastname);
-                            setTimeout(function () {
-                                window.location.href = "{{ route('dashboard') }}?logined=true";
-                            },5000);
                             setTimeout(function() {
+                                window.location.href = "{{ route('dashboard') }}?logined=true";
                                 successContainer.style.display = 'block';
                                 errorContainer.style.display = "none";
                                 successMessage.innerHTML  = "Welcome" + formData.firstname + formData.lastname;
