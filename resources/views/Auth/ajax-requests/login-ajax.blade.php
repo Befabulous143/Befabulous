@@ -162,7 +162,7 @@
                             localStorage.setItem('lastname', formData.lastname);
                             setTimeout(function() {
                                 window.location.href = "{{ route('dashboard') }}?logined=true";
-                            },30000);
+                            },6000);
                             setTimeout(function() {
                                 successContainer.style.display = 'block';
                                 errorContainer.style.display = "none";
@@ -174,7 +174,7 @@
                                     userName += formData.lastname;
                                 }
                                 successMessage.innerHTML  = "Welcome" + userName;
-                            }, 10000);
+                            }, 5000);
                         } else{
                             submitBtn.disabled  = false;
                             loaderAnim.style.display = 'none';

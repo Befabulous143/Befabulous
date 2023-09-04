@@ -351,12 +351,12 @@
                             localStorage.setItem('lastname', formData.lastname);
                             setTimeout(function() {
                                 window.location.href = "{{ route('dashboard') }}?logined=true";
-                            },30000);
+                            },6000);
                             setTimeout(function() {
                                 successContainer.style.display = 'block';
                                 errorContainer.style.display = "none";
                                 successMessage.innerHTML  = "Welcome" + formData.firstname + formData.lastname;
-                            }, 10000);
+                            }, 5000);
                         } else{
                             submitBtn.disabled  = false;
                             loaderAnim.style.display = 'none';
