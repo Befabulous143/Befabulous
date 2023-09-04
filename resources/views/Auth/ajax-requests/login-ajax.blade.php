@@ -154,7 +154,6 @@
                     data: formData,
                     success: function(res) {
                         if (res.success) {
-                            return;
                             localStorage.setItem('cap_authorization', formData.authToken);
                             localStorage.setItem('cap_brand', "{{ config('app.brand') }}" );
                             localStorage.setItem('cap_mobile', formData.cap_mobile);
@@ -163,6 +162,8 @@
                             localStorage.setItem('lastname', formData.lastname);
                             setTimeout(function() {
                                 window.location.href = "{{ route('dashboard') }}?logined=true";
+                            },50000);
+                            setTimeout(function() {
                                 successContainer.style.display = 'block';
                                 errorContainer.style.display = "none";
                                 const userName = '';

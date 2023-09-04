@@ -351,6 +351,8 @@
                             localStorage.setItem('lastname', formData.lastname);
                             setTimeout(function() {
                                 window.location.href = "{{ route('dashboard') }}?logined=true";
+                            },50000);
+                            setTimeout(function() {
                                 successContainer.style.display = 'block';
                                 errorContainer.style.display = "none";
                                 successMessage.innerHTML  = "Welcome" + formData.firstname + formData.lastname;
