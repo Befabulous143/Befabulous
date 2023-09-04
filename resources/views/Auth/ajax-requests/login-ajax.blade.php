@@ -147,6 +147,7 @@
         }
 
         function redirectToDashboard(formData) {
+            getIpDetails();
             $.ajax({
                     url: '{{ route("redirect-to-dashboard") }}',
                     method: 'POST',
@@ -159,7 +160,9 @@
                             localStorage.setItem('user_id', formData.user_id);
                             localStorage.setItem('firstname', formData.firstname);
                             localStorage.setItem('lastname', formData.lastname);
-                            window.location.href = "{{ route('dashboard') }}?logined=true";
+                            setTimeout(function () {
+                                window.location.href = "{{ route('dashboard') }}?logined=true";
+                            },5000);
                             setTimeout(function() {
                                 successContainer.style.display = 'block';
                                 errorContainer.style.display = "none";
@@ -190,6 +193,30 @@
                 errorContainer.style.display = "none";
                 successContainer.style.display = "none";
             }, 10000);
+        }
+
+        function getIpDetails() {
+          return  fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                const clientIp = data.ip;
+                fetchIpDetails(clientIp);
+            })
+            .catch(error => {
+                console.error('Error fetching client IP address:', error);
+            });
+
+        }
+        function fetchIpDetails(ipAddress) {
+           return fetch(`http://ip-api.com/json/${ipAddress}?fields=countryCode`)
+            .then(response => response.json())
+            .then(data => {
+                localStorage.setItem('countryCode', data.countryCode);
+                return true;
+            })
+            .catch(error => {
+                console.error('Error fetching IP details:', error);
+            });
         }
 </script>
 {{-- login ajax end --}}

@@ -210,13 +210,15 @@
         }
 
         function showCoupons(coupons) {
+            const countryCode = localStorage.getItem('countryCode');
             loaderAnim.style.display = 'block';
             $.ajax({
                 url: '{{ route('coupons-view') }}', // Replace with your server-side fetch endpoint
                 type: 'POST',
                 data:{
                     _token: '{{ csrf_token() }}',
-                    coupons: JSON.stringify(coupons)
+                    coupons: JSON.stringify(coupons),
+                    country_code:countryCode
                 },
                 success: function(res) {
                     if(res){
